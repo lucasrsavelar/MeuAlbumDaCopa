@@ -1,0 +1,246 @@
+/* ===== Meu Álbum da Copa 2026 — Design Tokens & Globals ===== */
+/* Design System: PitchSide Tracker (Stitch) */
+/* Vanilla CSS — sem Tailwind */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+/* --- Design Tokens --- */
+:root {
+  /* Colors — Surface / Background */
+  --color-background: #0b1326;
+  --color-surface: #0b1326;
+  --color-surface-dim: #0b1326;
+  --color-surface-bright: #31394d;
+  --color-surface-container-lowest: #060e20;
+  --color-surface-container-low: #131b2e;
+  --color-surface-container: #171f33;
+  --color-surface-container-high: #222a3d;
+  --color-surface-container-highest: #2d3449;
+  --color-surface-variant: #2d3449;
+
+  /* Colors — Primary (Pitch Green) */
+  --color-primary: #41ec76;
+  --color-primary-container: #00cf5d;
+  --color-primary-dim: #33e36e;
+  --color-primary-fixed: #67ff8c;
+  --color-on-primary: #003914;
+  --color-on-primary-container: #005120;
+  --color-inverse-primary: #006e2e;
+
+  /* Colors — Secondary (Stadium Blue) */
+  --color-secondary: #b7c4ff;
+  --color-secondary-container: #0052fe;
+  --color-on-secondary: #002682;
+  --color-on-secondary-container: #dfe3ff;
+
+  /* Colors — Tertiary (Trophy Gold) */
+  --color-tertiary: #f2cc00;
+  --color-tertiary-container: #d3b100;
+  --color-on-tertiary: #3a3000;
+  --color-on-tertiary-container: #534400;
+
+  /* Colors — Text / On Surface */
+  --color-on-surface: #dae2fd;
+  --color-on-surface-variant: #bbcbb8;
+  --color-on-background: #dae2fd;
+  --color-inverse-surface: #dae2fd;
+  --color-inverse-on-surface: #283044;
+
+  /* Colors — Outline */
+  --color-outline: #859584;
+  --color-outline-variant: #3c4a3c;
+
+  /* Colors — Error */
+  --color-error: #ffb4ab;
+  --color-error-container: #93000a;
+  --color-on-error: #690005;
+  --color-on-error-container: #ffdad6;
+
+  /* Colors — Surface tint */
+  --color-surface-tint: #33e36e;
+
+  /* Semantic aliases */
+  --bg-primary: var(--color-background);
+  --bg-secondary: var(--color-surface-container);
+  --bg-tertiary: var(--color-surface-container-high);
+  --text-primary: var(--color-on-surface);
+  --text-secondary: var(--color-on-surface-variant);
+  --text-muted: var(--color-outline);
+  --border-color: var(--color-outline-variant);
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #005120 0%, #00cf5d 50%, #41ec76 100%);
+  --gradient-surface: linear-gradient(180deg, var(--color-surface-container-lowest) 0%, var(--color-background) 100%);
+  --gradient-progress: linear-gradient(90deg, var(--color-secondary-container) 0%, var(--color-primary) 100%);
+  --gradient-gold: linear-gradient(135deg, #d3b100 0%, #f2cc00 50%, #ffe16d 100%);
+
+  /* Typography */
+  --font-heading: 'Lexend', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-label: 'Space Grotesk', sans-serif;
+
+  /* Spacing (4px base unit) */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 40px;
+  --spacing-gutter: 12px;
+  --spacing-margin: 20px;
+
+  /* Border Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-glow-green: 0 0 20px rgba(65, 236, 118, 0.25);
+  --shadow-glow-blue: 0 0 20px rgba(0, 82, 254, 0.2);
+  --shadow-glow-gold: 0 0 20px rgba(242, 204, 0, 0.2);
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Reset --- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  min-height: 100dvh;
+  overflow-x: hidden;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+input {
+  font-family: inherit;
+  border: none;
+  background: none;
+  outline: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+#root {
+  min-height: 100dvh;
+}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface-container-lowest);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-outline-variant);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-outline);
+}
+
+/* --- Utility: Soccer Pattern --- */
+.soccer-pattern {
+  background-image: radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.03) 1px, transparent 0);
+  background-size: 32px 32px;
+}
+
+/* --- Global Animations --- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 15px rgba(65, 236, 118, 0.2); }
+  50% { box-shadow: 0 0 30px rgba(65, 236, 118, 0.4); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* --- Focus-visible for accessibility --- */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}

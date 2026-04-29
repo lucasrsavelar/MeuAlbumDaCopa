@@ -1,0 +1,22 @@
+// Entidades do backend
+
+export interface Pais {
+  id: number
+  codigoPais: string
+  nomePais: string
+}
+
+export interface Figurinha {
+  id: number
+  codigoFigurinha: string
+  tipoFigurinha: string
+  nome: string | null
+  posicao: string | null
+  pais: Pais
+}
+
+/**
+ * Mapa retornado por GET /figurinha-usuario/byUsuario
+ * Chave: id da figurinha, Valor: quantidade que o usuário possui
+ */
+export type FigurinhasUsuarioMap = Record<number, number>
