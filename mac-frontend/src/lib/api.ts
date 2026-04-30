@@ -27,6 +27,8 @@ export async function apiPost(path: string, body: unknown) {
         body: JSON.stringify(body)
     })
     if (!res.ok) throw new Error(`Erro ${res.status}`)
+    // 204 No Content — sem body
+    if (res.status === 204) return null
     return res.json()
 }
 

@@ -20,3 +20,19 @@ export interface Figurinha {
  * Chave: id da figurinha, Valor: quantidade que o usuário possui
  */
 export type FigurinhasUsuarioMap = Record<number, number>
+
+/**
+ * DTO enviado no POST /figurinhas-usuario/adicionar
+ */
+export interface FigurinhaUsuarioDTO {
+  idFigurinha: number
+  quantidade: number
+}
+
+/**
+ * DTO de solicitação de amizade recebida
+ */
+export interface SolicitacaoAmizadeDTO {
+  idSolicitacao: string
+  usernameEnviou: string
+}

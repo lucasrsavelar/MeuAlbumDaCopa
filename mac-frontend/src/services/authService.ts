@@ -35,8 +35,6 @@ export async function logout() {
 // Pega o token JWT da sessão atual
 export async function getToken(): Promise<string | null> {
     const { data: { session } } = await supabase.auth.getSession()
-    console.log('Session:', session)
-    console.log('Token:', session?.access_token)
     return session?.access_token ?? null
 }
 

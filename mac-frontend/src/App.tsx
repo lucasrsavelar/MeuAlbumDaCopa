@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from
 import Login from "./pages/login/Login";
 import Cadastro from "./pages/cadastro/Cadastro";
 import Dashboard from "./pages/dashboard/Dashboard";
+import VerFigurinhas from "./pages/ver-figurinhas/VerFigurinhas";
+import AdicionarFigurinha from "./pages/adicionar-figurinha/AdicionarFigurinha";
 import "./index.css";
 import { useEffect } from "react";
 import { onAuthStateChange } from "./services/authService";
@@ -43,6 +45,8 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/ver-figurinhas/:tipo" element={<VerFigurinhas />} />
+        <Route path="/adicionar-figurinha" element={<AdicionarFigurinha />} />
       </Routes>
     </Router>
   );

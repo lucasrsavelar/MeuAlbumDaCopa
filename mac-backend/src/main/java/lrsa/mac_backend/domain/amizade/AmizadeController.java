@@ -23,7 +23,7 @@ public class AmizadeController {
 	
 	@GetMapping("/byUsuario")
 	public ResponseEntity<?> findAmizadesByUser(@CurrentUser UUID idUsuario) {
-		List<UUID> amizades = amizadeService.findAmizadesByUser(idUsuario);
+		List<String> amizades = amizadeService.findAmizadesByUser(idUsuario);
 		return new ResponseEntity<>(amizades, HttpStatus.OK); 
 	}
 

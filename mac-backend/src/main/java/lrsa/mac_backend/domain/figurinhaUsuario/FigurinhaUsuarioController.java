@@ -29,19 +29,7 @@ public class FigurinhaUsuarioController {
 		Map<Integer, Integer> figurinhas = figurinhaUsuarioService.findFigurinhasByUser(idUsuario);
 		return new ResponseEntity<>(figurinhas, HttpStatus.OK);
 	}
-	
-	@GetMapping("/faltantes")
-	public ResponseEntity<?> findFigurinhasFaltantesByUser(@CurrentUser UUID idUsuario) {
-		List<Integer> faltantes = figurinhaUsuarioService.findFigurinhasFaltantesByUser(idUsuario);
-		return new ResponseEntity<>(faltantes, HttpStatus.OK);
-	}
-	
-	@GetMapping("/repetidas")
-	public ResponseEntity<?> findFigurinhasRepetidasByUser(@CurrentUser UUID idUsuario) {
-		List<Integer> repetidas = figurinhaUsuarioService.findFigurinhasRepetidasByUser(idUsuario);
-		return new ResponseEntity<>(repetidas, HttpStatus.OK);
-	}
-	
+		
 	@PostMapping("/adicionar")
 	public ResponseEntity<?> adicionarFigurinhas(@CurrentUser UUID idUsuario, @RequestBody List<FigurinhaUsuarioDTO> data) {
 		figurinhaUsuarioService.adicionarFigurinhas(idUsuario, data);

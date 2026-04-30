@@ -621,5 +621,325 @@
   .dash-progress-percent {
     font-size: 4.5rem;
   }
+
+  /* --- User search in sidebar --- */
+  .dash-search-section {
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .dash-search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .dash-search-icon {
+    position: absolute;
+    left: 10px;
+    font-size: 18px !important;
+    color: var(--text-muted);
+    pointer-events: none;
+  }
+
+  .dash-search-input {
+    width: 100%;
+    height: 36px;
+    padding: 0 30px 0 34px;
+    background: var(--color-surface-container);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    color: var(--text-primary);
+    transition: border-color var(--transition-fast);
+  }
+
+  .dash-search-input::placeholder {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+  }
+
+  .dash-search-input:focus {
+    border-color: var(--color-primary);
+    outline: none;
+  }
+
+  .dash-search-clear {
+    position: absolute;
+    right: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-full);
+    color: var(--text-muted);
+    transition: all var(--transition-fast);
+  }
+
+  .dash-search-clear:hover {
+    color: var(--text-primary);
+    background: var(--color-surface-container-high);
+  }
+
+  .dash-search-results {
+    margin-top: var(--spacing-xs);
+    background: var(--color-surface-container);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    animation: slideDown 0.2s ease-out;
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .dash-search-status {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  .dash-search-result-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    transition: background var(--transition-fast);
+  }
+
+  .dash-search-result-item:hover {
+    background: var(--color-surface-container-high);
+  }
+
+  .dash-search-add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-md);
+    color: var(--color-primary);
+    flex-shrink: 0;
+    transition: all var(--transition-fast);
+  }
+
+  .dash-search-add-btn:hover {
+    background: rgba(0, 207, 93, 0.1);
+  }
+
+  .dash-sidebar-divider {
+    height: 1px;
+    background: var(--border-color);
+    margin: var(--spacing-sm) 0;
+  }
+
+  /* --- Friends list in sidebar --- */
+  .dash-sidebar-section-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-muted);
+  }
+
+  .dash-sidebar-section-title {
+    font-family: var(--font-label);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    flex: 1;
+  }
+
+  .dash-sidebar-section-count {
+    font-family: var(--font-label);
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    background: rgba(0, 207, 93, 0.1);
+    padding: 1px 7px;
+    border-radius: var(--radius-full);
+  }
+
+  .dash-friends-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow-y: auto;
+    max-height: calc(100dvh - 280px);
+    padding-right: 2px;
+  }
+
+  .dash-friends-list::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .dash-friends-list::-webkit-scrollbar-thumb {
+    background: var(--color-outline-variant);
+    border-radius: var(--radius-full);
+  }
+
+  .dash-friend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-md);
+    transition: background var(--transition-fast);
+    cursor: default;
+  }
+
+  .dash-friend-item:hover {
+    background: var(--color-surface-container);
+  }
+
+  .dash-friend-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--color-surface-container-high);
+    border-radius: var(--radius-full);
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+
+  .dash-friend-name {
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .dash-friend-status {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: var(--color-primary);
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+
+  .dash-friends-loading {
+    display: flex;
+    justify-content: center;
+    padding: var(--spacing-lg) 0;
+  }
+
+  .dash-friends-spin {
+    font-size: 20px !important;
+    color: var(--color-primary);
+    animation: spin 1.2s linear infinite;
+  }
+
+  .dash-friends-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-lg) 0;
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+  }
+
+  /* --- Sent indicator in search results --- */
+  .dash-search-sent {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-family: var(--font-label);
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    flex-shrink: 0;
+    opacity: 0.8;
+  }
+
+  /* --- Pending requests count badge --- */
+  .dash-sidebar-section-count.is-pending {
+    background: rgba(255, 180, 171, 0.15);
+    color: var(--color-error);
+  }
+
+  /* --- Friend requests list --- */
+  .dash-requests-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .dash-request-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-md);
+    transition: background var(--transition-fast);
+  }
+
+  .dash-request-item:hover {
+    background: var(--color-surface-container);
+  }
+
+  .dash-request-actions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+
+  .dash-request-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+  }
+
+  .dash-request-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .dash-request-btn.is-accept {
+    color: var(--color-primary);
+    background: rgba(0, 207, 93, 0.08);
+    border: 1px solid rgba(65, 236, 118, 0.15);
+  }
+
+  .dash-request-btn.is-accept:hover:not(:disabled) {
+    background: rgba(0, 207, 93, 0.15);
+    border-color: rgba(65, 236, 118, 0.3);
+  }
+
+  .dash-request-btn.is-reject {
+    color: var(--color-error);
+    background: rgba(255, 180, 171, 0.06);
+    border: 1px solid rgba(255, 180, 171, 0.12);
+  }
+
+  .dash-request-btn.is-reject:hover:not(:disabled) {
+    background: rgba(255, 180, 171, 0.12);
+    border-color: rgba(255, 180, 171, 0.25);
+  }
 }
 

@@ -1,7 +1,6 @@
 package lrsa.mac_backend.domain.figurinhaUsuario;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -14,11 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 public interface FigurinhaUsuarioRepository extends JpaRepository<FigurinhaUsuario, FigurinhaUsuarioPK> {
 	
 	@Query(value = "SELECT ID_FIGURINHA, QUANTIDADE FROM FIGURINHAS_USUARIO WHERE ID_USUARIO = :idUsuario", nativeQuery = true)
-	public Optional<Map<Integer, Integer>> findFigurinhasByUser(@Param("idUsuario") UUID idUsuario);
-		
-	@Query(value = "SELECT ID_FIGURINHA FROM FIGURINHAS_USUARIO WHERE ID_USUARIO = :idUsuario AND QUANTIDADE > 2", nativeQuery = true)
-	public Optional<List<Integer>> findFigurinhasRepetidasByUser(@Param("idUsuario") UUID idUsuario);
-	
+	public Optional<List<Object[]>> findFigurinhasByUser(@Param("idUsuario") UUID idUsuario);
+			
 	@Modifying
 	@Transactional
 	@Query(value = """
@@ -31,6 +27,6 @@ public interface FigurinhaUsuarioRepository extends JpaRepository<FigurinhaUsuar
 			@Param("idUsuario") UUID idUsuario,
 			@Param("idFigurinha") Integer idFigurinha,
 			@Param("quantidade") Integer quantidade
-			);
+	);
 	
 }

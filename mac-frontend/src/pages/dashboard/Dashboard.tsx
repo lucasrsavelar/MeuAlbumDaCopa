@@ -1,6 +1,17 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAllFigurinhas } from '../../hooks/useStaticData'
+import { useUsuarioLogado } from '../../hooks/useStaticData'
 import { useFigurinhasUsuario } from '../../hooks/useFigurinhasUsuario'
+import { useAmizades } from '../../hooks/useAmizades'
+import { useBuscarUsuarios } from '../../hooks/useBuscarUsuarios'
+import { useDebounce } from '../../hooks/useDebounce'
+import {
+  useSolicitacoesRecebidas,
+  useEnviarSolicitacao,
+  useAceitarSolicitacao,
+  useRecusarSolicitacao,
+} from '../../hooks/useSolicitacaoAmizade'
 import './Dashboard.css'
 
 function Dashboard() {
@@ -12,7 +23,38 @@ function Dashboard() {
   // Dados do usuário — mapa { idFigurinha: quantidade }
   const { data: figurinhasUsuario, isLoading: loadingUsuario } = useFigurinhasUsuario()
 
-  const isLoading = loadingFigurinhas || loadingUsuario
+  const { data: usuarioLogado, isLoading: loadingUsuarioLogado } = useUsuarioLogado()
+  const username = usuarioLogado ?? ''
+
+  // Lista de amigos
+  const { data: amigos, isLoading: loadingAmigos } = useAmizades()
+
+  // Solicitações de amizade recebidas
+  const { data: solicitacoes, isLoading: loadingSolicitacoes } = useSolicitacoesRecebidas()
+  const enviarSolicitacao = useEnviarSolicitacao()
+  const aceitarSolicitacao = useAceitarSolicitacao()
+  const recusarSolicitacao = useRecusarSolicitacao()
+
+  // Busca de usuários
+  const [termoBusca, setTermoBusca] = useState('')
+  const termoDebouncado = useDebounce(termoBusca, 300)
+  const { data: resultadosBusca, isLoading: loadingBusca } = useBuscarUsuarios(termoDebouncado)
+  const mostrarResultados = termoDebouncado.length >= 2
+  const amigosSet = new Set(amigos ?? [])
+  const resultadosFiltrados = resultadosBusca?.filter(u => !amigosSet.has(u))
+
+  // Track usernames we've already sent requests to (this session)
+  const [enviadas, setEnviadas] = useState<Set<string>>(new Set())
+
+  const handleEnviarSolicitacao = (usernameDestino: string) => {
+    enviarSolicitacao.mutate(usernameDestino, {
+      onSuccess: () => {
+        setEnviadas(prev => new Set(prev).add(usernameDestino))
+      },
+    })
+  }
+
+  const isLoading = loadingFigurinhas || loadingUsuario || loadingUsuarioLogado
 
   // Calcula stats a partir dos dados reais
   const totalFigurinhas = figurinhas?.length ?? 0
@@ -27,9 +69,9 @@ function Dashboard() {
   // Repetidas = soma de (quantidade - 1) para cada figurinha com quantidade > 1
   const repetidas = figurinhasUsuario
     ? Object.values(figurinhasUsuario).reduce(
-        (acc, qty) => acc + Math.max(0, qty - 1),
-        0
-      )
+      (acc, qty) => acc + Math.max(0, qty - 1),
+      0
+    )
     : 0
 
   const progresso = totalFigurinhas > 0
@@ -52,6 +94,146 @@ function Dashboard() {
         </div>
 
         <nav className="dash-sidebar-nav">
+          {/* Buscar usuários */}
+          <div className="dash-search-section">
+            <div className="dash-search-wrapper">
+              <span className="material-symbols-outlined dash-search-icon">search</span>
+              <input
+                type="text"
+                className="dash-search-input"
+                placeholder="Buscar usuário..."
+                value={termoBusca}
+                onChange={e => setTermoBusca(e.target.value.toLowerCase())}
+              />
+              {termoBusca && (
+                <button
+                  className="dash-search-clear"
+                  onClick={() => setTermoBusca('')}
+                  aria-label="Limpar busca"
+                >
+                  <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>close</span>
+                </button>
+              )}
+            </div>
+
+            {mostrarResultados && (
+              <div className="dash-search-results">
+                {loadingBusca ? (
+                  <div className="dash-search-status">
+                    <span className="material-symbols-outlined dash-friends-spin" style={{ fontSize: '16px' }}>sports_soccer</span>
+                    <span>Buscando...</span>
+                  </div>
+                ) : !resultadosFiltrados || resultadosFiltrados.length === 0 ? (
+                  <div className="dash-search-status">
+                    <span className="material-symbols-outlined" style={{ fontSize: '16px', opacity: 0.4 }}>person_off</span>
+                    <span>Nenhum usuário encontrado</span>
+                  </div>
+                ) : (
+                  resultadosFiltrados.map(user => {
+                    const jaEnviou = enviadas.has(user)
+                    return (
+                      <div key={user} className="dash-search-result-item">
+                        <div className="dash-friend-avatar">
+                          <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>person</span>
+                        </div>
+                        <span className="dash-friend-name">{user}</span>
+                        {jaEnviou ? (
+                          <span className="dash-search-sent">
+                            <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>check</span>
+                            Enviada
+                          </span>
+                        ) : (
+                          <button
+                            className="dash-search-add-btn"
+                            title={`Adicionar ${user}`}
+                            onClick={() => handleEnviarSolicitacao(user)}
+                            disabled={enviarSolicitacao.isPending}
+                          >
+                            <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>person_add</span>
+                          </button>
+                        )}
+                      </div>
+                    )
+                  })
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Separador */}
+          <div className="dash-sidebar-divider" />
+
+          {/* Solicitações de amizade recebidas */}
+          {!loadingSolicitacoes && solicitacoes && solicitacoes.length > 0 && (
+            <>
+              <div className="dash-sidebar-section-header">
+                <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>mail</span>
+                <span className="dash-sidebar-section-title">Solicitações</span>
+                <span className="dash-sidebar-section-count is-pending">{solicitacoes.length}</span>
+              </div>
+
+              <div className="dash-requests-list">
+                {solicitacoes.map(sol => (
+                  <div key={sol.idSolicitacao} className="dash-request-item">
+                    <div className="dash-friend-avatar">
+                      <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>person</span>
+                    </div>
+                    <span className="dash-friend-name">{sol.usernameEnviou}</span>
+                    <div className="dash-request-actions">
+                      <button
+                        className="dash-request-btn is-accept"
+                        onClick={() => aceitarSolicitacao.mutate(sol.idSolicitacao)}
+                        disabled={aceitarSolicitacao.isPending || recusarSolicitacao.isPending}
+                        title="Aceitar"
+                      >
+                        <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>check</span>
+                      </button>
+                      <button
+                        className="dash-request-btn is-reject"
+                        onClick={() => recusarSolicitacao.mutate(sol.idSolicitacao)}
+                        disabled={aceitarSolicitacao.isPending || recusarSolicitacao.isPending}
+                        title="Recusar"
+                      >
+                        <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>close</span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="dash-sidebar-divider" />
+            </>
+          )}
+
+          {/* Lista de amigos */}
+          <div className="dash-sidebar-section-header">
+            <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>group</span>
+            <span className="dash-sidebar-section-title">Amigos</span>
+            {amigos && <span className="dash-sidebar-section-count">{amigos.length}</span>}
+          </div>
+
+          {loadingAmigos ? (
+            <div className="dash-friends-loading">
+              <span className="material-symbols-outlined dash-friends-spin">sports_soccer</span>
+            </div>
+          ) : !amigos || amigos.length === 0 ? (
+            <div className="dash-friends-empty">
+              <span className="material-symbols-outlined" style={{ fontSize: '20px', opacity: 0.4 }}>person_off</span>
+              <span>Nenhum amigo ainda</span>
+            </div>
+          ) : (
+            <div className="dash-friends-list">
+              {amigos.map(amigo => (
+                <div key={amigo} className="dash-friend-item">
+                  <div className="dash-friend-avatar">
+                    <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>person</span>
+                  </div>
+                  <span className="dash-friend-name">{amigo}</span>
+                  <div className="dash-friend-status" />
+                </div>
+              ))}
+            </div>
+          )}
         </nav>
 
         <div className="dash-sidebar-footer">
@@ -60,7 +242,9 @@ function Dashboard() {
               <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>person</span>
             </div>
             <div className="dash-sidebar-user-info">
-
+              <div className="dash-sidebar-user-name">
+                {username}
+              </div>
             </div>
           </button>
         </div>
@@ -127,31 +311,31 @@ function Dashboard() {
               {/* Stats Row */}
               <section className="dash-stats" id="dash-stats">
                 {/* Colecionadas */}
-                <div className="dash-stat-card">
+                <button className="dash-stat-card" onClick={() => navigate('/ver-figurinhas/colecionadas')}>
                   <div className="dash-stat-icon is-collected">
                     <span className="material-symbols-outlined">check_circle</span>
                   </div>
                   <div className="dash-stat-value">{colecionadas}</div>
                   <div className="dash-stat-label">Colecionadas</div>
-                </div>
+                </button>
 
                 {/* Faltando */}
-                <div className="dash-stat-card">
+                <button className="dash-stat-card" onClick={() => navigate('/ver-figurinhas/faltando')}>
                   <div className="dash-stat-icon is-missing">
                     <span className="material-symbols-outlined">search</span>
                   </div>
                   <div className="dash-stat-value">{faltando}</div>
                   <div className="dash-stat-label">Faltando</div>
-                </div>
+                </button>
 
                 {/* Repetidas */}
-                <div className="dash-stat-card">
+                <button className="dash-stat-card" onClick={() => navigate('/ver-figurinhas/repetidas')}>
                   <div className="dash-stat-icon is-repeated">
                     <span className="material-symbols-outlined">content_copy</span>
                   </div>
                   <div className="dash-stat-value">{repetidas}</div>
                   <div className="dash-stat-label">Repetidas</div>
-                </div>
+                </button>
               </section>
 
               {/* Quick Actions */}
