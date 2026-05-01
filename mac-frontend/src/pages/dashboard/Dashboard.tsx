@@ -267,7 +267,12 @@ function Dashboard() {
               <span className="dash-header-title">Meu Álbum da Copa</span>
             </div>
             <button className="dash-header-user" aria-label="Perfil">
-              <span className="material-symbols-outlined" style={{ fontSize: '22px' }}>person</span>
+              <div className="dash-header-user-avatar">
+                <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>person</span>
+              </div>
+              <div className="dash-header-user-info">
+                <span className="dash-header-user-name">{username}</span>
+              </div>
             </button>
           </div>
 

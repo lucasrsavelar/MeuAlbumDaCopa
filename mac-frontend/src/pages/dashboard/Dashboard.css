@@ -95,19 +95,42 @@
 .dash-header-user {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
+  gap: var(--spacing-sm);
+  padding: 4px 12px 4px 4px;
   background: var(--color-surface-container-high);
   border: 1.5px solid var(--border-color);
   border-radius: var(--radius-full);
-  color: var(--text-muted);
   transition: all var(--transition-fast);
 }
 
 .dash-header-user:hover {
   border-color: var(--color-primary);
-  color: var(--color-primary);
+}
+
+.dash-header-user-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--color-surface-container);
+  border-radius: var(--radius-full);
+  color: var(--text-muted);
+}
+
+.dash-header-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.dash-header-user-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  max-width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .dash-greeting {
@@ -628,7 +651,7 @@
     padding: var(--spacing-lg) var(--spacing-xl) var(--spacing-md);
   }
 
-  .dash-header-brand { display: none; }
+  .dash-header-top { display: none; }
 
   .dash-greeting h1 {
     font-size: 2rem;
