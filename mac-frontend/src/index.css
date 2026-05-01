@@ -155,12 +155,22 @@ input {
   color: inherit;
 }
 
+/* Fix for webkit autofill styling to maintain transparent background */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 9999999s ease-in-out 0s;
+  -webkit-text-fill-color: var(--text-primary) !important;
+}
+
 img {
   max-width: 100%;
   display: block;
 }
 
-ul, ol {
+ul,
+ol {
   list-style: none;
 }
 
@@ -198,6 +208,7 @@ ul, ol {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -205,17 +216,31 @@ ul, ol {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes slideUp {
@@ -223,6 +248,7 @@ ul, ol {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -230,13 +256,25 @@ ul, ol {
 }
 
 @keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 15px rgba(65, 236, 118, 0.2); }
-  50% { box-shadow: 0 0 30px rgba(65, 236, 118, 0.4); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(65, 236, 118, 0.2);
+  }
+
+  50% {
+    box-shadow: 0 0 30px rgba(65, 236, 118, 0.4);
+  }
 }
 
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 /* --- Focus-visible for accessibility --- */
