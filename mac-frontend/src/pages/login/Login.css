@@ -169,6 +169,10 @@
   background: transparent;
 }
 
+.login-input-field:focus-visible {
+  outline: none;
+}
+
 .login-input-field::placeholder {
   color: var(--text-muted);
 }

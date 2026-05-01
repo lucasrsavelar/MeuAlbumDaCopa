@@ -217,13 +217,7 @@ function Cadastro() {
                     onChange={(e) => setConfirmarSenha(e.target.value)}
                     autoComplete="new-password"
                   />
-                  {confirmarSenha.length > 0 && (
-                    <span className={`cadastro-validation-icon ${senhasIguais ? 'is-valid' : 'is-invalid'}`}>
-                      <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
-                        {senhasIguais ? 'check_circle' : 'cancel'}
-                      </span>
-                    </span>
-                  )}
+
                   <button
                     type="button"
                     className="cadastro-toggle-password"
@@ -235,12 +229,12 @@ function Cadastro() {
                     </span>
                   </button>
                 </div>
-                {senhasDiferentes && (
+                {confirmarSenha.length > 0 && senhasDiferentes && (
                   <span className="cadastro-input-hint cadastro-hint-error">
                     As senhas não coincidem
                   </span>
                 )}
-                {senhasIguais && (
+                {confirmarSenha.length > 0 && senhasIguais && (
                   <span className="cadastro-input-hint cadastro-hint-success">
                     ✓ Senhas coincidem
                   </span>

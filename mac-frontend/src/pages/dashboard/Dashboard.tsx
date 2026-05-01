@@ -12,6 +12,7 @@ import {
   useAceitarSolicitacao,
   useRecusarSolicitacao,
 } from '../../hooks/useSolicitacaoAmizade'
+import { logout } from '../../services/authService'
 import './Dashboard.css'
 
 function Dashboard() {
@@ -52,6 +53,14 @@ function Dashboard() {
         setEnviadas(prev => new Set(prev).add(usernameDestino))
       },
     })
+  }
+
+  const handleLogout = async () => {
+    try {
+      await logout()
+    } catch (err) {
+      console.error('Erro ao fazer logout', err)
+    }
   }
 
   const isLoading = loadingFigurinhas || loadingUsuario || loadingUsuarioLogado
@@ -247,6 +256,9 @@ function Dashboard() {
               </div>
             </div>
           </button>
+          <button className="dash-sidebar-logout" aria-label="Sair" onClick={handleLogout} title="Sair">
+            <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>logout</span>
+          </button>
         </div>
       </aside>
 
@@ -266,14 +278,19 @@ function Dashboard() {
               </div>
               <span className="dash-header-title">Meu Álbum da Copa</span>
             </div>
-            <button className="dash-header-user" aria-label="Perfil">
-              <div className="dash-header-user-avatar">
-                <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>person</span>
-              </div>
-              <div className="dash-header-user-info">
-                <span className="dash-header-user-name">{username}</span>
-              </div>
-            </button>
+            <div className="dash-header-actions">
+              <button className="dash-header-user" aria-label="Perfil">
+                <div className="dash-header-user-avatar">
+                  <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>person</span>
+                </div>
+                <div className="dash-header-user-info">
+                  <span className="dash-header-user-name">{username}</span>
+                </div>
+              </button>
+              <button className="dash-header-logout" aria-label="Sair" onClick={handleLogout} title="Sair">
+                <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>logout</span>
+              </button>
+            </div>
           </div>
 
           {/* Greeting */}
