@@ -40,7 +40,7 @@ public class MACUsuarioRepository {
         return jdbc.query(
             "SELECT email FROM auth.users WHERE id IN (" + placeholders + ")",
             idsUsuarios.toArray(),
-            (rs, _) -> rs.getString("email").split("@")[0]
+            (rs, rowNum) -> rs.getString("email").split("@")[0]
         );
     }
     
@@ -68,7 +68,7 @@ public class MACUsuarioRepository {
             LIMIT 10
             """,
             new Object[]{ termo + "%", idUsuario },
-            (rs, _) -> rs.getString("username")
+            (rs, rowNum) -> rs.getString("username")
         );
     }
     
