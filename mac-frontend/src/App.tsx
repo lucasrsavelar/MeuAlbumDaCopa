@@ -4,6 +4,7 @@ import Cadastro from "./pages/cadastro/Cadastro";
 import Dashboard from "./pages/dashboard/Dashboard";
 import VerFigurinhas from "./pages/ver-figurinhas/VerFigurinhas";
 import AdicionarFigurinha from "./pages/adicionar-figurinha/AdicionarFigurinha";
+import RemoverFigurinha from "./pages/remover-figurinha/RemoverFigurinha";
 import Trocas from "./pages/trocas/Trocas";
 import "./index.css";
 import { useEffect } from "react";
@@ -48,6 +49,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/ver-figurinhas/:tipo" element={<VerFigurinhas />} />
         <Route path="/adicionar-figurinha" element={<AdicionarFigurinha />} />
+        <Route path="/remover-figurinha" element={<RemoverFigurinha />} />
         <Route path="/trocas" element={<Trocas />} />
       </Routes>
     </Router>

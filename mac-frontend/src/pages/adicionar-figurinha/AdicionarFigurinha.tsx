@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
 import { useAllFigurinhas } from '../../hooks/useStaticData'
+import { useFigurinhasUsuario } from '../../hooks/useFigurinhasUsuario'
 import { apiPost } from '../../lib/api'
 import type { Figurinha, FigurinhaUsuarioDTO } from '../../types'
 import './AdicionarFigurinha.css'
@@ -13,6 +14,7 @@ function AdicionarFigurinha() {
   const queryClient = useQueryClient()
 
   const { data: figurinhas, isLoading } = useAllFigurinhas()
+  const { data: figurinhasUsuario } = useFigurinhasUsuario()
 
   // Filtros
   const [busca, setBusca] = useState('')
@@ -221,10 +223,14 @@ function AdicionarFigurinha() {
                 const sel = qtdSelecionada(fig.id)
                 const isSelected = sel > 0
 
+                const qtdNoAlbum = figurinhasUsuario?.[fig.id] ?? 0
+                const isNova = qtdNoAlbum === 0
+                const isRepetida = qtdNoAlbum > 0
+
                 return (
                   <button
                     key={fig.id}
-                    className={`af-card ${isSelected ? 'is-selected' : ''}`}
+                    className={`af-card ${isSelected ? 'is-selected' : ''} ${isNova ? 'is-nova' : ''} ${isRepetida ? 'is-repetida' : ''}`}
                     onClick={() => adicionarFigurinha(fig)}
                     title={`Adicionar ${fig.codigoFigurinha}`}
                   >
