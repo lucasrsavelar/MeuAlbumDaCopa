@@ -35,5 +35,11 @@ public class FigurinhaUsuarioController {
 		figurinhaUsuarioService.adicionarFigurinhas(idUsuario, data);
 		return ResponseEntity.noContent().build();
 	}
+	
+	@PostMapping("/corrigir")
+	public ResponseEntity<?> corrigirFigurinhas(@CurrentUser UUID idUsuario, @RequestBody List<FigurinhaUsuarioDTO> data) {
+		figurinhaUsuarioService.corrigirFigurinhas(idUsuario, data);
+		return ResponseEntity.noContent().build();
+	}
 
 }

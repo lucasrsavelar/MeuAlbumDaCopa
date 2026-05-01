@@ -40,7 +40,23 @@ public class FigurinhaUsuarioService {
 		
 	public void adicionarFigurinhas(UUID idUsuario, List<FigurinhaUsuarioDTO> figurinhas) {
 		for(FigurinhaUsuarioDTO figurinha : figurinhas)
-			figurinhaUsuarioRepository.upsert(idUsuario, figurinha.getIdFigurinha(), figurinha.getQuantidade());
+			figurinhaUsuarioRepository.upsertSum(idUsuario, figurinha.getIdFigurinha(), figurinha.getQuantidade());
+	}
+	
+	public void corrigirFigurinhas(UUID idUsuario, List<FigurinhaUsuarioDTO> figurinhas) {
+		for(FigurinhaUsuarioDTO figurinha : figurinhas) {
+			
+			int quantidade = figurinha.getQuantidade();
+			
+			if(quantidade < 0)
+				continue;
+			
+			else if(quantidade == 0)
+				figurinhaUsuarioRepository.deletar(idUsuario, figurinha.getIdFigurinha());
+			
+			figurinhaUsuarioRepository.upsertSet(idUsuario, figurinha.getIdFigurinha(), figurinha.getQuantidade());
+			
+		}
 	}
 
 }
