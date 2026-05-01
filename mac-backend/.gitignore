@@ -42,7 +42,3 @@ lombok.config
 hs_err_pid*
 
 .env
-
-# properties
-application.properties
-*.properties
