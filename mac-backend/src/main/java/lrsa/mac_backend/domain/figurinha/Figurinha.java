@@ -32,7 +32,7 @@ public class Figurinha {
     @Column(name = "CODIGO_FIGURINHA", unique = true, nullable = false, length = 10)
     private String codigoFigurinha;
 
-    @Column(name = "TIPO_FIGURINHA", nullable = false, length = 10)
+    @Column(name = "TIPO_FIGURINHA", nullable = false, length = 20)
     private String tipoFigurinha;
 
     @Column(name = "NOME", length = 100)

@@ -345,6 +345,10 @@
   border: none;
 }
 
+.dash-action-card.is-full {
+  grid-column: 1 / -1;
+}
+
 .dash-action-card.is-primary {
   background: var(--gradient-primary);
   color: white;
@@ -357,6 +361,22 @@
 }
 
 .dash-action-card.is-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.dash-action-card.is-danger {
+  background: var(--color-surface-container);
+  border: 1px solid rgba(255, 180, 171, 0.2);
+  color: var(--text-primary);
+}
+
+.dash-action-card.is-danger:hover {
+  border-color: var(--color-error);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 20px rgba(255, 180, 171, 0.15);
+}
+
+.dash-action-card.is-danger:active {
   transform: translateY(0) scale(0.98);
 }
 
@@ -387,6 +407,11 @@
 
 .dash-action-card.is-primary .dash-action-icon {
   background: rgba(255, 255, 255, 0.15);
+}
+
+.dash-action-card.is-danger .dash-action-icon {
+  background: rgba(255, 180, 171, 0.1);
+  color: var(--color-error);
 }
 
 .dash-action-card.is-secondary .dash-action-icon {

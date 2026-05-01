@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAllFigurinhas } from '../../hooks/useStaticData'
 import { useFigurinhasUsuario } from '../../hooks/useFigurinhasUsuario'
@@ -44,6 +44,8 @@ function VerFigurinhas() {
   const navigate = useNavigate()
   const { tipo } = useParams<{ tipo: string }>()
   const [expandedId, setExpandedId] = useState<number | null>(null)
+  const [busca, setBusca] = useState('')
+  const [filtroTipo, setFiltroTipo] = useState<string>('todos')
 
   const { data: figurinhas, isLoading: loadingFigurinhas } = useAllFigurinhas()
   const { data: figurinhasUsuario, isLoading: loadingUsuario } = useFigurinhasUsuario()
@@ -56,9 +58,26 @@ function VerFigurinhas() {
   const icone = ICONES[tipoFiltro]
   const corClass = CORES[tipoFiltro]
 
-  const listaFiltrada = figurinhas && figurinhasUsuario
+  // Filtra por categoria (colecionadas/faltando/repetidas)
+  const listaCategoria = figurinhas && figurinhasUsuario
     ? filtrarFigurinhas(tipoFiltro, figurinhas, figurinhasUsuario)
     : []
+
+  // Tipos únicos disponíveis nesta categoria
+  const tiposUnicos = useMemo(() => {
+    const tipos = new Set(listaCategoria.map(f => f.tipoFigurinha))
+    return Array.from(tipos).sort()
+  }, [listaCategoria])
+
+  // Filtra por busca e tipo
+  const listaFiltrada = useMemo(() => {
+    return listaCategoria.filter(f => {
+      const matchBusca = busca === '' ||
+        f.codigoFigurinha.toLowerCase().includes(busca.toLowerCase())
+      const matchTipo = filtroTipo === 'todos' || f.tipoFigurinha === filtroTipo
+      return matchBusca && matchTipo
+    })
+  }, [listaCategoria, busca, filtroTipo])
 
   const toggleExpand = (id: number) => {
     setExpandedId(prev => prev === id ? null : id)
@@ -86,6 +105,40 @@ function VerFigurinhas() {
 
       {/* Content */}
       <main className="vf-content">
+        {/* Filters */}
+        {!isLoading && (
+          <section className="vf-filters">
+            <div className="vf-search-wrapper">
+              <span className="material-symbols-outlined vf-search-icon">search</span>
+              <input
+                type="text"
+                className="vf-search"
+                placeholder="Pesquisar por código..."
+                value={busca}
+                onChange={e => setBusca(e.target.value)}
+              />
+              {busca && (
+                <button className="vf-search-clear" onClick={() => setBusca('')} aria-label="Limpar busca">
+                  <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>close</span>
+                </button>
+              )}
+            </div>
+
+            <div className="vf-tipo-wrapper">
+              <span className="material-symbols-outlined vf-tipo-icon">filter_list</span>
+              <select
+                className="vf-tipo-select"
+                value={filtroTipo}
+                onChange={e => setFiltroTipo(e.target.value)}
+              >
+                <option value="todos">Todos os tipos</option>
+                {tiposUnicos.map(tipo => (
+                  <option key={tipo} value={tipo}>{tipo}</option>
+                ))}
+              </select>
+            </div>
+          </section>
+        )}
         {isLoading ? (
           <div className="vf-loading">
             <span className="material-symbols-outlined vf-loading-icon">sports_soccer</span>

@@ -30,6 +30,14 @@ public class FigurinhaService {
                    .toList();
     }
 	
+	public void salvar(Figurinha figurinha) {
+		figurinhaRepository.save(figurinha);
+	}
+	
+	public void salvarLista(List<Figurinha> figurinhas) {
+		figurinhaRepository.saveAll(figurinhas);
+	}
+	
 	@CacheEvict(value = "figurinhas", allEntries = true)
 	public void limpaCache() {}
 		

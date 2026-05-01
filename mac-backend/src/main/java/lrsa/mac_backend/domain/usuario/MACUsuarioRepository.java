@@ -68,7 +68,7 @@ public class MACUsuarioRepository {
             LIMIT 10
             """,
             new Object[]{ termo + "%", idUsuario },
-            (rs, rowNum) -> rs.getString("username")
+            (rs, _) -> rs.getString("username")
         );
     }
     

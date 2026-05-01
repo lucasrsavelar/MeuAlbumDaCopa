@@ -205,6 +205,11 @@ function AdicionarFigurinha() {
               <span className="material-symbols-outlined af-loading-icon">sports_soccer</span>
               <p>Carregando catálogo...</p>
             </div>
+          ) : busca === '' && filtroTipo === 'todos' ? (
+            <div className="af-empty">
+              <span className="material-symbols-outlined af-empty-icon">search</span>
+              <p>Pesquise por código ou filtre por tipo</p>
+            </div>
           ) : figurinhasFiltradas.length === 0 ? (
             <div className="af-empty">
               <span className="material-symbols-outlined af-empty-icon">search_off</span>

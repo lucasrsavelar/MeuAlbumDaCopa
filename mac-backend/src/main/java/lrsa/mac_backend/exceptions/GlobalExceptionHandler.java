@@ -11,24 +11,33 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 	
+	private static final String MESSAGE = "message";
+	
+	@ExceptionHandler(FriendshipRequestException.class)
+	public ResponseEntity<Object> handleFriendshipRequestException(FriendshipRequestException ex) {
+		Map<String, Object> body = new LinkedHashMap<>();
+        body.put(MESSAGE, ex.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+	}
+	
 	@ExceptionHandler(ItemNotFoundException.class)
 	public ResponseEntity<Object> handleItemNotFoundException(ItemNotFoundException ex) {
 		Map<String, Object> body = new LinkedHashMap<>();
-        body.put("message", ex.getMessage());
+        body.put(MESSAGE, ex.getMessage());
         return new ResponseEntity<>(body, HttpStatus.OK);
 	}
 	
 	@ExceptionHandler(UnauthorizedException.class)
 	public ResponseEntity<Object> handleUnauthorizedException(UnauthorizedException ex) {
 		Map<String, Object> body = new LinkedHashMap<>();
-        body.put("message", ex.getMessage());
+        body.put(MESSAGE, ex.getMessage());
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleGenericException(Exception ex) {
 		Map<String, Object> body = new LinkedHashMap<>();
-        body.put("message", ex.getMessage());
+        body.put(MESSAGE, ex.getMessage());
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

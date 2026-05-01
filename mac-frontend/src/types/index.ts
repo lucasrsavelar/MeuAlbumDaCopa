@@ -36,3 +36,14 @@ export interface SolicitacaoAmizadeDTO {
   idSolicitacao: string
   usernameEnviou: string
 }
+
+/**
+ * DTO de trocas possíveis com um amigo
+ * euOfereço: IDs das figurinhas que eu posso dar
+ * amigoOferece: IDs das figurinhas que o amigo pode dar
+ */
+export interface TrocasDTO {
+  usernameAmigo: string
+  euOfereço: number[]
+  amigoOferece: number[]
+}
