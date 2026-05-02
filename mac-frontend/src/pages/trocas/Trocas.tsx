@@ -1,5 +1,6 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useQueryClient } from '@tanstack/react-query'
 import { useTrocas } from '../../hooks/useTrocas'
 import { useAllFigurinhas } from '../../hooks/useStaticData'
 import type { Figurinha } from '../../types'
@@ -7,6 +8,12 @@ import './Trocas.css'
 
 function Trocas() {
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
+
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ['trocas'] })
+  }, [queryClient])
+
   const { data: trocas, isLoading: loadingTrocas } = useTrocas()
   const { data: figurinhas, isLoading: loadingFigurinhas } = useAllFigurinhas()
 
