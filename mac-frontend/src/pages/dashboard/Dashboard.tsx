@@ -38,6 +38,7 @@ function Dashboard() {
 
   // Busca de usuários
   const [termoBusca, setTermoBusca] = useState('')
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const termoDebouncado = useDebounce(termoBusca, 300)
   const { data: resultadosBusca, isLoading: loadingBusca } = useBuscarUsuarios(termoDebouncado)
   const mostrarResultados = termoDebouncado.length >= 2
@@ -89,9 +90,22 @@ function Dashboard() {
 
   return (
     <div className="dash-container soccer-pattern">
-      {/* Desktop: Sidebar */}
-      <aside className="dash-sidebar">
+      {/* Mobile Backdrop */}
+      <div
+        className={`dash-sidebar-backdrop ${isSidebarOpen ? 'is-open' : ''}`}
+        onClick={() => setIsSidebarOpen(false)}
+      />
+
+      {/* Sidebar */}
+      <aside className={`dash-sidebar ${isSidebarOpen ? 'is-open' : ''}`}>
         <div className="dash-sidebar-brand">
+          <button 
+            className="dash-sidebar-close-mobile" 
+            onClick={() => setIsSidebarOpen(false)}
+            aria-label="Voltar"
+          >
+            <span className="material-symbols-outlined">arrow_back</span>
+          </button>
           <div className="dash-sidebar-logo">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="10" />
@@ -279,7 +293,11 @@ function Dashboard() {
               <span className="dash-header-title">Meu Álbum da Copa</span>
             </div>
             <div className="dash-header-actions">
-              <button className="dash-header-user" aria-label="Perfil">
+              <button
+                className="dash-header-user"
+                aria-label="Perfil"
+                onClick={() => setIsSidebarOpen(true)}
+              >
                 <div className="dash-header-user-avatar">
                   <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>person</span>
                 </div>
