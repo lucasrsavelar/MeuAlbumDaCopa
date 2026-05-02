@@ -15,7 +15,7 @@ public class CorsConfig {
 //	@Value("${app.cors.allowed-origins}")
 //	private List<String> allowedOrigins;
 	
-	private static final List<String> ALLOWED_ORIGINS = List.of("*");
+	private static final List<String> ALLOWED_ORIGINS = List.of("https://meu-album-da-copa.vercel.app");
 	private static final List<String> METHODS = List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS");
 	private static final List<String> HEADERS = List.of("*");
 
