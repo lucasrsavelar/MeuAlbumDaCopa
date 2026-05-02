@@ -12,9 +12,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 public class CorsConfig {
 	
-	@Value("${app.cors.allowed-origins}")
-	private List<String> allowedOrigins;
+//	@Value("${app.cors.allowed-origins}")
+//	private List<String> allowedOrigins;
 	
+	private static final List<String> ALLOWED_ORIGINS = List.of("*");
 	private static final List<String> METHODS = List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS");
 	private static final List<String> HEADERS = List.of("*");
 
@@ -22,7 +23,7 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(allowedOrigins);
+        config.setAllowedOrigins(ALLOWED_ORIGINS);
         config.setAllowedMethods(METHODS);
         config.setAllowedHeaders(HEADERS);
         config.setAllowCredentials(true); 
