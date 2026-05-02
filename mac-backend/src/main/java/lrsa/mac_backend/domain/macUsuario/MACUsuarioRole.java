@@ -1,4 +1,4 @@
-package lrsa.mac_backend.domain.usuario;
+package lrsa.mac_backend.domain.macUsuario;
 
 public enum MACUsuarioRole {
 	

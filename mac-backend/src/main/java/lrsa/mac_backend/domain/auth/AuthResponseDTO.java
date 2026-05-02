@@ -1,9 +1,10 @@
 package lrsa.mac_backend.domain.auth;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@Getter
 @AllArgsConstructor
-@SuppressWarnings("unused")
 public class AuthResponseDTO {
 
 	private String username;

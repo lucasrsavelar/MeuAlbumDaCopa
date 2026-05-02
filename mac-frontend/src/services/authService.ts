@@ -1,52 +1,75 @@
-import { supabase } from '../lib/supabase'
+const BASE = import.meta.env.VITE_API_URL
 
-// Gera email fictício a partir do username
-const toFakeEmail = (username: string) =>
-    `${username.toLowerCase()}@mac.com`
+// ── tipos ────────────────────────────────────────────────────────────────
 
-// Cadastro
-export async function register(username: string, password: string) {
-    const email = toFakeEmail(username)
-
-    const { data, error } = await supabase.auth.signUp({ email, password })
-    if (error) throw error
-
-    return data
+export interface AuthUser {
+    username: string
+    email: string
 }
 
-// Login
-export async function login(username: string, password: string) {
-    const email = toFakeEmail(username)
+// ── funções públicas (mesma assinatura de antes) ─────────────────────────
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
+export async function register(username: string, senha: string): Promise<AuthUser> {
+    const res = await fetch(`${BASE}/auth/cadastro`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ username, senha })
     })
-    if (error) throw error
-
-    return data
+    if (!res.ok) throw await res.json()
+    return res.json()
 }
 
-// Logout
-export async function logout() {
-    await supabase.auth.signOut()
-}
-
-// Pega o token JWT da sessão atual
-export async function getToken(): Promise<string | null> {
-    const { data: { session } } = await supabase.auth.getSession()
-    return session?.access_token ?? null
-}
-
-// Retorna o usuário da sessão atual (ou null se não estiver logado)
-export async function getSession() {
-    const { data: { session } } = await supabase.auth.getSession()
-    return session
-}
-
-// Observa mudanças de estado (login, logout, renovação de token)
-export function onAuthStateChange(callback: (session: any) => void) {
-    return supabase.auth.onAuthStateChange((_event, session) => {
-        callback(session)
+export async function login(username: string, senha: string): Promise<AuthUser> {
+    const res = await fetch(`${BASE}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ username, senha })
     })
+    if (!res.ok) throw await res.json()
+    return res.json()
+}
+
+export async function logout(): Promise<void> {
+    await fetch(`${BASE}/auth/logout`, {
+        method: 'POST',
+        credentials: 'include'
+    })
+    // dispara evento para o AuthContext limpar o estado
+    window.dispatchEvent(new Event('auth:session-expired'))
+}
+
+export async function getSession(): Promise<AuthUser | null> {
+    const res = await fetch(`${BASE}/auth/session`, {
+        credentials: 'include'
+    })
+    if (!res.ok) return null
+    return res.json()
+}
+
+// Cookie é HttpOnly — JS não tem acesso.
+// getToken() não faz mais sentido, mas mantemos para não quebrar imports antigos.
+export async function getToken(): Promise<null> {
+    return null
+}
+
+// onAuthStateChange era reativo (WebSocket do Supabase).
+// Substituímos por uma verificação na montagem + evento customizado.
+export function onAuthStateChange(callback: (user: AuthUser | null) => void) {
+    // Verifica sessão imediatamente
+    getSession().then(callback)
+
+    // Escuta logout forçado (ex: refresh token expirado)
+    const handler = () => callback(null)
+    window.addEventListener('auth:session-expired', handler)
+
+    // Retorna unsubscribe no mesmo formato do Supabase
+    return {
+        data: {
+            subscription: {
+                unsubscribe: () => window.removeEventListener('auth:session-expired', handler)
+            }
+        }
+    }
 }

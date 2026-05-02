@@ -1,4 +1,4 @@
-package lrsa.mac_backend.domain.usuario;
+package lrsa.mac_backend.domain.macUsuario;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MACUsuarioService {
+	
+	private static final String WILDCARD = "%";
 	
 	private final MACUsuarioRepository usuarioRepository;
 	
@@ -41,7 +43,7 @@ public class MACUsuarioService {
 	
 	public List<String> buscarPorUsername(String termo, UUID idUsuarioLogado) {
         return usuarioRepository
-        		.buscarPorUsername(termo, idUsuarioLogado)
+        		.buscarPorUsername(termo + WILDCARD, idUsuarioLogado)
         		.orElse(List.of());
     }
 	

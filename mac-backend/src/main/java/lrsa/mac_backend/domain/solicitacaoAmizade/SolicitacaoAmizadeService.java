@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lrsa.mac_backend.domain.amizade.AmizadeService;
-import lrsa.mac_backend.domain.usuario.MACUsuarioService;
+import lrsa.mac_backend.domain.macUsuario.MACUsuarioService;
 import lrsa.mac_backend.exceptions.FriendshipRequestException;
 import lrsa.mac_backend.utils.Messages;
 

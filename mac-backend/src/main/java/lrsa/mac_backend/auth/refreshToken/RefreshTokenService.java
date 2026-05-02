@@ -1,4 +1,4 @@
-package lrsa.mac_backend.auth.refresh_token;
+package lrsa.mac_backend.auth.refreshToken;
 
 import java.util.Optional;
 

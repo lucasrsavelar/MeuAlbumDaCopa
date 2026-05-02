@@ -1,4 +1,4 @@
-package lrsa.mac_backend.auth.refresh_token;
+package lrsa.mac_backend.auth.refreshToken;
 
 import java.time.Instant;
 
@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lrsa.mac_backend.domain.usuario.MACUsuario;
+import lrsa.mac_backend.domain.macUsuario.MACUsuario;
 
 @Entity
 @Table(name = "REFRESH_TOKENS")

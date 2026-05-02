@@ -1,4 +1,4 @@
-package lrsa.mac_backend.auth.current_user;
+package lrsa.mac_backend.auth.currentUser;
 
 import java.util.UUID;
 
@@ -10,7 +10,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import lrsa.mac_backend.domain.usuario.MACUsuario;
+import lrsa.mac_backend.domain.macUsuario.MACUsuario;
 import lrsa.mac_backend.exceptions.UnauthorizedException;
 import lrsa.mac_backend.utils.Messages;
 

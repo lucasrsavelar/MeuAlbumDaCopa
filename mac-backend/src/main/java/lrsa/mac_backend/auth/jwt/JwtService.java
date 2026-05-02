@@ -14,9 +14,9 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lrsa.mac_backend.auth.refresh_token.RefreshToken;
-import lrsa.mac_backend.auth.refresh_token.RefreshTokenRepository;
-import lrsa.mac_backend.domain.usuario.MACUsuario;
+import lrsa.mac_backend.auth.refreshToken.RefreshToken;
+import lrsa.mac_backend.auth.refreshToken.RefreshTokenRepository;
+import lrsa.mac_backend.domain.macUsuario.MACUsuario;
 import lrsa.mac_backend.exceptions.InvalidTokenException;
 import lrsa.mac_backend.utils.Messages;
 

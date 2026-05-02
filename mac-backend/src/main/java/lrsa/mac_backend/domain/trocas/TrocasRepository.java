@@ -24,11 +24,11 @@ public class TrocasRepository {
     public List<TrocasDTO> findTrocas(UUID idUsuario) {
         String sql = """
                 SELECT
-                    split_part(au.email, '@', 1) AS username_amigo,
+                    au.username AS username_amigo,
                     col_eu.id_figurinha,
                     'EU_OFERECO' AS tipo
                 FROM AMIZADES f
-                JOIN auth.users au ON au.id = f.id_amigo
+                JOIN mac_usuario au ON au.id_usuario = f.id_amigo
                 JOIN FIGURINHAS_USUARIO col_eu ON col_eu.ID_USUARIO = :idUsuario AND col_eu.quantidade > 1
                 LEFT JOIN FIGURINHAS_USUARIO col_amigo ON col_amigo.ID_USUARIO = f.id_amigo AND col_amigo.id_figurinha = col_eu.id_figurinha
                 WHERE f.ID_USUARIO = :idUsuario AND col_amigo.id_figurinha IS NULL
@@ -36,11 +36,11 @@ public class TrocasRepository {
                 UNION ALL
 
                 SELECT
-                    split_part(au.email, '@', 1) AS username_amigo,
+                    au.username AS username_amigo,
                     col_amigo.id_figurinha,
                     'AMIGO_OFERECE' AS tipo
                 FROM AMIZADES f
-                JOIN auth.users au ON au.id = f.id_amigo
+                JOIN mac_usuario au ON au.id_usuario = f.id_amigo
                 JOIN FIGURINHAS_USUARIO col_amigo ON col_amigo.id_usuario = f.id_amigo AND col_amigo.quantidade > 1
                 LEFT JOIN FIGURINHAS_USUARIO col_eu ON col_eu.id_usuario = :idUsuario AND col_eu.id_figurinha = col_amigo.id_figurinha
                 WHERE f.id_usuario = :idUsuario AND col_eu.id_figurinha IS NULL

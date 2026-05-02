@@ -1,4 +1,4 @@
-package lrsa.mac_backend.domain.usuario;
+package lrsa.mac_backend.domain.macUsuario;
 
 import java.util.UUID;
 
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import lrsa.mac_backend.auth.current_user.CurrentUser;
+import lrsa.mac_backend.auth.currentUser.CurrentUser;
 
 @RestController
 @RequestMapping("/mac-user")

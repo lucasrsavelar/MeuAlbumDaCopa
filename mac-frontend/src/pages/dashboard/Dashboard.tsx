@@ -12,11 +12,13 @@ import {
   useAceitarSolicitacao,
   useRecusarSolicitacao,
 } from '../../hooks/useSolicitacaoAmizade'
-import { logout } from '../../services/authService'
 import './Dashboard.css'
+import { useAuth } from '../../context/AuthContext'
 
 function Dashboard() {
   const navigate = useNavigate()
+
+  const { logout } = useAuth()
 
   // Dados estáticos (catálogo) — cache infinito
   const { data: figurinhas, isLoading: loadingFigurinhas } = useAllFigurinhas()
@@ -99,8 +101,8 @@ function Dashboard() {
       {/* Sidebar */}
       <aside className={`dash-sidebar ${isSidebarOpen ? 'is-open' : ''}`}>
         <div className="dash-sidebar-brand">
-          <button 
-            className="dash-sidebar-close-mobile" 
+          <button
+            className="dash-sidebar-close-mobile"
             onClick={() => setIsSidebarOpen(false)}
             aria-label="Voltar"
           >

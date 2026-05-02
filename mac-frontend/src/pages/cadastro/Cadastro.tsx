@@ -22,7 +22,7 @@ function Cadastro() {
   const senhasDiferentes = confirmarSenha.length > 0 && senha !== confirmarSenha
   const formularioValido = usuarioValido && senhaValida && senhasIguais
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault()
     setErro('')
 
@@ -47,10 +47,18 @@ function Cadastro() {
       navigate('/dashboard')
     } catch (err: any) {
       const msg = err?.message ?? ''
-      if (msg.includes('User already registered')) {
+      if (msg.includes('Este nome de usuário já está sendo utilizado')) {
         setErro('Este nome de usuário já está em uso.')
-      } else if (msg.includes('Password should be at least')) {
-        setErro('A senha deve ter pelo menos 6 caracteres.')
+      } else if (msg.includes('Nome de usuário deve ter entre 2 e 32 caracteres')) {
+        setErro('O nome de usuário deve ter entre 2 e 32 caracteres.')
+      } else if (msg.includes('Nome de usuário pode conter apenas letras, números, underscore (_) e hífen (-)')) {
+        setErro('O nome de usuário deve conter apenas letras, números, underscore (_) e hífen (-).')
+      } else if (msg.includes('Nome de usuário é obrigatório')) {
+        setErro('O nome de usuário é obrigatório.')
+      } else if (msg.includes('Senha deve ter no mínimo 8 caracteres')) {
+        setErro('A senha deve ter pelo menos 8 caracteres.')
+      } else if (msg.includes('Senha é obrigatória')) {
+        setErro('A senha é obrigatória.')
       } else {
         setErro('Erro ao criar conta. Tente novamente.')
       }

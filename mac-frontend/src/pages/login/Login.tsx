@@ -1,17 +1,17 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { login } from '../../services/authService'
+import { Link } from 'react-router-dom'
 import './Login.css'
+import { useAuth } from '../../context/AuthContext'
 
 function Login() {
-  const navigate = useNavigate()
+  const { login } = useAuth()
   const [usuario, setUsuario] = useState('')
   const [senha, setSenha] = useState('')
   const [mostrarSenha, setMostrarSenha] = useState(false)
   const [erro, setErro] = useState('')
   const [carregando, setCarregando] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault()
     setErro('')
 
@@ -23,14 +23,10 @@ function Login() {
     setCarregando(true)
     try {
       await login(usuario, senha)
-      navigate('/dashboard')
     } catch (err: any) {
-      // Mensagens amigáveis para erros comuns do Supabase
       const msg = err?.message ?? ''
-      if (msg.includes('Invalid login credentials')) {
+      if (msg.includes('Credenciais inválidas')) {
         setErro('Usuário ou senha incorretos.')
-      } else if (msg.includes('Email not confirmed')) {
-        setErro('Conta não confirmada. Verifique seu e-mail.')
       } else {
         setErro('Erro ao entrar. Tente novamente.')
       }

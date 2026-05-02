@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import lrsa.mac_backend.domain.usuario.MACUsuarioService;
+import lrsa.mac_backend.domain.macUsuario.MACUsuarioService;
 
 @Service
 public class AmizadeService {

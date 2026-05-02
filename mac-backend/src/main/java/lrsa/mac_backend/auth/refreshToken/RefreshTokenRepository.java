@@ -1,10 +1,10 @@
-package lrsa.mac_backend.auth.refresh_token;
+package lrsa.mac_backend.auth.refreshToken;
 
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import lrsa.mac_backend.domain.usuario.MACUsuario;
+import lrsa.mac_backend.domain.macUsuario.MACUsuario;
 
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, String> {
 	

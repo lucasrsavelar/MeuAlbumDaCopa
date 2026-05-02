@@ -9,6 +9,7 @@ import Trocas from "./pages/trocas/Trocas";
 import "./index.css";
 import { useEffect } from "react";
 import { onAuthStateChange } from "./services/authService";
+import { AuthProvider } from "./context/AuthContext";
 
 /** Rotas públicas que não exigem sessão */
 const PUBLIC_ROUTES = ["/", "/cadastro"];
@@ -42,16 +43,18 @@ function AuthRedirect() {
 function App() {
   return (
     <Router>
-      <AuthRedirect />
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/cadastro" element={<Cadastro />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/ver-figurinhas/:tipo" element={<VerFigurinhas />} />
-        <Route path="/adicionar-figurinha" element={<AdicionarFigurinha />} />
-        <Route path="/remover-figurinha" element={<RemoverFigurinha />} />
-        <Route path="/trocas" element={<Trocas />} />
-      </Routes>
+      <AuthProvider>
+        <AuthRedirect />
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/cadastro" element={<Cadastro />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/ver-figurinhas/:tipo" element={<VerFigurinhas />} />
+          <Route path="/adicionar-figurinha" element={<AdicionarFigurinha />} />
+          <Route path="/remover-figurinha" element={<RemoverFigurinha />} />
+          <Route path="/trocas" element={<Trocas />} />
+        </Routes>
+      </AuthProvider>
     </Router>
   );
 }

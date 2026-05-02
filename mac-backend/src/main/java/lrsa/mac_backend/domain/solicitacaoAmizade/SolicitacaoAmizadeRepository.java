@@ -14,9 +14,9 @@ public interface SolicitacaoAmizadeRepository extends JpaRepository<SolicitacaoA
     Optional<SolicitacaoAmizade> findByIdEnviouAndIdRecebeu(UUID idEnviou, UUID idRecebeu);
     
     @Query(value = """
-    		SELECT r.id_solicitacao, split_part(au.email, '@', 1) AS username_enviou
+    		SELECT r.id_solicitacao, au.username
     		FROM SOLICITACAO_AMIZADE r
-    		JOIN auth.users au ON au.id = r.id_enviou
+    		JOIN mac_usuario au ON au.id_usuario = r.id_enviou
     		WHERE r.id_recebeu = :idUsuario
     		""", nativeQuery = true)
     List<Object[]> findSolicitacoesRecebidas(@Param("idUsuario") UUID idUsuario);

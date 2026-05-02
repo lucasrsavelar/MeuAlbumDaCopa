@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<Object> handleUnauthorizedException(UnauthorizedException ex) {
 		Map<String, Object> body = new LinkedHashMap<>();
         body.put(MESSAGE, ex.getMessage());
-        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
 	}
 	
 	@ExceptionHandler(Exception.class)

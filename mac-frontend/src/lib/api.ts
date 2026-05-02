@@ -1,54 +1,89 @@
-import { getToken } from '../services/authService'
+const BASE = import.meta.env.VITE_API_URL
 
-const BASE_URL = import.meta.env.VITE_API_URL
+// ── refresh transparente ─────────────────────────────────────────────────
 
-async function authHeaders() {
-    const token = await getToken()
-    return {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+let isRefreshing = false
+let refreshQueue: Array<() => void> = []
+
+async function tryRefresh(): Promise<boolean> {
+    if (isRefreshing) {
+        return new Promise(resolve => {
+            refreshQueue.push(() => resolve(true))
+        })
+    }
+
+    isRefreshing = true
+
+    try {
+        const res = await fetch(`${BASE}/auth/refresh`, {
+            method: 'POST',
+            credentials: 'include'
+        })
+
+        if (!res.ok) throw new Error('Refresh falhou')
+
+        refreshQueue.forEach(fn => fn())
+        refreshQueue = []
+        return true
+    } catch {
+        refreshQueue = []
+        window.dispatchEvent(new Event('auth:session-expired'))
+        return false
+    } finally {
+        isRefreshing = false
     }
 }
 
-// GET autenticado
-export async function apiGet(path: string) {
-    const res = await fetch(`${BASE_URL}${path}`, {
-        headers: await authHeaders()
+// ── fetch base com retry ─────────────────────────────────────────────────
+
+async function apiFetch(path: string, options: RequestInit = {}, retry = true): Promise<Response> {
+    const res = await fetch(`${BASE}${path}`, {
+        ...options,
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
     })
+
+    if (res.status === 401 && retry) {
+        const refreshed = await tryRefresh()
+        if (refreshed) return apiFetch(path, options, false)
+        throw new Error('Sessão expirada')
+    }
+
+    return res
+}
+
+// ── métodos públicos (mesma interface de antes) ──────────────────────────
+
+export async function apiGet(path: string) {
+    const res = await apiFetch(path, { method: 'GET' })
     if (!res.ok) throw new Error(`Erro ${res.status}`)
     return res.json()
 }
 
-// POST autenticado
 export async function apiPost(path: string, body: unknown) {
-    const res = await fetch(`${BASE_URL}${path}`, {
+    const res = await apiFetch(path, {
         method: 'POST',
-        headers: await authHeaders(),
         body: JSON.stringify(body)
     })
     if (!res.ok) throw new Error(`Erro ${res.status}`)
-    // 204 No Content — sem body
     if (res.status === 204) return null
     return res.json()
 }
 
-// PATCH autenticado
 export async function apiPatch(path: string, body: unknown) {
-    const res = await fetch(`${BASE_URL}${path}`, {
+    const res = await apiFetch(path, {
         method: 'PATCH',
-        headers: await authHeaders(),
         body: JSON.stringify(body)
     })
     if (!res.ok) throw new Error(`Erro ${res.status}`)
     return res.json()
 }
 
-// DELETE autenticado
 export async function apiDelete(path: string) {
-    const res = await fetch(`${BASE_URL}${path}`, {
-        method: 'DELETE',
-        headers: await authHeaders()
-    })
+    const res = await apiFetch(path, { method: 'DELETE' })
     if (!res.ok) throw new Error(`Erro ${res.status}`)
     return res.json()
 }

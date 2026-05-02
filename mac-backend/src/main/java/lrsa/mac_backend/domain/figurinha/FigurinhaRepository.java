@@ -7,10 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface FigurinhaRepository extends JpaRepository<Figurinha, Integer> {
 	
-	@Query(value = 
-			"""
-			SELECT f FROM FIGURINHAS f WHERE f.nome_pais IS NULL AND f.tipo_figurinha <> 'ESPECIAL' 
+	@Query(value = """
+			SELECT *
+			FROM figurinhas
+			ORDER BY
+			regexp_replace(codigo_figurinha, '\\d', '', 'g'),
+			CAST(regexp_replace(codigo_figurinha, '\\D', '', 'g') AS INTEGER)
 			""", nativeQuery = true)
-	public List<Figurinha> figsCorrecao();
+	List<Figurinha> findAllOrdenadas();
 
 }

@@ -15,7 +15,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lrsa.mac_backend.domain.usuario.MACUsuarioService;
+import lrsa.mac_backend.domain.macUsuario.MACUsuarioService;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {

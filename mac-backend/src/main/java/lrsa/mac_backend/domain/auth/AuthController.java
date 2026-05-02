@@ -14,18 +14,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lrsa.mac_backend.auth.jwt.JwtService;
-import lrsa.mac_backend.auth.refresh_token.RefreshToken;
-import lrsa.mac_backend.domain.usuario.MACUsuario;
+import lrsa.mac_backend.auth.refreshToken.RefreshToken;
+import lrsa.mac_backend.domain.macUsuario.MACUsuario;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 	
+	@Value("${https.secure}")
+    private boolean secure;
+	
 	private final AuthService authService;
     private final JwtService jwtService;
-    
-    @Value("${https.secure}")
-    boolean secure;
     
     public AuthController(AuthService authService, JwtService jwtService) {
     	this.authService = authService;

@@ -30,14 +30,7 @@ public class FigurinhaUsuarioService {
 		
 		
 	}
-	
-	public List<Integer> findIdsFigurinhasByUser(UUID idUsuario) {
-	    return findFigurinhasByUser(idUsuario)
-	            .keySet()
-	            .stream()
-	            .toList();
-	}
-		
+			
 	public void adicionarFigurinhas(UUID idUsuario, List<FigurinhaUsuarioDTO> figurinhas) {
 		for(FigurinhaUsuarioDTO figurinha : figurinhas)
 			figurinhaUsuarioRepository.upsertSum(idUsuario, figurinha.getIdFigurinha(), figurinha.getQuantidade());

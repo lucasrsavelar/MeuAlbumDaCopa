@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 
 import io.micrometer.common.util.StringUtils;
 import lrsa.mac_backend.auth.jwt.JwtService;
-import lrsa.mac_backend.auth.refresh_token.RefreshToken;
-import lrsa.mac_backend.auth.refresh_token.RefreshTokenService;
-import lrsa.mac_backend.domain.usuario.MACUsuario;
-import lrsa.mac_backend.domain.usuario.MACUsuarioRole;
-import lrsa.mac_backend.domain.usuario.MACUsuarioService;
+import lrsa.mac_backend.auth.refreshToken.RefreshToken;
+import lrsa.mac_backend.auth.refreshToken.RefreshTokenService;
+import lrsa.mac_backend.domain.macUsuario.MACUsuario;
+import lrsa.mac_backend.domain.macUsuario.MACUsuarioRole;
+import lrsa.mac_backend.domain.macUsuario.MACUsuarioService;
 import lrsa.mac_backend.exceptions.RegisterException;
 import lrsa.mac_backend.exceptions.UnauthorizedException;
 import lrsa.mac_backend.utils.Messages;
