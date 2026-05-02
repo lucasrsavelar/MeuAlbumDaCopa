@@ -44,6 +44,7 @@ public interface FigurinhaUsuarioRepository extends JpaRepository<FigurinhaUsuar
 			);
 
 	@Modifying
+	@Transactional
 	@Query(value = """
 			DELETE FROM FIGURINHAS_USUARIO 
 			WHERE ID_USUARIO = :idUsuario AND ID_FIGURINHA = :idFigurinha
