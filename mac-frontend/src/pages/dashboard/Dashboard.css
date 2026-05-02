@@ -594,9 +594,6 @@
     display: none;
   }
 
-  .dash-sidebar-close-mobile {
-    display: none;
-  }
 }
 
 /* ===== Sidebar Contents (Global) ===== */
@@ -622,6 +619,12 @@
 
 .dash-sidebar-close-mobile:hover {
   background: var(--color-surface-container-high);
+}
+
+@media (min-width: 1024px) {
+  .dash-sidebar-close-mobile {
+    display: none;
+  }
 }
 
 .dash-sidebar-logo {
