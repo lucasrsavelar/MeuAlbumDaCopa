@@ -13,6 +13,20 @@ public class GlobalExceptionHandler {
 	
 	private static final String MESSAGE = "message";
 	
+	@ExceptionHandler(RegisterException.class)
+	public ResponseEntity<Object> handleRegisterException(RegisterException ex) {
+		Map<String, Object> body = new LinkedHashMap<>();
+        body.put(MESSAGE, ex.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.UNPROCESSABLE_CONTENT);
+	}
+	
+	@ExceptionHandler(InvalidTokenException.class)
+	public ResponseEntity<Object> handleInvalidTokenException(InvalidTokenException ex) {
+		Map<String, Object> body = new LinkedHashMap<>();
+        body.put(MESSAGE, ex.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
+	}
+	
 	@ExceptionHandler(FriendshipRequestException.class)
 	public ResponseEntity<Object> handleFriendshipRequestException(FriendshipRequestException ex) {
 		Map<String, Object> body = new LinkedHashMap<>();

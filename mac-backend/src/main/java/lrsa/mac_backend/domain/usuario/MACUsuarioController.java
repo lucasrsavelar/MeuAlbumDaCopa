@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import lrsa.mac_backend.auth.CurrentUser;
+import lrsa.mac_backend.auth.current_user.CurrentUser;
 
 @RestController
 @RequestMapping("/mac-user")
@@ -22,7 +22,7 @@ public class MACUsuarioController {
 	}
 	
 	@GetMapping("/me")
-	public ResponseEntity<?> me(@CurrentUser UUID idUsuario) {
+	public ResponseEntity<?> getMe(@CurrentUser UUID idUsuario) {
 		String username = usuarioService.findUsernameById(idUsuario);
 	    return ResponseEntity.ok()
 	        .contentType(MediaType.APPLICATION_JSON)

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import lrsa.mac_backend.auth.CurrentUser;
+import lrsa.mac_backend.auth.current_user.CurrentUser;
 
 @RestController
 @RequestMapping("/solicitacao-amizade")

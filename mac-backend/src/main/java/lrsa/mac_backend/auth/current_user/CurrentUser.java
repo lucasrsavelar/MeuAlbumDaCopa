@@ -1,4 +1,4 @@
-package lrsa.mac_backend.auth;
+package lrsa.mac_backend.auth.current_user;
 
 import java.lang.annotation.*;
 
