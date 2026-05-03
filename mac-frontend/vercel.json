@@ -1,0 +1,8 @@
+{
+    "rewrites": [
+        {
+            "source": "/mac-api/:path*",
+            "destination": "https://meualbumdacopa-production.up.railway.app/mac-api/:path*"
+        }
+    ]
+}
