@@ -20,8 +20,8 @@ function AdicionarFigurinha() {
   const [busca, setBusca] = useState('')
   const [filtroTipo, setFiltroTipo] = useState<string>('todos')
 
-  // Selecionadas: mapa { idFigurinha → quantidade a adicionar }
-  const [selecionadas, setSelecionadas] = useState<Record<number, number>>({})
+  // Selecionadas: mapa { idFigurinha → { qty, addedAt } }
+  const [selecionadas, setSelecionadas] = useState<Record<number, { qty: number; addedAt: number }>>({})
 
   // Submitting state
   const [submitting, setSubmitting] = useState(false)
@@ -47,36 +47,40 @@ function AdicionarFigurinha() {
   }, [figurinhas, busca, filtroTipo])
 
   // Quantidade selecionada para adicionar
-  const qtdSelecionada = (id: number) => selecionadas[id] ?? 0
+  const qtdSelecionada = (id: number) => selecionadas[id]?.qty ?? 0
 
   // Adiciona figurinha à seleção (ou incrementa)
   const adicionarFigurinha = (fig: Figurinha) => {
     setSelecionadas(prev => {
-      const atual = prev[fig.id] ?? 0
-      if (atual >= MAX_QTD) return prev
-      return { ...prev, [fig.id]: atual + 1 }
+      const atual = prev[fig.id]?.qty ?? 0
+      if (atual >= MAX_QTD) {
+        return { ...prev, [fig.id]: { ...prev[fig.id], addedAt: Date.now() } }
+      }
+      return { ...prev, [fig.id]: { qty: atual + 1, addedAt: Date.now() } }
     })
   }
 
   // Incrementa quantidade
   const incrementar = (id: number) => {
     setSelecionadas(prev => {
-      const atual = prev[id] ?? 0
-      if (atual >= MAX_QTD) return prev
-      return { ...prev, [id]: atual + 1 }
+      const atual = prev[id]?.qty ?? 0
+      if (atual >= MAX_QTD) {
+        return { ...prev, [id]: { ...prev[id], addedAt: Date.now() } }
+      }
+      return { ...prev, [id]: { qty: atual + 1, addedAt: Date.now() } }
     })
   }
 
   // Decrementa quantidade (remove se chegar a 0)
   const decrementar = (id: number) => {
     setSelecionadas(prev => {
-      const atual = prev[id] ?? 0
+      const atual = prev[id]?.qty ?? 0
       if (atual <= 1) {
         const next = { ...prev }
         delete next[id]
         return next
       }
-      return { ...prev, [id]: atual - 1 }
+      return { ...prev, [id]: { ...prev[id], qty: atual - 1 } }
     })
   }
 
@@ -90,7 +94,7 @@ function AdicionarFigurinha() {
   }
 
   // Total de figurinhas selecionadas
-  const totalSelecionadas = Object.values(selecionadas).reduce((a, b) => a + b, 0)
+  const totalSelecionadas = Object.values(selecionadas).reduce((a, data) => a + data.qty, 0)
 
   // Submit
   const handleSubmit = async () => {
@@ -101,7 +105,7 @@ function AdicionarFigurinha() {
     setSucesso(false)
 
     const payload: FigurinhaUsuarioDTO[] = Object.entries(selecionadas).map(
-      ([id, qty]) => ({ idFigurinha: Number(id), quantidade: qty })
+      ([id, data]) => ({ idFigurinha: Number(id), quantidade: data.qty })
     )
 
     try {
@@ -124,13 +128,9 @@ function AdicionarFigurinha() {
     return new Map(figurinhas.map(f => [f.id, f]))
   }, [figurinhas])
 
-  const idsOrdenados = Object.keys(selecionadas)
-    .map(Number)
-    .sort((a, b) => {
-      const fa = figurinhaById.get(a)
-      const fb = figurinhaById.get(b)
-      return (fa?.codigoFigurinha ?? '').localeCompare(fb?.codigoFigurinha ?? '')
-    })
+  const idsOrdenados = Object.entries(selecionadas)
+    .sort(([, aData], [, bData]) => bData.addedAt - aData.addedAt)
+    .map(([id]) => Number(id))
 
   return (
     <div className="af-container soccer-pattern">
@@ -274,11 +274,11 @@ function AdicionarFigurinha() {
                       >
                         <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>remove</span>
                       </button>
-                      <span className="af-qty-value">{sel}</span>
+                      <span className="af-qty-value">{sel.qty}</span>
                       <button
                         className="af-qty-btn"
                         onClick={(e) => { e.stopPropagation(); incrementar(id) }}
-                        disabled={sel >= MAX_QTD}
+                        disabled={sel.qty >= MAX_QTD}
                         aria-label="Aumentar quantidade"
                       >
                         <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>add</span>
