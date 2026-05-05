@@ -1,33 +1,31 @@
 const BASE = import.meta.env.VITE_API_URL
 
-// ── refresh transparente ─────────────────────────────────────────────────
-
 let isRefreshing = false
-let refreshQueue: Array<() => void> = []
+let refreshQueue: Array<(ok: boolean) => void> = []
 
-async function tryRefresh(): Promise<boolean> {
+async function trySession(): Promise<boolean> {
     if (isRefreshing) {
         return new Promise(resolve => {
-            refreshQueue.push(() => resolve(true))
+            refreshQueue.push(resolve)
         })
     }
 
     isRefreshing = true
 
     try {
-        const res = await fetch(`${BASE}/auth/refresh`, {
-            method: 'POST',
+        const res = await fetch(`${BASE}/mac-api/auth/session`, {
             credentials: 'include'
         })
 
-        if (!res.ok) throw new Error('Refresh falhou')
+        const ok = res.ok
 
-        refreshQueue.forEach(fn => fn())
+        refreshQueue.forEach(resolve => resolve(ok))
         refreshQueue = []
-        return true
+
+        return ok
     } catch {
+        refreshQueue.forEach(resolve => resolve(false))
         refreshQueue = []
-        window.dispatchEvent(new Event('auth:session-expired'))
         return false
     } finally {
         isRefreshing = false
@@ -41,14 +39,20 @@ async function apiFetch(path: string, options: RequestInit = {}, retry = true): 
         ...options,
         credentials: 'include',
         headers: {
-            'Content-Type': 'application/json',
+            ...(options.body ? { 'Content-Type': 'application/json' } : {}),
             ...options.headers
         }
     })
 
     if (res.status === 401 && retry) {
-        const refreshed = await tryRefresh()
-        if (refreshed) return apiFetch(path, options, false)
+        const ok = await trySession()
+
+        if (ok) {
+            await new Promise(r => setTimeout(r, 50)) // opcional
+            return apiFetch(path, options, false)
+        }
+
+        window.dispatchEvent(new Event('auth:session-expired'))
         throw new Error('Sessão expirada')
     }
 

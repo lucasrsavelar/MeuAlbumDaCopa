@@ -12,26 +12,49 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null)
 
+let sessionPromise: Promise<AuthUser | null> | null = null
+
+function getSessionOnce() {
+    if (!sessionPromise) {
+        sessionPromise = getSession()
+    }
+    return sessionPromise
+}
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<AuthUser | null>(null)
     const [carregando, setCarregando] = useState(true)
+
     const navigate = useNavigate()
     const queryClient = useQueryClient()
 
-    // Verifica sessão ao carregar o app
     useEffect(() => {
-        getSession()
+        getSessionOnce()
             .then(setUser)
             .finally(() => setCarregando(false))
 
-        // Escuta logout forçado (refresh token expirado)
-        const handler = () => { setUser(null); navigate('/login') }
-        window.addEventListener('auth:session-expired', handler)
-        return () => window.removeEventListener('auth:session-expired', handler)
+        const handleSessionExpired = () => {
+            setUser(null)
+            queryClient.clear()
+            navigate('/login')
+        }
+
+        const handleStorage = (e: StorageEvent) => {
+            if (e.key === 'logout') handleSessionExpired()
+        }
+
+        window.addEventListener('auth:session-expired', handleSessionExpired)
+        window.addEventListener('storage', handleStorage)
+
+        return () => {
+            window.removeEventListener('auth:session-expired', handleSessionExpired)
+            window.removeEventListener('storage', handleStorage)
+        }
     }, [])
 
     const login = async (username: string, senha: string) => {
         const data = await doLogin(username, senha)
+        queryClient.clear()
         setUser(data)
         navigate('/dashboard')
     }
@@ -40,6 +63,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         await doLogout()
         queryClient.clear()
         setUser(null)
+        localStorage.setItem('logout', Date.now().toString())
+
         navigate('/login')
     }
 

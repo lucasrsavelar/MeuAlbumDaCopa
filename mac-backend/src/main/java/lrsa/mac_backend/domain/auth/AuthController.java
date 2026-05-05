@@ -1,9 +1,6 @@
 package lrsa.mac_backend.domain.auth;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,20 +13,20 @@ import jakarta.servlet.http.HttpServletResponse;
 import lrsa.mac_backend.auth.jwt.JwtService;
 import lrsa.mac_backend.auth.refreshToken.RefreshToken;
 import lrsa.mac_backend.domain.macUsuario.MACUsuario;
+import lrsa.mac_backend.domain.utils.CookieUtils;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 	
-	@Value("${https.secure}")
-    private boolean secure;
-	
 	private final AuthService authService;
     private final JwtService jwtService;
+    private final CookieUtils cookieUtils;
     
-    public AuthController(AuthService authService, JwtService jwtService) {
+    public AuthController(AuthService authService, JwtService jwtService, CookieUtils cookieUtils) {
     	this.authService = authService;
     	this.jwtService = jwtService;
+    	this.cookieUtils = cookieUtils;
     }
 
     @PostMapping("/login")
@@ -52,9 +49,11 @@ public class AuthController {
     
     @GetMapping("/session")
     public ResponseEntity<?> session(
-        @CookieValue(name = "access_token", required = false) String accessToken
+        @CookieValue(name = "access_token", required = false) String accessToken,
+        @CookieValue(name = "refresh_token", required = false) String refreshToken,
+        HttpServletResponse response
     ) {
-        return authService.getSession(accessToken)
+        return authService.getSession(accessToken, refreshToken, response)
             .map(user -> ResponseEntity.ok(new AuthResponseDTO(user.getUsername(), user.getEmail())))
             .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
     }
@@ -65,7 +64,7 @@ public class AuthController {
         HttpServletResponse response
     ) {
         authService.logout(rawToken);
-        limparCookies(response);
+        cookieUtils.limparCookies(response);
         return ResponseEntity.ok().build();
     }
     
@@ -73,27 +72,11 @@ public class AuthController {
         String accessToken = jwtService.generateAccessToken(usuario);
         RefreshToken refreshToken = jwtService.generateRefreshToken(usuario);
 
-        setarCookie(response, "access_token",  accessToken,             60 * 15);
-        setarCookie(response, "refresh_token", refreshToken.getToken(), 60 * 60 * 24 * 7);
+//        cookieUtils.setarCookie(response, "access_token",  accessToken,             60 * 15);
+        cookieUtils.setarCookie(response, "access_token",  accessToken,             60 * 1);
+        cookieUtils.setarCookie(response, "refresh_token", refreshToken.getToken(), 60 * 60 * 24 * 7);
 
         return ResponseEntity.ok(new AuthResponseDTO(usuario.getUsername(), usuario.getEmail()));
     }
-    
-    private void setarCookie(HttpServletResponse res, String name, String value, long maxAge) {
-        ResponseCookie cookie = ResponseCookie.from(name, value)
-            .httpOnly(true)
-            .secure(secure)
-            .path("/")
-            .maxAge(maxAge)
-            .sameSite("None")
-            .build();
-        res.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-    }
-    
-    private void limparCookies(HttpServletResponse res) {
-    	setarCookie(res, "access_token",  "", 0);
-    	setarCookie(res, "refresh_token", "", 0);
-    }
-	
-	
+  
 }

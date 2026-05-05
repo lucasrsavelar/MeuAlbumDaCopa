@@ -315,7 +315,7 @@ function Dashboard() {
 
           {/* Greeting */}
           <div className="dash-greeting">
-            <h1>Progresso do Álbum</h1>
+            <h1>Painel do Colecionador</h1>
           </div>
         </header>
 

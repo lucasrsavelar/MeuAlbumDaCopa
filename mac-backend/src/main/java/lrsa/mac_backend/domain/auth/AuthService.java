@@ -7,12 +7,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import io.micrometer.common.util.StringUtils;
+import jakarta.servlet.http.HttpServletResponse;
 import lrsa.mac_backend.auth.jwt.JwtService;
 import lrsa.mac_backend.auth.refreshToken.RefreshToken;
 import lrsa.mac_backend.auth.refreshToken.RefreshTokenService;
 import lrsa.mac_backend.domain.macUsuario.MACUsuario;
 import lrsa.mac_backend.domain.macUsuario.MACUsuarioRole;
 import lrsa.mac_backend.domain.macUsuario.MACUsuarioService;
+import lrsa.mac_backend.domain.utils.CookieUtils;
+import lrsa.mac_backend.exceptions.InvalidTokenException;
 import lrsa.mac_backend.exceptions.RegisterException;
 import lrsa.mac_backend.exceptions.UnauthorizedException;
 import lrsa.mac_backend.utils.Messages;
@@ -24,6 +27,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final RefreshTokenService refreshTokenService;
+    private final CookieUtils cookieUtils;
     
     private static final String USERNAME_OBRIGATORIO = "Nome de usuário é obrigatório";
     private static final String TAMANHO_USERNAME = "Nome de usuário deve ter entre 2 e 32 caracteres";
@@ -37,11 +41,12 @@ public class AuthService {
     
     private static final String DOMINIO_EMAIL = "@mac.com";
     
-    public AuthService(MACUsuarioService usuarioService, PasswordEncoder passwordEncoder, JwtService jwtService, RefreshTokenService refreshTokenService) {
+    public AuthService(MACUsuarioService usuarioService, PasswordEncoder passwordEncoder, JwtService jwtService, RefreshTokenService refreshTokenService, CookieUtils cookieUtils) {
     	this.usuarioService = usuarioService;
     	this.passwordEncoder = passwordEncoder;
     	this.jwtService = jwtService;
     	this.refreshTokenService = refreshTokenService;
+    	this.cookieUtils = cookieUtils;
     }
 	
 	public MACUsuario login(AuthDTO login) {
@@ -84,15 +89,38 @@ public class AuthService {
         
     }
 	
-	public Optional<MACUsuario> getSession(String accessToken) {
-		
-        if (accessToken == null || !jwtService.isTokenValid(accessToken))
-            return Optional.empty();
+	public Optional<MACUsuario> getSession(String accessToken, String refreshToken, HttpServletResponse response) {
 
-        String userId = jwtService.extractUserId(accessToken);
-        return usuarioService.findByIdUsuario(UUID.fromString(userId));
-        
-    }
+		// Access token válido
+		if (accessToken != null && jwtService.isTokenValid(accessToken)) {
+			String userId = jwtService.extractUserId(accessToken);
+			return usuarioService.findByIdUsuario(UUID.fromString(userId));
+		}
+
+		// Access expirado mas refresh válido
+		if (refreshToken != null) {
+			try {
+				RefreshToken old = jwtService.validateRefreshToken(refreshToken);
+				old.revogar();
+
+				MACUsuario user = old.getUser();
+
+				String newAccessToken = jwtService.generateAccessToken(user);
+				RefreshToken newRefreshToken = jwtService.generateRefreshToken(user);
+
+//				cookieUtils.setarCookie(response, "access_token",  newAccessToken,             60 * 15);
+				cookieUtils.setarCookie(response, "access_token",  newAccessToken,             60 * 1);
+				cookieUtils.setarCookie(response, "refresh_token", newRefreshToken.getToken(), 60 * 60 * 24 * 7);
+
+				return Optional.of(user);
+			} catch (InvalidTokenException e) {
+				return Optional.empty();
+			}
+		}
+
+		// Sem tokens
+		return Optional.empty();
+	}
 	
 	public void logout(String rawToken) {
         if (rawToken != null) {
