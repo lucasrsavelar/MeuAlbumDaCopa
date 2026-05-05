@@ -204,6 +204,12 @@ function VerFigurinhas() {
             {listaFiltrada.map(figurinha => {
               const isExpanded = expandedId === figurinha.id
               const qty = figurinhasUsuario ? figurinhasUsuario[figurinha.id] : undefined
+              
+              const isRepetidas = tipoFiltro === 'repetidas'
+              const duplicates = qty !== undefined && qty > 1 ? qty - 1 : 0
+              const showQtyRow = isRepetidas ? duplicates > 0 : (qty !== undefined && qty > 1)
+              const qtyValueDisplay = isRepetidas ? duplicates : qty
+              const qtyLabel = isRepetidas ? 'Repetidas' : 'Quantidade'
 
               return (
                 <div
@@ -214,11 +220,16 @@ function VerFigurinhas() {
                   tabIndex={0}
                   onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') toggleExpand(figurinha.id) }}
                 >
-                  <div className="vf-card-header">
+                  <div className={`vf-card-header ${isRepetidas && duplicates > 0 ? 'has-badge' : ''}`}>
                     <span className="vf-card-code">{figurinha.codigoFigurinha}</span>
-                    <span className={`material-symbols-outlined vf-card-chevron ${isExpanded ? 'is-open' : ''}`}>
-                      expand_more
-                    </span>
+                    {isRepetidas && duplicates > 0 && (
+                      <span className="vf-card-badge">x{duplicates}</span>
+                    )}
+                    <div className="vf-card-header-actions">
+                      <span className={`material-symbols-outlined vf-card-chevron ${isExpanded ? 'is-open' : ''}`}>
+                        expand_more
+                      </span>
+                    </div>
                   </div>
 
                   {isExpanded && (
@@ -251,11 +262,11 @@ function VerFigurinhas() {
                           <span className="vf-detail-value">{figurinha.tipoFigurinha}</span>
                         </div>
                       )}
-                      {qty !== undefined && qty > 1 && (
+                      {showQtyRow && (
                         <div className="vf-detail-row">
                           <span className="material-symbols-outlined vf-detail-icon">content_copy</span>
-                          <span className="vf-detail-label">Quantidade</span>
-                          <span className="vf-detail-value vf-detail-qty">{qty}×</span>
+                          <span className="vf-detail-label">{qtyLabel}</span>
+                          <span className="vf-detail-value vf-detail-qty">{qtyValueDisplay}×</span>
                         </div>
                       )}
                     </div>
