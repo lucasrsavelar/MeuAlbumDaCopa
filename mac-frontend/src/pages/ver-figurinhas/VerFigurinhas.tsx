@@ -5,6 +5,36 @@ import { useFigurinhasUsuario } from '../../hooks/useFigurinhasUsuario'
 import type { Figurinha, FigurinhasUsuarioMap } from '../../types'
 import './VerFigurinhas.css'
 
+type SortOption = 'alfabetica' | 'album'
+
+const ORDEM_PREFIXOS = [
+  "00", "FWC_1_8", "MEX", "RSA", "KOR", "CZE", "CAN", "BIH", "QAT", "SUI", "BRA",
+  "MAR", "HAI", "SCO", "USA", "PAR", "AUS", "TUR", "GER", "CUW", "CIV", "ECU",
+  "NED", "JPN", "SWE", "TUN", "BEL", "EGY", "IRN", "NZL", "ESP", "CPV", "KSA",
+  "URU", "FRA", "SEN", "IRQ", "NOR", "ARG", "ALG", "AUT", "JOR", "POR", "COD",
+  "UZB", "COL", "ENG", "CRO", "GHA", "PAN", "FWC_9_19"
+]
+
+function getAlbumRank(codigo: string): number {
+  if (codigo === "00") return 0;
+  
+  const match = codigo.match(/^([a-zA-Z]+)(\d+)$/);
+  if (!match) return 999999;
+  
+  const prefix = match[1].toUpperCase();
+  const num = parseInt(match[2], 10);
+  
+  let prefixKey = prefix;
+  if (prefix === "FWC") {
+    prefixKey = num <= 8 ? "FWC_1_8" : "FWC_9_19";
+  }
+  
+  const prefixIndex = ORDEM_PREFIXOS.indexOf(prefixKey);
+  if (prefixIndex === -1) return 999999;
+  
+  return (prefixIndex + 1) * 1000 + num;
+}
+
 type TipoFiltro = 'colecionadas' | 'faltando' | 'repetidas'
 
 const TITULOS: Record<TipoFiltro, string> = {
@@ -46,6 +76,7 @@ function VerFigurinhas() {
   const [expandedId, setExpandedId] = useState<number | null>(null)
   const [busca, setBusca] = useState('')
   const [filtroTipo, setFiltroTipo] = useState<string>('todos')
+  const [sortType, setSortType] = useState<SortOption>('alfabetica')
 
   const { data: figurinhas, isLoading: loadingFigurinhas } = useAllFigurinhas()
   const { data: figurinhasUsuario, isLoading: loadingUsuario } = useFigurinhasUsuario()
@@ -69,15 +100,22 @@ function VerFigurinhas() {
     return Array.from(tipos).sort()
   }, [listaCategoria])
 
-  // Filtra por busca e tipo
+  // Filtra por busca e tipo, e ordena
   const listaFiltrada = useMemo(() => {
-    return listaCategoria.filter(f => {
+    const filtered = listaCategoria.filter(f => {
       const matchBusca = busca === '' ||
         f.codigoFigurinha.toLowerCase().includes(busca.toLowerCase())
       const matchTipo = filtroTipo === 'todos' || f.tipoFigurinha === filtroTipo
       return matchBusca && matchTipo
     })
-  }, [listaCategoria, busca, filtroTipo])
+
+    if (sortType === 'album') {
+      return filtered.sort((a, b) => getAlbumRank(a.codigoFigurinha) - getAlbumRank(b.codigoFigurinha))
+    }
+    
+    // Default alphabetical (preserva a ordem natural vinda do backend)
+    return filtered
+  }, [listaCategoria, busca, filtroTipo, sortType])
 
   const toggleExpand = (id: number) => {
     setExpandedId(prev => prev === id ? null : id)
@@ -122,6 +160,18 @@ function VerFigurinhas() {
                   <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>close</span>
                 </button>
               )}
+            </div>
+
+            <div className="vf-sort-wrapper">
+              <span className="material-symbols-outlined vf-sort-icon">sort</span>
+              <select
+                className="vf-sort-select"
+                value={sortType}
+                onChange={e => setSortType(e.target.value as SortOption)}
+              >
+                <option value="alfabetica">Ordem alfabética</option>
+                <option value="album">Ordem do álbum</option>
+              </select>
             </div>
 
             <div className="vf-tipo-wrapper">
