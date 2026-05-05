@@ -11,8 +11,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 public class CorsConfig {
-	
-	@Value("${app.cors.allowed-origins}")
+		
+	@Value("#{'${app.cors.allowed-origins}'.split(',')}")
 	private List<String> allowedOrigins;
 	
 	private static final List<String> METHODS = List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS");
