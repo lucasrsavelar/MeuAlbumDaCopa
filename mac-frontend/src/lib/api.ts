@@ -13,7 +13,7 @@ async function trySession(): Promise<boolean> {
     isRefreshing = true
 
     try {
-        const res = await fetch(`${BASE}/mac-api/auth/session`, {
+        const res = await fetch(`${BASE}/auth/session`, {
             credentials: 'include'
         })
 

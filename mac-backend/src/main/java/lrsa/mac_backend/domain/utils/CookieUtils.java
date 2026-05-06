@@ -3,8 +3,10 @@ package lrsa.mac_backend.domain.utils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseCookie.ResponseCookieBuilder;
 import org.springframework.stereotype.Component;
 
+import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
@@ -16,14 +18,21 @@ public class CookieUtils {
 	@Value("${https.same-site}")
     private String sameSite;
 	
+	@Value("${https.domain}")
+	private String domain;
+	
 	public void setarCookie(HttpServletResponse res, String name, String value, long maxAge) {
-        ResponseCookie cookie = ResponseCookie.from(name, value)
+        ResponseCookieBuilder builder = ResponseCookie.from(name, value)
             .httpOnly(true)
             .secure(secure)
             .path("/")
             .maxAge(maxAge)
-            .sameSite(sameSite)
-            .build();
+            .sameSite(sameSite);
+        
+        if(!StringUtils.isBlank(domain))
+        	builder.domain(domain);
+           
+        ResponseCookie cookie = builder.build();
         res.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
     }
     
