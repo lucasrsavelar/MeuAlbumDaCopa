@@ -295,10 +295,9 @@ function Dashboard() {
               <span className="dash-header-title">Meu Álbum da Copa</span>
             </div>
             <div className="dash-header-actions">
-              <button
+              <div
                 className="dash-header-user"
                 aria-label="Perfil"
-                onClick={() => setIsSidebarOpen(true)}
               >
                 <div className="dash-header-user-avatar">
                   <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>person</span>
@@ -306,9 +305,9 @@ function Dashboard() {
                 <div className="dash-header-user-info">
                   <span className="dash-header-user-name">{username}</span>
                 </div>
-              </button>
-              <button className="dash-header-logout" aria-label="Sair" onClick={handleLogout} title="Sair">
-                <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>logout</span>
+              </div>
+              <button className="dash-header-menu" aria-label="Menu" onClick={() => setIsSidebarOpen(true)} title="Menu">
+                <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>menu</span>
               </button>
             </div>
           </div>
