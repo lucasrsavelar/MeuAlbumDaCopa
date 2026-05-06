@@ -72,8 +72,7 @@ public class AuthController {
         String accessToken = jwtService.generateAccessToken(usuario);
         RefreshToken refreshToken = jwtService.generateRefreshToken(usuario);
 
-//        cookieUtils.setarCookie(response, "access_token",  accessToken,             60 * 15);
-        cookieUtils.setarCookie(response, "access_token",  accessToken,             60 * 1);
+        cookieUtils.setarCookie(response, "access_token",  accessToken,             60 * 30);
         cookieUtils.setarCookie(response, "refresh_token", refreshToken.getToken(), 60 * 60 * 24 * 7);
 
         return ResponseEntity.ok(new AuthResponseDTO(usuario.getUsername(), usuario.getEmail()));

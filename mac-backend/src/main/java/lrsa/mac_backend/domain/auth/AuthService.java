@@ -108,8 +108,7 @@ public class AuthService {
 				String newAccessToken = jwtService.generateAccessToken(user);
 				RefreshToken newRefreshToken = jwtService.generateRefreshToken(user);
 
-//				cookieUtils.setarCookie(response, "access_token",  newAccessToken,             60 * 15);
-				cookieUtils.setarCookie(response, "access_token",  newAccessToken,             60 * 1);
+				cookieUtils.setarCookie(response, "access_token",  newAccessToken,             60 * 30);
 				cookieUtils.setarCookie(response, "refresh_token", newRefreshToken.getToken(), 60 * 60 * 24 * 7);
 
 				return Optional.of(user);
