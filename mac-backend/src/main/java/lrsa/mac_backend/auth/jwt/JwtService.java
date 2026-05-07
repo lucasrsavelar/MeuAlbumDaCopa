@@ -17,7 +17,7 @@ import io.jsonwebtoken.security.Keys;
 import lrsa.mac_backend.auth.refreshToken.RefreshToken;
 import lrsa.mac_backend.auth.refreshToken.RefreshTokenRepository;
 import lrsa.mac_backend.domain.macUsuario.MACUsuario;
-import lrsa.mac_backend.exceptions.InvalidTokenException;
+import lrsa.mac_backend.exceptionHandler.exceptions.UnauthorizedException;
 import lrsa.mac_backend.utils.Messages;
 
 @Service
@@ -90,10 +90,10 @@ public class JwtService {
 
     public RefreshToken validateRefreshToken(String raw) {
         RefreshToken rt = refreshTokenRepository.findByToken(raw)
-            .orElseThrow(() -> new InvalidTokenException(Messages.INVALID_JWT_TOKEN));
+            .orElseThrow(() -> new UnauthorizedException(Messages.INVALID_JWT_TOKEN));
 
-        if (rt.isRevogado())  throw new InvalidTokenException(Messages.INVALID_JWT_TOKEN);
-        if (rt.isExpirado())  throw new InvalidTokenException(Messages.INVALID_JWT_TOKEN);
+        if (rt.isRevogado())  throw new UnauthorizedException(Messages.INVALID_JWT_TOKEN);
+        if (rt.isExpirado())  throw new UnauthorizedException(Messages.INVALID_JWT_TOKEN);
 
         return rt;
     }

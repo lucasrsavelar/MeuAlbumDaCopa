@@ -1,4 +1,4 @@
-package lrsa.mac_backend.exceptions;
+package lrsa.mac_backend.exceptionHandler.exceptions;
 
 public class UnauthorizedException extends RuntimeException {
 

@@ -8,7 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lrsa.mac_backend.domain.amizade.AmizadeService;
 import lrsa.mac_backend.domain.macUsuario.MACUsuarioService;
-import lrsa.mac_backend.exceptions.FriendshipRequestException;
+import lrsa.mac_backend.exceptionHandler.exceptions.ConflictException;
+import lrsa.mac_backend.exceptionHandler.exceptions.UnprocessableException;
 import lrsa.mac_backend.utils.Messages;
 
 @Service
@@ -27,10 +28,10 @@ public class SolicitacaoAmizadeService {
     @Transactional
     public void enviarSolicitacao(UUID idEnviou, String usernameDestino) {
         UUID idRecebeu = usuarioService.findIdByUsername(usernameDestino)
-            .orElseThrow(() -> new FriendshipRequestException(Messages.USER_NOT_FOUND));
+            .orElseThrow(() -> new UnprocessableException(Messages.USER_NOT_FOUND));
 
         if (solicitacaoAmizadeRepository.existsByIdEnviouAndIdRecebeu(idEnviou, idRecebeu))
-            throw new FriendshipRequestException(Messages.FRIENDSHIP_REQUEST_EXISTS);
+            throw new ConflictException(Messages.FRIENDSHIP_REQUEST_EXISTS);
 
         solicitacaoAmizadeRepository.findByIdEnviouAndIdRecebeu(idRecebeu, idEnviou)
             .ifPresentOrElse(
@@ -47,7 +48,7 @@ public class SolicitacaoAmizadeService {
     @Transactional
     public void aceitarSolicitacao(UUID idSolicitacao) {
     	SolicitacaoAmizade solicitacao = solicitacaoAmizadeRepository.findById(idSolicitacao)
-            .orElseThrow(() -> new FriendshipRequestException(Messages.REQUEST_NOT_FOUND));
+            .orElseThrow(() -> new UnprocessableException(Messages.REQUEST_NOT_FOUND));
 
     	amizadeService.salvar(solicitacao.getIdEnviou(), solicitacao.getIdRecebeu());
     	amizadeService.salvar(solicitacao.getIdRecebeu(), solicitacao.getIdEnviou());
@@ -57,7 +58,7 @@ public class SolicitacaoAmizadeService {
     @Transactional
     public void recusarSolicitacao(UUID idSolicitacao) {
     	SolicitacaoAmizade solicitacao = solicitacaoAmizadeRepository.findById(idSolicitacao)
-            .orElseThrow(() -> new FriendshipRequestException(Messages.REQUEST_NOT_FOUND));
+            .orElseThrow(() -> new UnprocessableException(Messages.REQUEST_NOT_FOUND));
 
     	solicitacaoAmizadeRepository.delete(solicitacao);
     }

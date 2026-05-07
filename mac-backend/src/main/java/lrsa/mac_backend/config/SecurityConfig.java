@@ -15,7 +15,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 import lrsa.mac_backend.auth.jwt.JwtAuthFilter;
 import lrsa.mac_backend.domain.macUsuario.MACUsuarioService;
-import lrsa.mac_backend.exceptions.UnauthorizedException;
+import lrsa.mac_backend.exceptionHandler.exceptions.UnauthorizedException;
 import lrsa.mac_backend.utils.Messages;
 
 @Configuration

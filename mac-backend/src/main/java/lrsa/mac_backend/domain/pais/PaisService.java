@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import lrsa.mac_backend.exceptions.ItemNotFoundException;
+import lrsa.mac_backend.exceptionHandler.exceptions.ItemNotFoundException;
 import lrsa.mac_backend.utils.Messages;
 
 @Service

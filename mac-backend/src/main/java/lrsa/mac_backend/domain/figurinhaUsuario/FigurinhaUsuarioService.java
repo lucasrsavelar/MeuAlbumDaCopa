@@ -51,5 +51,13 @@ public class FigurinhaUsuarioService {
 			
 		}
 	}
+	
+	public boolean usuarioPossuiFigurinhaDaLista(UUID idUsuario, List<Integer> idsFigurinhas) {
+		return figurinhaUsuarioRepository.existsByPkIdUsuarioAndPkIdFigurinhaIn(idUsuario, idsFigurinhas);
+	}
+	
+	public List<FigurinhaUsuario> findRepetidasDaLista(UUID idUsuario, List<Integer> idsFigurinhas, Integer quantidade) {
+		return figurinhaUsuarioRepository.findByPkIdUsuarioAndPkIdFigurinhaInAndQuantidadeGreaterThanEqual(idUsuario, idsFigurinhas, quantidade);
+	}
 
 }

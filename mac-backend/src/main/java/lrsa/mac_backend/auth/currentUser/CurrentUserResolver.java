@@ -11,7 +11,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import lrsa.mac_backend.domain.macUsuario.MACUsuario;
-import lrsa.mac_backend.exceptions.UnauthorizedException;
+import lrsa.mac_backend.exceptionHandler.exceptions.UnauthorizedException;
 import lrsa.mac_backend.utils.Messages;
 
 @Component

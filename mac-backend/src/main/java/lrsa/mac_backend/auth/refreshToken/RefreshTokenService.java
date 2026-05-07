@@ -1,5 +1,6 @@
 package lrsa.mac_backend.auth.refreshToken;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -15,6 +16,10 @@ public class RefreshTokenService {
 	
 	public Optional<RefreshToken> findByToken(String token) {
 		return refreshTokenRepository.findByToken(token);
+	}
+	
+	public void deletarInvalidos() {
+		refreshTokenRepository.deleteInvalidos(LocalDateTime.now());
 	}
 	
 }

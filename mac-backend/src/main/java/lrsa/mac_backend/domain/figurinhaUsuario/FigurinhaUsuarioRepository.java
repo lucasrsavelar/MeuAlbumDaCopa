@@ -14,6 +14,17 @@ public interface FigurinhaUsuarioRepository extends JpaRepository<FigurinhaUsuar
 
 	@Query(value = "SELECT ID_FIGURINHA, QUANTIDADE FROM FIGURINHAS_USUARIO WHERE ID_USUARIO = :idUsuario", nativeQuery = true)
 	public Optional<List<Object[]>> findFigurinhasByUser(@Param("idUsuario") UUID idUsuario);
+	
+	boolean existsByPkIdUsuarioAndPkIdFigurinhaIn(
+            UUID idUsuario,
+            List<Integer> idsFigurinhas
+    );
+	
+	List<FigurinhaUsuario> findByPkIdUsuarioAndPkIdFigurinhaInAndQuantidadeGreaterThanEqual(
+	        UUID idUsuario,
+	        List<Integer> idsFigurinhas,
+	        Integer quantidade
+	);
 
 	@Modifying
 	@Transactional

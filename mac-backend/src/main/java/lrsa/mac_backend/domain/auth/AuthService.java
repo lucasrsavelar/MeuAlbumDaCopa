@@ -15,9 +15,8 @@ import lrsa.mac_backend.domain.macUsuario.MACUsuario;
 import lrsa.mac_backend.domain.macUsuario.MACUsuarioRole;
 import lrsa.mac_backend.domain.macUsuario.MACUsuarioService;
 import lrsa.mac_backend.domain.utils.CookieUtils;
-import lrsa.mac_backend.exceptions.InvalidTokenException;
-import lrsa.mac_backend.exceptions.RegisterException;
-import lrsa.mac_backend.exceptions.UnauthorizedException;
+import lrsa.mac_backend.exceptionHandler.exceptions.UnauthorizedException;
+import lrsa.mac_backend.exceptionHandler.exceptions.UnprocessableException;
 import lrsa.mac_backend.utils.Messages;
 
 @Service
@@ -64,7 +63,7 @@ public class AuthService {
 		
 		String erro = this.erroCadastro(cadastro);
 		if(erro != null)
-			throw new RegisterException(erro);
+			throw new UnprocessableException(erro);
 		
 		MACUsuario usuario = new MACUsuario();
 		usuario.setUsername(cadastro.getUsername());
@@ -112,7 +111,7 @@ public class AuthService {
 				cookieUtils.setarCookie(response, "refresh_token", newRefreshToken.getToken(), 60 * 60 * 24 * 7);
 
 				return Optional.of(user);
-			} catch (InvalidTokenException e) {
+			} catch (UnauthorizedException e) {
 				return Optional.empty();
 			}
 		}
