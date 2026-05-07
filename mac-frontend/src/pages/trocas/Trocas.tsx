@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
 import { useTrocas } from '../../hooks/useTrocas'
 import { useAllFigurinhas } from '../../hooks/useStaticData'
-import type { Figurinha } from '../../types'
+import type { Figurinha, TrocasDTO } from '../../types'
 import './Trocas.css'
 
 function Trocas() {
@@ -39,6 +39,12 @@ function Trocas() {
     return trocas.filter(t => t.euOfereço.length > 0 && t.amigoOferece.length > 0)
   }, [trocas])
 
+  const handleProporTroca = (troca: TrocasDTO) => {
+    navigate(`/propor-troca/${encodeURIComponent(troca.usernameAmigo)}`, {
+      state: { troca },
+    })
+  }
+
   return (
     <div className="tr-container soccer-pattern">
       {/* Header */}
@@ -57,6 +63,14 @@ function Trocas() {
             </p>
           </div>
         </div>
+        <button
+          className="tr-proposals-btn"
+          onClick={() => navigate('/ver-propostas')}
+          title="Ver Propostas"
+          aria-label="Ver Propostas"
+        >
+          <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>mail</span>
+        </button>
       </header>
 
       <main className="tr-content">
@@ -129,6 +143,15 @@ function Trocas() {
                           ))}
                         </div>
                       </div>
+
+                      {/* Botão Propor Troca */}
+                      <button
+                        className="tr-propose-btn"
+                        onClick={(e) => { e.stopPropagation(); handleProporTroca(troca) }}
+                      >
+                        <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>handshake</span>
+                        Propor Troca
+                      </button>
                     </div>
                   )}
                 </div>

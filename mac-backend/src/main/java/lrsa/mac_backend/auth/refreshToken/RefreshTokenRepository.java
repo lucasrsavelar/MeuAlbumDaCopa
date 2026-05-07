@@ -1,6 +1,6 @@
 package lrsa.mac_backend.auth.refreshToken;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,6 +19,6 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Stri
     @Modifying
     @Transactional
     @Query("DELETE FROM RefreshToken r WHERE r.revogado = true OR r.expiracao < :dataCorte")
-    void deleteInvalidos(@Param("dataCorte") LocalDateTime dataCorte);
+    void deleteInvalidos(@Param("dataCorte") Instant dataCorte);
     
 }

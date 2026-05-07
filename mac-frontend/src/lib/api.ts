@@ -89,5 +89,6 @@ export async function apiPatch(path: string, body: unknown) {
 export async function apiDelete(path: string) {
     const res = await apiFetch(path, { method: 'DELETE' })
     if (!res.ok) throw new Error(`Erro ${res.status}`)
+    if (res.status === 204) return null
     return res.json()
 }

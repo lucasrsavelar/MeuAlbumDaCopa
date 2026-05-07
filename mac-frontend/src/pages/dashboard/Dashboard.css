@@ -467,6 +467,22 @@
   transform: translateY(0) scale(0.98);
 }
 
+.dash-action-card.is-proposals {
+  background: var(--color-surface-container);
+  border: 1px solid rgba(183, 196, 255, 0.2);
+  color: var(--text-primary);
+}
+
+.dash-action-card.is-proposals:hover {
+  border-color: var(--color-secondary);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 20px rgba(183, 196, 255, 0.15);
+}
+
+.dash-action-card.is-proposals:active {
+  transform: translateY(0) scale(0.98);
+}
+
 .dash-action-icon {
   display: flex;
   align-items: center;
@@ -487,6 +503,11 @@
 
 .dash-action-card.is-secondary .dash-action-icon {
   background: rgba(0, 82, 254, 0.1);
+  color: var(--color-secondary);
+}
+
+.dash-action-card.is-proposals .dash-action-icon {
+  background: rgba(183, 196, 255, 0.1);
   color: var(--color-secondary);
 }
 

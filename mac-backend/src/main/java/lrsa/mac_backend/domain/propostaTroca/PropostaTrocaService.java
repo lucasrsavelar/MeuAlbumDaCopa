@@ -203,8 +203,8 @@ public class PropostaTrocaService {
 	
 	private boolean existeTrocaEntreUsuarios(UUID idUsuarioEnviou, UUID idUsuarioRecebeu) {
 		
-		if(propostaTrocaRepository.existsByidUsuarioEnviouAndidUsuarioRecebeu(idUsuarioEnviou, idUsuarioRecebeu)
-				|| propostaTrocaRepository.existsByidUsuarioEnviouAndidUsuarioRecebeu(idUsuarioRecebeu, idUsuarioEnviou))
+		if(propostaTrocaRepository.existsByIdUsuarioEnviouAndIdUsuarioRecebeu(idUsuarioEnviou, idUsuarioRecebeu)
+				|| propostaTrocaRepository.existsByIdUsuarioEnviouAndIdUsuarioRecebeu(idUsuarioRecebeu, idUsuarioEnviou))
 			return true;
 		
 		return false;

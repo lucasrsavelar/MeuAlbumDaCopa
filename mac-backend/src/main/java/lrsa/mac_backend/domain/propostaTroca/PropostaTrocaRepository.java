@@ -14,35 +14,35 @@ public interface PropostaTrocaRepository extends JpaRepository<PropostaTroca, UU
 
 	@Query(value = """
 		    SELECT
-		        p.id_proposta,
+		        p.id_proposta_troca,
 		        au.username AS username_enviou,
 		        ptf.id_envia,
 		        ptf.id_recebe,
 		        ptf.id_figurinha
 		    FROM proposta_troca p
 		    JOIN mac_usuario au ON au.id_usuario = p.id_usuario_enviou
-		    JOIN proposta_troca_figurinha ptf ON ptf.id_proposta = p.id_proposta
+		    JOIN proposta_troca_figurinha ptf ON ptf.id_proposta = p.id_proposta_troca
 		    WHERE p.id_usuario_recebeu = :idUsuario
-		    ORDER BY p.id_proposta
+		    ORDER BY p.id_proposta_troca
 		    """, nativeQuery = true)
 		List<Object[]> findPropostasRecebidasRaw(@Param("idUsuario") UUID idUsuario);
 
 		@Query(value = """
 		    SELECT
-		        p.id_proposta,
+		        p.id_proposta_troca,
 		        au.username AS username_recebeu,
 		        ptf.id_envia,
 		        ptf.id_recebe,
 		        ptf.id_figurinha
 		    FROM proposta_troca p
 		    JOIN mac_usuario au ON au.id_usuario = p.id_usuario_recebeu
-		    JOIN proposta_troca_figurinha ptf ON ptf.id_proposta = p.id_proposta
+		    JOIN proposta_troca_figurinha ptf ON ptf.id_proposta = p.id_proposta_troca
 		    WHERE p.id_usuario_enviou = :idUsuario
-		    ORDER BY p.id_proposta
+		    ORDER BY p.id_proposta_troca
 		    """, nativeQuery = true)
 		List<Object[]> findPropostasEnviadasRaw(@Param("idUsuario") UUID idUsuario);
     
-    boolean existsByidUsuarioEnviouAndidUsuarioRecebeu(UUID idUsuarioEnviou, UUID idUsuarioRecebeu);
+    boolean existsByIdUsuarioEnviouAndIdUsuarioRecebeu(UUID idUsuarioEnviou, UUID idUsuarioRecebeu);
     
     boolean existsByIdPropostaTroca(UUID idPropostaTroca);
     

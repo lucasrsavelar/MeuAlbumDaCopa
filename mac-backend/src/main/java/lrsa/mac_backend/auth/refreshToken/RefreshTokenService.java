@@ -1,5 +1,6 @@
 package lrsa.mac_backend.auth.refreshToken;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -19,7 +20,7 @@ public class RefreshTokenService {
 	}
 	
 	public void deletarInvalidos() {
-		refreshTokenRepository.deleteInvalidos(LocalDateTime.now());
+		refreshTokenRepository.deleteInvalidos(Instant.now());
 	}
 	
 }

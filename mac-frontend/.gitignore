@@ -24,7 +24,8 @@ dist-ssr
 *.sw?
 .env
 
-SUMMARY.md
+.agent/
+.agent/*
+**/.agent/
+
 BACKEND.md
-BUSCARUSUARIO.md
-ORDEM.md

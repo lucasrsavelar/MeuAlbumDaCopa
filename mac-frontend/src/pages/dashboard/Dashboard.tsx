@@ -382,7 +382,7 @@ function Dashboard() {
               {/* Quick Actions */}
               <section className="dash-actions" id="dash-actions">
                 <button
-                  className="dash-action-card is-primary is-full"
+                  className="dash-action-card is-primary"
                   onClick={() => navigate('/adicionar-figurinha')}
                 >
                   <div className="dash-action-icon">
@@ -391,6 +391,19 @@ function Dashboard() {
                   <div>
                     <div className="dash-action-label">Adicionar Figurinha</div>
                     <div className="dash-action-hint">Registre novas figurinhas</div>
+                  </div>
+                </button>
+
+                <button
+                  className="dash-action-card is-proposals"
+                  onClick={() => navigate('/ver-propostas')}
+                >
+                  <div className="dash-action-icon">
+                    <span className="material-symbols-outlined" style={{ fontSize: '28px' }}>mail</span>
+                  </div>
+                  <div>
+                    <div className="dash-action-label">Ver Propostas</div>
+                    <div className="dash-action-hint">Propostas de troca</div>
                   </div>
                 </button>
 

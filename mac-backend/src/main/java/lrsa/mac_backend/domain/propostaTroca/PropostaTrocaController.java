@@ -7,7 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lrsa.mac_backend.auth.currentUser.CurrentUser;
@@ -23,13 +25,13 @@ public class PropostaTrocaController {
 	}
 	
 	@PostMapping("/enviar")
-	public ResponseEntity<?> enviarPropostaTroca(@CurrentUser UUID idUsuario, PropostaTrocaEnviadaDTO proposta) {
+	public ResponseEntity<?> enviarPropostaTroca(@CurrentUser UUID idUsuario, @RequestBody PropostaTrocaEnviadaDTO proposta) {
 		propostaTrocaService.enviarPropostaTroca(idUsuario, proposta);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@PostMapping("/aceitar")
-	public ResponseEntity<?> aceitarPropostaTroca(@CurrentUser UUID idUsuario, UUID idProposta) {
+	public ResponseEntity<?> aceitarPropostaTroca(@CurrentUser UUID idUsuario, @RequestParam UUID idProposta) {
 		propostaTrocaService.aceitarPropostaTroca(idUsuario, idProposta);
 		return ResponseEntity.noContent().build();
 	}
@@ -45,13 +47,13 @@ public class PropostaTrocaController {
 	}
 	
 	@PostMapping("/recusar")
-	public ResponseEntity<?> recusarPropostaTroca(@CurrentUser UUID idUsuario, UUID idProposta) {
+	public ResponseEntity<?> recusarPropostaTroca(@CurrentUser UUID idUsuario, @RequestParam UUID idProposta) {
 		propostaTrocaService.recusarPropostaTroca(idUsuario, idProposta);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@DeleteMapping("/cancelar")
-	public ResponseEntity<?> cancelarPropostaTroca(@CurrentUser UUID idUsuario, UUID idProposta) {
+	public ResponseEntity<?> cancelarPropostaTroca(@CurrentUser UUID idUsuario, @RequestParam UUID idProposta) {
 		propostaTrocaService.cancelarPropostaTroca(idUsuario, idProposta);
 		return ResponseEntity.noContent().build();
 	}

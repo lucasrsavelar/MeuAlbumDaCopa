@@ -47,3 +47,22 @@ export interface TrocasDTO {
   euOfereço: number[]
   amigoOferece: number[]
 }
+
+/**
+ * DTO enviado no POST /proposta-troca/enviar
+ */
+export interface PropostaTrocaEnviadaDTO {
+  usernameDestino: string
+  figurinhasOferecidas: number[]
+  figurinhasDesejadas: number[]
+}
+
+/**
+ * DTO retornado por GET /proposta-troca/recebidas e /enviadas
+ */
+export interface PropostaTrocaRecebidaDTO {
+  idProposta: string
+  usernameEnviou: string
+  figurinhasOferecidas: number[]
+  figurinhasDesejadas: number[]
+}

@@ -45,6 +45,28 @@
   align-items: center;
   gap: var(--spacing-sm);
   min-width: 0;
+  flex: 1;
+}
+
+.tr-proposals-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: rgba(0, 82, 254, 0.1);
+  border: 1px solid rgba(0, 82, 254, 0.2);
+  color: var(--color-secondary);
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.tr-proposals-btn:hover {
+  background: rgba(0, 82, 254, 0.18);
+  border-color: rgba(0, 82, 254, 0.35);
+  color: var(--color-secondary);
 }
 
 .tr-header-icon {
@@ -293,6 +315,36 @@
   border: 1px solid rgba(242, 204, 0, 0.15);
 }
 
+/* --- Propose Trade Button --- */
+.tr-propose-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin-top: var(--spacing-sm);
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-on-primary);
+  background: var(--gradient-primary);
+  border: none;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  letter-spacing: 0.01em;
+}
+
+.tr-propose-btn:hover {
+  box-shadow: var(--shadow-glow-green);
+  transform: translateY(-1px);
+}
+
+.tr-propose-btn:active {
+  transform: translateY(0);
+}
+
 /* ===== Tablet (≥ 768px) ===== */
 @media (min-width: 768px) {
   .tr-header {
@@ -309,11 +361,18 @@
 
   .tr-card-details {
     flex-direction: row;
+    flex-wrap: wrap;
     gap: var(--spacing-xl);
   }
 
   .tr-section {
     flex: 1;
+  }
+
+  .tr-propose-btn {
+    flex-basis: 100%;
+    max-width: 280px;
+    margin: 0 auto;
   }
 }
 
