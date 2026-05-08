@@ -12,8 +12,9 @@ import {
   useAceitarSolicitacao,
   useRecusarSolicitacao,
 } from '../../hooks/useSolicitacaoAmizade'
-import './Dashboard.css'
 import { useAuth } from '../../context/AuthContext'
+import './Dashboard.css'
+import logoSvg from '../../assets/logo.svg'
 
 function Dashboard() {
   const navigate = useNavigate()
@@ -109,11 +110,7 @@ function Dashboard() {
             <span className="material-symbols-outlined">arrow_back</span>
           </button>
           <div className="dash-sidebar-logo">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10" />
-              <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-              <path d="M2 12h20" />
-            </svg>
+            <img src={logoSvg} alt="Meu Álbum da Copa" className="dash-logo-img" />
           </div>
           <span className="dash-sidebar-title">Meu Álbum da Copa</span>
         </div>
@@ -285,11 +282,7 @@ function Dashboard() {
           <div className="dash-header-top">
             <div className="dash-header-brand">
               <div className="dash-header-logo">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-                  <path d="M2 12h20" />
-                </svg>
+                <img src={logoSvg} alt="Meu Álbum da Copa" className="dash-logo-img" />
               </div>
               <span className="dash-header-title">Meu Álbum da Copa</span>
             </div>

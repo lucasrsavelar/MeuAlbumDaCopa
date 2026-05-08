@@ -1,7 +1,6 @@
 package lrsa.mac_backend.auth.refreshToken;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;

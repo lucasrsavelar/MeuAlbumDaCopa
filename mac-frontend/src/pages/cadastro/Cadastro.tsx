@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { register } from '../../services/authService'
 import { validateUsername } from './Cadastro.scripts'
 import './Cadastro.css'
+import logoImg from '../../assets/logo2.png'
 
 function Cadastro() {
   const navigate = useNavigate()
@@ -58,11 +59,7 @@ function Cadastro() {
       <aside className="cadastro-brand-panel">
         <div className="cadastro-brand-panel-content">
           <div className="cadastro-brand-panel-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10" />
-              <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-              <path d="M2 12h20" />
-            </svg>
+            <img src={logoImg} alt="Meu Álbum da Copa" className="cadastro-logo-img" />
           </div>
           <h2 className="cadastro-brand-panel-title">Junte-se<br />à Coleção</h2>
 
@@ -101,13 +98,9 @@ function Cadastro() {
           {/* Logo (mobile/tablet only) */}
           <div className="cadastro-logo">
             <div className="cadastro-logo-icon">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-                <path d="M2 12h20" />
-              </svg>
+              <img src={logoImg} alt="Meu Álbum da Copa" className="cadastro-logo-img-mobile" />
             </div>
-            <span className="cadastro-brand-text">Meu Álbum da Copa</span>
+            <h1 className="cadastro-logo-text">Meu Álbum da Copa</h1>
           </div>
 
           {/* Header */}
