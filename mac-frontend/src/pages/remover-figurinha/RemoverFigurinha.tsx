@@ -219,11 +219,13 @@ function RemoverFigurinha() {
                 const qty = qtdAtual(fig.id)
                 const original = qtdOriginal(fig.id)
                 const changed = isSelected && qty !== original
+                const isNova = qty === 1
+                const isRepetida = qty >= 2
 
                 return (
                   <button
                     key={fig.id}
-                    className={`rf-card ${isSelected ? 'is-selected' : ''} ${changed ? 'is-changed' : ''}`}
+                    className={`rf-card ${isSelected ? 'is-selected' : ''} ${changed ? 'is-changed' : ''} ${isNova ? 'is-nova' : ''} ${isRepetida ? 'is-repetida' : ''}`}
                     onClick={() => selecionarFigurinha(fig)}
                     title={`${fig.codigoFigurinha} — ${original}×`}
                   >

@@ -110,7 +110,7 @@ function VerPropostas() {
         </button>
         <div className="vp-header-info">
           <div className="vp-header-icon">
-            <span className="material-symbols-outlined">mail</span>
+            <span className="material-symbols-outlined">handshake</span>
           </div>
           <div>
             <h1 className="vp-title">Propostas de Troca</h1>

@@ -69,7 +69,7 @@ function Trocas() {
           title="Ver Propostas"
           aria-label="Ver Propostas"
         >
-          <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>mail</span>
+          <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>handshake</span>
         </button>
       </header>
 

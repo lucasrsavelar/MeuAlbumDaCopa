@@ -254,7 +254,6 @@ function Dashboard() {
                     <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>person</span>
                   </div>
                   <span className="dash-friend-name">{amigo}</span>
-                  <div className="dash-friend-status" />
                 </div>
               ))}
             </div>
@@ -395,15 +394,15 @@ function Dashboard() {
                 </button>
 
                 <button
-                  className="dash-action-card is-proposals"
-                  onClick={() => navigate('/ver-propostas')}
+                  className="dash-action-card is-secondary"
+                  onClick={() => navigate('/trocas')}
                 >
                   <div className="dash-action-icon">
-                    <span className="material-symbols-outlined" style={{ fontSize: '28px' }}>mail</span>
+                    <span className="material-symbols-outlined" style={{ fontSize: '28px' }}>swap_horiz</span>
                   </div>
                   <div>
-                    <div className="dash-action-label">Ver Propostas</div>
-                    <div className="dash-action-hint">Propostas de troca</div>
+                    <div className="dash-action-label">Ver Trocas</div>
+                    <div className="dash-action-hint">Gerencie suas trocas</div>
                   </div>
                 </button>
 
@@ -421,15 +420,15 @@ function Dashboard() {
                 </button>
 
                 <button
-                  className="dash-action-card is-secondary"
-                  onClick={() => navigate('/trocas')}
+                  className="dash-action-card is-proposals"
+                  onClick={() => navigate('/ver-propostas')}
                 >
                   <div className="dash-action-icon">
-                    <span className="material-symbols-outlined" style={{ fontSize: '28px' }}>swap_horiz</span>
+                    <span className="material-symbols-outlined" style={{ fontSize: '28px' }}>handshake</span>
                   </div>
                   <div>
-                    <div className="dash-action-label">Ver Trocas</div>
-                    <div className="dash-action-hint">Gerencie suas trocas</div>
+                    <div className="dash-action-label">Ver Propostas</div>
+                    <div className="dash-action-hint">Propostas de troca</div>
                   </div>
                 </button>
               </section>

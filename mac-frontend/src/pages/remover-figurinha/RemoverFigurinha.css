@@ -278,6 +278,16 @@
   box-shadow: var(--shadow-card-hover);
 }
 
+.rf-card.is-nova {
+  border-color: rgba(65, 236, 118, 0.4);
+  background: rgba(65, 236, 118, 0.05);
+}
+
+.rf-card.is-repetida {
+  border-color: rgba(242, 204, 0, 0.4);
+  background: rgba(242, 204, 0, 0.05);
+}
+
 .rf-card.is-selected {
   border-color: rgba(255, 180, 171, 0.3);
   background: rgba(255, 180, 171, 0.04);
