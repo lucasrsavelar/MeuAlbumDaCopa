@@ -165,6 +165,9 @@ public class PropostaTrocaService {
 		
 		figurinhaUsuarioService.adicionarFigurinhas(idUsuarioEnviou, entreguesUsuarioRecebeu);
 		figurinhaUsuarioService.corrigirFigurinhas(idUsuarioRecebeu, novasUsuarioEnviou);
+		
+		propostaTrocaFigurinhaService.deletarByIdProposta(idProposta);
+		propostaTrocaRepository.delete(proposta);
 			
 	}
 	
