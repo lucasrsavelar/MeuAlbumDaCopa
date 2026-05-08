@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './Login.css'
 import { useAuth } from '../../context/AuthContext'
+import logoImg from '../../assets/logo.png'
 
 function Login() {
   const { login } = useAuth()
@@ -41,11 +42,7 @@ function Login() {
       <aside className="login-brand-panel">
         <div className="login-brand-panel-content">
           <div className="login-brand-panel-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10" />
-              <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-              <path d="M2 12h20" />
-            </svg>
+            <img src={logoImg} alt="MAC 26 Logo" />
           </div>
           <h2 className="login-brand-panel-title">Meu Álbum<br />da Copa</h2>
           <p className="login-brand-panel-subtitle">
@@ -60,11 +57,7 @@ function Login() {
           {/* Logo (mobile/tablet only) */}
           <div className="login-logo">
             <div className="login-logo-icon">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-                <path d="M2 12h20" />
-              </svg>
+              <img src={logoImg} alt="MAC 26 Logo" />
             </div>
             <span className="login-brand-text">Meu Álbum da Copa</span>
           </div>

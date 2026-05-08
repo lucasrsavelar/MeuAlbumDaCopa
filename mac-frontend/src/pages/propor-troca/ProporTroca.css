@@ -37,7 +37,7 @@
 .pt-back:hover {
   border-color: var(--color-primary);
   color: var(--color-primary);
-  background: rgba(0, 207, 93, 0.08);
+  background: rgba(0, 166, 81, 0.08);
 }
 
 .pt-header-info {
@@ -54,7 +54,7 @@
   width: 40px;
   height: 40px;
   border-radius: var(--radius-md);
-  background: rgba(0, 82, 254, 0.12);
+  background: rgba(27, 42, 91, 0.12);
   color: var(--color-secondary);
   flex-shrink: 0;
 }
@@ -64,7 +64,7 @@
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--text-primary);
-  letter-spacing: -0.02em;
+  letter-spacing: 0.03em; text-transform: uppercase;
   line-height: 1.2;
 }
 
@@ -113,8 +113,8 @@
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--color-primary);
-  background: rgba(0, 207, 93, 0.1);
-  border: 1px solid rgba(65, 236, 118, 0.2);
+  background: rgba(0, 166, 81, 0.1);
+  border: 1px solid rgba(230, 57, 70, 0.2);
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--radius-md);
   cursor: pointer;
@@ -122,8 +122,8 @@
 }
 
 .pt-back-link:hover {
-  background: rgba(0, 207, 93, 0.18);
-  border-color: rgba(65, 236, 118, 0.35);
+  background: rgba(0, 166, 81, 0.18);
+  border-color: rgba(230, 57, 70, 0.35);
 }
 
 /* --- Warning Banner --- */
@@ -180,15 +180,15 @@
 }
 
 .pt-toast-success {
-  background: rgba(65, 236, 118, 0.1);
+  background: rgba(230, 57, 70, 0.1);
   color: var(--color-primary);
-  border: 1px solid rgba(65, 236, 118, 0.2);
+  border: 1px solid rgba(230, 57, 70, 0.2);
 }
 
 .pt-toast-error {
-  background: rgba(255, 180, 171, 0.1);
+  background: rgba(255, 107, 107, 0.1);
   color: var(--color-error);
-  border: 1px solid rgba(255, 180, 171, 0.2);
+  border: 1px solid rgba(255, 107, 107, 0.2);
 }
 
 /* --- Sections Container --- */
@@ -257,8 +257,8 @@
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--color-secondary);
-  background: rgba(0, 82, 254, 0.08);
-  border: 1px solid rgba(0, 82, 254, 0.15);
+  background: rgba(27, 42, 91, 0.08);
+  border: 1px solid rgba(27, 42, 91, 0.15);
   padding: 4px 12px;
   border-radius: var(--radius-full);
   cursor: pointer;
@@ -266,8 +266,8 @@
 }
 
 .pt-select-all:hover {
-  background: rgba(0, 82, 254, 0.15);
-  border-color: rgba(0, 82, 254, 0.3);
+  background: rgba(27, 42, 91, 0.15);
+  border-color: rgba(27, 42, 91, 0.3);
 }
 
 /* --- Sticker Grid --- */
@@ -310,9 +310,9 @@
 
 /* Receive variant */
 .pt-sticker-card.is-receive.is-selected {
-  border-color: rgba(65, 236, 118, 0.5);
-  background: rgba(65, 236, 118, 0.08);
-  box-shadow: 0 0 12px rgba(65, 236, 118, 0.1);
+  border-color: rgba(230, 57, 70, 0.5);
+  background: rgba(230, 57, 70, 0.08);
+  box-shadow: 0 0 12px rgba(230, 57, 70, 0.1);
 }
 
 .pt-sticker-code {
@@ -490,7 +490,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 207, 93, 0.12);
+  background: rgba(0, 166, 81, 0.12);
   color: var(--color-primary);
 }
 

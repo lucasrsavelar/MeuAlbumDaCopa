@@ -37,7 +37,7 @@
 .rf-back:hover {
   border-color: var(--color-error);
   color: var(--color-error);
-  background: rgba(255, 180, 171, 0.08);
+  background: rgba(255, 107, 107, 0.08);
 }
 
 .rf-header-info {
@@ -54,7 +54,7 @@
   width: 40px;
   height: 40px;
   border-radius: var(--radius-md);
-  background: rgba(255, 180, 171, 0.12);
+  background: rgba(255, 107, 107, 0.12);
   color: var(--color-error);
   flex-shrink: 0;
 }
@@ -64,7 +64,7 @@
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--text-primary);
-  letter-spacing: -0.02em;
+  letter-spacing: 0.03em; text-transform: uppercase;
   line-height: 1.2;
 }
 
@@ -88,15 +88,15 @@
 }
 
 .rf-toast-success {
-  background: rgba(0, 207, 93, 0.1);
+  background: rgba(0, 166, 81, 0.1);
   color: var(--color-primary);
-  border-bottom: 1px solid rgba(65, 236, 118, 0.15);
+  border-bottom: 1px solid rgba(230, 57, 70, 0.15);
 }
 
 .rf-toast-error {
-  background: rgba(255, 180, 171, 0.1);
+  background: rgba(255, 107, 107, 0.1);
   color: var(--color-error);
-  border-bottom: 1px solid rgba(255, 180, 171, 0.15);
+  border-bottom: 1px solid rgba(255, 107, 107, 0.15);
 }
 
 /* --- Main --- */
@@ -279,8 +279,8 @@
 }
 
 .rf-card.is-nova {
-  border-color: rgba(65, 236, 118, 0.4);
-  background: rgba(65, 236, 118, 0.05);
+  border-color: rgba(230, 57, 70, 0.4);
+  background: rgba(230, 57, 70, 0.05);
 }
 
 .rf-card.is-repetida {
@@ -289,13 +289,13 @@
 }
 
 .rf-card.is-selected {
-  border-color: rgba(255, 180, 171, 0.3);
-  background: rgba(255, 180, 171, 0.04);
+  border-color: rgba(255, 107, 107, 0.3);
+  background: rgba(255, 107, 107, 0.04);
 }
 
 .rf-card.is-changed {
   border-color: var(--color-error);
-  box-shadow: 0 0 0 1px rgba(255, 180, 171, 0.2);
+  box-shadow: 0 0 0 1px rgba(255, 107, 107, 0.2);
 }
 
 .rf-card-code {
@@ -367,7 +367,7 @@
 }
 
 .rf-summary-item.is-changed {
-  border-color: rgba(255, 180, 171, 0.15);
+  border-color: rgba(255, 107, 107, 0.15);
 }
 
 .rf-summary-info {
@@ -433,7 +433,7 @@
 .rf-qty-btn:hover:not(:disabled) {
   border-color: var(--color-error);
   color: var(--color-error);
-  background: rgba(255, 180, 171, 0.08);
+  background: rgba(255, 107, 107, 0.08);
 }
 
 .rf-qty-btn:disabled {
@@ -471,7 +471,7 @@
 .rf-cancel-btn:hover {
   border-color: var(--color-secondary);
   color: var(--color-secondary);
-  background: rgba(0, 82, 254, 0.08);
+  background: rgba(27, 42, 91, 0.08);
 }
 
 /* --- Bottom bar --- */
@@ -503,11 +503,11 @@
   font-weight: 600;
   cursor: pointer;
   transition: all var(--transition-fast);
-  box-shadow: 0 4px 20px rgba(255, 180, 171, 0.25);
+  box-shadow: 0 4px 20px rgba(255, 107, 107, 0.25);
 }
 
 .rf-submit-btn:hover:not(:disabled) {
-  box-shadow: 0 8px 30px rgba(255, 180, 171, 0.35);
+  box-shadow: 0 8px 30px rgba(255, 107, 107, 0.35);
   transform: translateY(-1px);
 }
 

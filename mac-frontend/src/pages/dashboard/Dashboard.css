@@ -59,7 +59,7 @@
   right: -15%;
   width: 350px;
   height: 350px;
-  background: radial-gradient(circle, rgba(0, 207, 93, 0.07) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(0, 166, 81, 0.07) 0%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -83,18 +83,23 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  background: rgba(0, 207, 93, 0.12);
-  border: 1px solid rgba(65, 236, 118, 0.15);
   border-radius: var(--radius-md);
-  color: var(--color-primary);
+  overflow: hidden;
+}
+
+.dash-header-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .dash-header-title {
   font-family: var(--font-heading);
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 700;
   color: var(--text-primary);
-  letter-spacing: -0.01em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .dash-header-user {
@@ -147,8 +152,8 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  background: rgba(255, 180, 171, 0.08);
-  border: 1px solid rgba(255, 180, 171, 0.15);
+  background: rgba(255, 107, 107, 0.08);
+  border: 1px solid rgba(255, 107, 107, 0.15);
   border-radius: var(--radius-full);
   color: var(--color-error);
   transition: all var(--transition-fast);
@@ -157,8 +162,8 @@
 }
 
 .dash-sidebar-logout:hover {
-  background: rgba(255, 180, 171, 0.15);
-  border-color: rgba(255, 180, 171, 0.3);
+  background: rgba(255, 107, 107, 0.15);
+  border-color: rgba(255, 107, 107, 0.3);
 }
 
 .dash-header-menu {
@@ -187,10 +192,11 @@
 
 .dash-greeting h1 {
   font-family: var(--font-heading);
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: 700;
   color: var(--text-primary);
-  letter-spacing: -0.02em;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
   margin-bottom: 0.2rem;
 }
 
@@ -211,7 +217,7 @@
 /* --- Progress Card --- */
 .dash-progress {
   background: var(--color-surface-container);
-  border: 1px solid rgba(65, 236, 118, 0.08);
+  border: 1px solid rgba(230, 57, 70, 0.08);
   border-radius: var(--radius-xl);
   padding: var(--spacing-lg);
   position: relative;
@@ -226,7 +232,7 @@
   right: -15%;
   width: 200px;
   height: 200px;
-  background: radial-gradient(circle, rgba(65, 236, 118, 0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(230, 57, 70, 0.06) 0%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -363,12 +369,12 @@
 }
 
 .dash-stat-icon.is-collected {
-  background: rgba(0, 207, 93, 0.1);
+  background: rgba(0, 166, 81, 0.1);
   color: var(--color-primary);
 }
 
 .dash-stat-icon.is-missing {
-  background: rgba(183, 196, 255, 0.1);
+  background: rgba(123, 154, 204, 0.1);
   color: var(--color-secondary);
 }
 
@@ -423,12 +429,12 @@
 .dash-action-card.is-primary {
   background: var(--gradient-primary);
   color: white;
-  box-shadow: 0 4px 20px rgba(0, 207, 93, 0.25);
+  box-shadow: 0 4px 20px rgba(212, 25, 32, 0.25);
 }
 
 .dash-action-card.is-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(0, 207, 93, 0.35);
+  box-shadow: 0 8px 30px rgba(212, 25, 32, 0.35);
 }
 
 .dash-action-card.is-primary:active {
@@ -437,14 +443,14 @@
 
 .dash-action-card.is-danger {
   background: var(--color-surface-container);
-  border: 1px solid rgba(255, 180, 171, 0.2);
+  border: 1px solid rgba(255, 107, 107, 0.2);
   color: var(--text-primary);
 }
 
 .dash-action-card.is-danger:hover {
   border-color: var(--color-error);
   transform: translateY(-3px);
-  box-shadow: 0 4px 20px rgba(255, 180, 171, 0.15);
+  box-shadow: 0 4px 20px rgba(255, 107, 107, 0.15);
 }
 
 .dash-action-card.is-danger:active {
@@ -460,7 +466,7 @@
 .dash-action-card.is-secondary:hover {
   border-color: var(--color-secondary);
   transform: translateY(-3px);
-  box-shadow: 0 4px 20px rgba(0, 82, 254, 0.15);
+  box-shadow: 0 4px 20px rgba(27, 42, 91, 0.15);
 }
 
 .dash-action-card.is-secondary:active {
@@ -469,14 +475,14 @@
 
 .dash-action-card.is-proposals {
   background: var(--color-surface-container);
-  border: 1px solid rgba(183, 196, 255, 0.2);
+  border: 1px solid rgba(123, 154, 204, 0.2);
   color: var(--text-primary);
 }
 
 .dash-action-card.is-proposals:hover {
   border-color: var(--color-secondary);
   transform: translateY(-3px);
-  box-shadow: 0 4px 20px rgba(183, 196, 255, 0.15);
+  box-shadow: 0 4px 20px rgba(123, 154, 204, 0.15);
 }
 
 .dash-action-card.is-proposals:active {
@@ -497,17 +503,17 @@
 }
 
 .dash-action-card.is-danger .dash-action-icon {
-  background: rgba(255, 180, 171, 0.1);
+  background: rgba(255, 107, 107, 0.1);
   color: var(--color-error);
 }
 
 .dash-action-card.is-secondary .dash-action-icon {
-  background: rgba(0, 82, 254, 0.1);
+  background: rgba(27, 42, 91, 0.1);
   color: var(--color-secondary);
 }
 
 .dash-action-card.is-proposals .dash-action-icon {
-  background: rgba(183, 196, 255, 0.1);
+  background: rgba(123, 154, 204, 0.1);
   color: var(--color-secondary);
 }
 
@@ -669,17 +675,23 @@
   justify-content: center;
   width: 44px;
   height: 44px;
-  background: rgba(0, 207, 93, 0.12);
-  border: 1px solid rgba(65, 236, 118, 0.15);
   border-radius: var(--radius-md);
-  color: var(--color-primary);
+  overflow: hidden;
+}
+
+.dash-sidebar-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .dash-sidebar-title {
   font-family: var(--font-heading);
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--text-primary);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .dash-sidebar-nav {
@@ -714,7 +726,7 @@
 
 .dash-sidebar-link.is-active {
   color: var(--color-primary);
-  background: rgba(0, 207, 93, 0.08);
+  background: rgba(230, 57, 70, 0.08);
   font-weight: 600;
 }
 
@@ -935,7 +947,7 @@
 }
 
 .dash-search-add-btn:hover {
-  background: rgba(0, 207, 93, 0.1);
+  background: rgba(0, 166, 81, 0.1);
 }
 
 .dash-sidebar-divider {
@@ -968,7 +980,7 @@
   font-size: 0.65rem;
   font-weight: 700;
   color: var(--color-primary);
-  background: rgba(0, 207, 93, 0.1);
+  background: rgba(0, 166, 81, 0.1);
   padding: 1px 7px;
   border-radius: var(--radius-full);
 }
@@ -1076,7 +1088,7 @@
 
 /* --- Pending requests count badge --- */
 .dash-sidebar-section-count.is-pending {
-  background: rgba(255, 180, 171, 0.15);
+  background: rgba(255, 107, 107, 0.15);
   color: var(--color-error);
 }
 
@@ -1126,22 +1138,22 @@
 
 .dash-request-btn.is-accept {
   color: var(--color-primary);
-  background: rgba(0, 207, 93, 0.08);
-  border: 1px solid rgba(65, 236, 118, 0.15);
+  background: rgba(0, 166, 81, 0.08);
+  border: 1px solid rgba(230, 57, 70, 0.15);
 }
 
 .dash-request-btn.is-accept:hover:not(:disabled) {
-  background: rgba(0, 207, 93, 0.15);
-  border-color: rgba(65, 236, 118, 0.3);
+  background: rgba(0, 166, 81, 0.15);
+  border-color: rgba(230, 57, 70, 0.3);
 }
 
 .dash-request-btn.is-reject {
   color: var(--color-error);
-  background: rgba(255, 180, 171, 0.06);
-  border: 1px solid rgba(255, 180, 171, 0.12);
+  background: rgba(255, 107, 107, 0.06);
+  border: 1px solid rgba(255, 107, 107, 0.12);
 }
 
 .dash-request-btn.is-reject:hover:not(:disabled) {
-  background: rgba(255, 180, 171, 0.12);
-  border-color: rgba(255, 180, 171, 0.25);
+  background: rgba(255, 107, 107, 0.12);
+  border-color: rgba(255, 107, 107, 0.25);
 }

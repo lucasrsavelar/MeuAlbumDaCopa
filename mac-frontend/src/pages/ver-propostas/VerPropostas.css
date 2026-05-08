@@ -37,7 +37,7 @@
 .vp-back:hover {
   border-color: var(--color-primary);
   color: var(--color-primary);
-  background: rgba(0, 207, 93, 0.08);
+  background: rgba(0, 166, 81, 0.08);
 }
 
 .vp-header-info {
@@ -54,7 +54,7 @@
   width: 40px;
   height: 40px;
   border-radius: var(--radius-md);
-  background: rgba(0, 82, 254, 0.12);
+  background: rgba(27, 42, 91, 0.12);
   color: var(--color-secondary);
   flex-shrink: 0;
 }
@@ -64,7 +64,7 @@
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--text-primary);
-  letter-spacing: -0.02em;
+  letter-spacing: 0.03em; text-transform: uppercase;
   line-height: 1.2;
 }
 
@@ -88,15 +88,15 @@
 }
 
 .vp-toast-error {
-  background: rgba(255, 180, 171, 0.1);
+  background: rgba(255, 107, 107, 0.1);
   color: var(--color-error);
-  border-bottom: 1px solid rgba(255, 180, 171, 0.15);
+  border-bottom: 1px solid rgba(255, 107, 107, 0.15);
 }
 
 .vp-toast-success {
-  background: rgba(0, 207, 93, 0.1);
+  background: rgba(0, 166, 81, 0.1);
   color: var(--color-primary);
-  border-bottom: 1px solid rgba(65, 236, 118, 0.15);
+  border-bottom: 1px solid rgba(230, 57, 70, 0.15);
 }
 
 /* --- Content --- */
@@ -144,7 +144,7 @@
 .vp-tab.is-active {
   color: var(--color-on-primary);
   background: var(--gradient-primary);
-  box-shadow: 0 2px 8px rgba(65, 236, 118, 0.2);
+  box-shadow: 0 2px 8px rgba(230, 57, 70, 0.2);
 }
 
 .vp-tab-badge {
@@ -228,8 +228,8 @@
 }
 
 .vp-card.is-expanded {
-  border-color: rgba(0, 82, 254, 0.2);
-  box-shadow: 0 4px 20px rgba(0, 82, 254, 0.08);
+  border-color: rgba(27, 42, 91, 0.2);
+  box-shadow: 0 4px 20px rgba(27, 42, 91, 0.08);
 }
 
 .vp-card-header {
@@ -379,9 +379,9 @@
 }
 
 .vp-chip.is-receive {
-  background: rgba(0, 207, 93, 0.1);
+  background: rgba(0, 166, 81, 0.1);
   color: var(--color-primary);
-  border: 1px solid rgba(65, 236, 118, 0.15);
+  border: 1px solid rgba(230, 57, 70, 0.15);
 }
 
 .vp-chip.is-give {
@@ -431,13 +431,13 @@
 
 .vp-action-btn.is-reject {
   color: var(--color-error);
-  background: rgba(255, 180, 171, 0.1);
-  border: 1px solid rgba(255, 180, 171, 0.2);
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid rgba(255, 107, 107, 0.2);
 }
 
 .vp-action-btn.is-reject:hover:not(:disabled) {
-  background: rgba(255, 180, 171, 0.18);
-  border-color: rgba(255, 180, 171, 0.35);
+  background: rgba(255, 107, 107, 0.18);
+  border-color: rgba(255, 107, 107, 0.35);
   transform: translateY(-1px);
 }
 

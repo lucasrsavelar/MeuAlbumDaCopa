@@ -37,7 +37,7 @@
 .af-back:hover {
   border-color: var(--color-primary);
   color: var(--color-primary);
-  background: rgba(0, 207, 93, 0.08);
+  background: rgba(0, 166, 81, 0.08);
 }
 
 .af-header-info {
@@ -54,7 +54,7 @@
   width: 40px;
   height: 40px;
   border-radius: var(--radius-md);
-  background: rgba(0, 207, 93, 0.12);
+  background: rgba(0, 166, 81, 0.12);
   color: var(--color-primary);
   flex-shrink: 0;
 }
@@ -64,7 +64,7 @@
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--text-primary);
-  letter-spacing: -0.02em;
+  letter-spacing: 0.03em; text-transform: uppercase;
   line-height: 1.2;
 }
 
@@ -90,14 +90,14 @@
 }
 
 .af-toast-success {
-  background: rgba(0, 207, 93, 0.1);
-  border: 1px solid rgba(65, 236, 118, 0.2);
+  background: rgba(0, 166, 81, 0.1);
+  border: 1px solid rgba(230, 57, 70, 0.2);
   color: var(--color-primary);
 }
 
 .af-toast-error {
-  background: rgba(255, 180, 171, 0.1);
-  border: 1px solid rgba(255, 180, 171, 0.2);
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid rgba(255, 107, 107, 0.2);
   color: var(--color-error);
 }
 
@@ -288,7 +288,7 @@
 .af-card:hover:not(:disabled) {
   border-color: var(--color-primary);
   transform: translateY(-1px);
-  box-shadow: 0 2px 12px rgba(65, 236, 118, 0.15);
+  box-shadow: 0 2px 12px rgba(230, 57, 70, 0.15);
 }
 
 .af-card:active:not(:disabled) {
@@ -296,8 +296,8 @@
 }
 
 .af-card.is-nova {
-  border-color: rgba(65, 236, 118, 0.4);
-  background: rgba(65, 236, 118, 0.05);
+  border-color: rgba(230, 57, 70, 0.4);
+  background: rgba(230, 57, 70, 0.05);
 }
 
 .af-card.is-repetida {
@@ -307,8 +307,8 @@
 
 .af-card.is-selected {
   border-color: var(--color-primary);
-  background: rgba(0, 207, 93, 0.06);
-  box-shadow: 0 0 0 1px rgba(65, 236, 118, 0.15);
+  background: rgba(0, 166, 81, 0.06);
+  box-shadow: 0 0 0 1px rgba(230, 57, 70, 0.15);
 }
 
 .af-card.is-maxed {
@@ -359,7 +359,7 @@
   font-size: 0.7rem;
   font-weight: 700;
   color: white;
-  box-shadow: 0 2px 6px rgba(0, 207, 93, 0.4);
+  box-shadow: 0 2px 6px rgba(0, 166, 81, 0.4);
   animation: popIn 0.2s ease-out;
 }
 
@@ -466,7 +466,7 @@
 .af-qty-btn:hover:not(:disabled) {
   border-color: var(--color-primary);
   color: var(--color-primary);
-  background: rgba(0, 207, 93, 0.08);
+  background: rgba(0, 166, 81, 0.08);
 }
 
 .af-qty-btn:disabled {
@@ -490,16 +490,16 @@
   width: 32px;
   height: 32px;
   border-radius: var(--radius-md);
-  background: rgba(255, 180, 171, 0.08);
-  border: 1px solid rgba(255, 180, 171, 0.15);
+  background: rgba(255, 107, 107, 0.08);
+  border: 1px solid rgba(255, 107, 107, 0.15);
   color: var(--color-error);
   margin-left: var(--spacing-xs);
   transition: all var(--transition-fast);
 }
 
 .af-remove-btn:hover {
-  background: rgba(255, 180, 171, 0.15);
-  border-color: rgba(255, 180, 171, 0.3);
+  background: rgba(255, 107, 107, 0.15);
+  border-color: rgba(255, 107, 107, 0.3);
 }
 
 /* --- Bottom Bar --- */
@@ -529,13 +529,13 @@
   font-weight: 600;
   color: white;
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(0, 207, 93, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 166, 81, 0.3);
   transition: all var(--transition-normal);
 }
 
 .af-submit-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(0, 207, 93, 0.4);
+  box-shadow: 0 8px 30px rgba(0, 166, 81, 0.4);
 }
 
 .af-submit-btn:active:not(:disabled) {
