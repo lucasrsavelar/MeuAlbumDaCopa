@@ -61,6 +61,26 @@
   transition: all var(--transition-fast);
   flex-shrink: 0;
   cursor: pointer;
+  position: relative;
+}
+
+.tr-proposals-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: var(--color-error);
+  color: white;
+  font-family: var(--font-label);
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  border: 2px solid var(--bg-primary);
 }
 
 .tr-proposals-btn:hover {

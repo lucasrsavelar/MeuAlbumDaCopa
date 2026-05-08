@@ -26,6 +26,8 @@ function VerPropostas() {
   const [tab, setTab] = useState<Tab>('recebidas')
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [confirmAction, setConfirmAction] = useState<ConfirmAction | null>(null)
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  const [successMsg, setSuccessMsg] = useState<string | null>(null)
 
   // Invalidate on mount to get fresh data
   useEffect(() => {
@@ -61,21 +63,38 @@ function VerPropostas() {
     if (!confirmAction) return
 
     const { type, proposta } = confirmAction
-    const onSuccess = () => {
+    const onSuccess = (msg: string) => {
+      setSuccessMsg(msg)
       setConfirmAction(null)
       setExpandedId(null)
       queryClient.refetchQueries({ queryKey: ['propostas-troca'] })
+      setTimeout(() => setSuccessMsg(null), 5000)
+    }
+
+    const onError = (error: any) => {
+      setErrorMsg(error?.message || 'Ocorreu um erro ao processar a proposta.')
+      setConfirmAction(null)
+      setTimeout(() => setErrorMsg(null), 5000)
     }
 
     switch (type) {
       case 'aceitar':
-        aceitarProposta.mutate(proposta.idProposta, { onSuccess })
+        aceitarProposta.mutate(proposta.idProposta, { 
+          onSuccess: () => onSuccess('Troca aceita com sucesso!'), 
+          onError 
+        })
         break
       case 'recusar':
-        recusarProposta.mutate(proposta.idProposta, { onSuccess })
+        recusarProposta.mutate(proposta.idProposta, { 
+          onSuccess: () => onSuccess('Proposta recusada.'), 
+          onError 
+        })
         break
       case 'cancelar':
-        cancelarProposta.mutate(proposta.idProposta, { onSuccess })
+        cancelarProposta.mutate(proposta.idProposta, { 
+          onSuccess: () => onSuccess('Proposta cancelada.'), 
+          onError 
+        })
         break
     }
   }
@@ -120,6 +139,20 @@ function VerPropostas() {
           </div>
         </div>
       </header>
+
+      {/* Toasts */}
+      {errorMsg && (
+        <div className="vp-toast vp-toast-error">
+          <span className="material-symbols-outlined">error</span>
+          <span>{errorMsg}</span>
+        </div>
+      )}
+      {successMsg && (
+        <div className="vp-toast vp-toast-success">
+          <span className="material-symbols-outlined">check_circle</span>
+          <span>{successMsg}</span>
+        </div>
+      )}
 
       <main className="vp-content">
         {/* Tab toggle */}

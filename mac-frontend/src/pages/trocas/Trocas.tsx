@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
 import { useTrocas } from '../../hooks/useTrocas'
 import { useAllFigurinhas } from '../../hooks/useStaticData'
+import { usePropostasRecebidas, usePropostasEnviadas } from '../../hooks/usePropostaTroca'
 import type { Figurinha, TrocasDTO } from '../../types'
 import './Trocas.css'
 
@@ -12,14 +13,17 @@ function Trocas() {
 
   useEffect(() => {
     queryClient.invalidateQueries({ queryKey: ['trocas'] })
+    queryClient.invalidateQueries({ queryKey: ['propostas-troca'] })
   }, [queryClient])
 
   const { data: trocas, isLoading: loadingTrocas } = useTrocas()
   const { data: figurinhas, isLoading: loadingFigurinhas } = useAllFigurinhas()
+  const { data: recebidas, isLoading: loadingRecebidas } = usePropostasRecebidas()
+  const { data: enviadas, isLoading: loadingEnviadas } = usePropostasEnviadas()
 
   const [expandedAmigo, setExpandedAmigo] = useState<string | null>(null)
 
-  const isLoading = loadingTrocas || loadingFigurinhas
+  const isLoading = loadingTrocas || loadingFigurinhas || loadingRecebidas || loadingEnviadas
 
   // Mapa id → Figurinha para lookup rápido
   const figurinhaMap = useMemo(() => {
@@ -33,11 +37,22 @@ function Trocas() {
     setExpandedAmigo(prev => prev === username ? null : username)
   }
 
-  // Filtra trocas que realmente têm figurinhas para trocar
+  const usuariosComProposta = useMemo(() => {
+    const set = new Set<string>()
+    if (recebidas) recebidas.forEach(p => set.add(p.usernameEnviou))
+    if (enviadas) enviadas.forEach(p => set.add(p.usernameEnviou))
+    return set
+  }, [recebidas, enviadas])
+
+  // Filtra trocas que realmente têm figurinhas para trocar e que não têm propostas em andamento
   const trocasDisponiveis = useMemo(() => {
     if (!trocas) return []
-    return trocas.filter(t => t.euOfereço.length > 0 && t.amigoOferece.length > 0)
-  }, [trocas])
+    return trocas.filter(t => 
+      t.euOfereço.length > 0 && 
+      t.amigoOferece.length > 0 && 
+      !usuariosComProposta.has(t.usernameAmigo)
+    )
+  }, [trocas, usuariosComProposta])
 
   const handleProporTroca = (troca: TrocasDTO) => {
     navigate(`/propor-troca/${encodeURIComponent(troca.usernameAmigo)}`, {
@@ -70,6 +85,9 @@ function Trocas() {
           aria-label="Ver Propostas"
         >
           <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>handshake</span>
+          {recebidas && recebidas.length > 0 && (
+            <span className="tr-proposals-badge">{recebidas.length}</span>
+          )}
         </button>
       </header>
 
