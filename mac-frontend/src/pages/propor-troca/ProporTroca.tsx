@@ -99,9 +99,9 @@ function ProporTroca() {
       setTimeout(() => {
         navigate('/trocas')
       }, 1500)
-    } catch {
+    } catch (err: any) {
       setShowConfirm(false)
-      setErro('Erro ao enviar proposta. Tente novamente.')
+      setErro(err?.message || 'Erro ao enviar proposta. Tente novamente.')
     } finally {
       setSubmitting(false)
     }

@@ -61,9 +61,22 @@ async function apiFetch(path: string, options: RequestInit = {}, retry = true): 
 
 // ── métodos públicos (mesma interface de antes) ──────────────────────────
 
+async function handleError(res: Response) {
+    let errorMessage = `Erro ${res.status}`
+    try {
+        const body = await res.json()
+        if (body && typeof body.message === 'string') {
+            errorMessage = body.message
+        }
+    } catch {
+        // ignore JSON parse errors
+    }
+    throw new Error(errorMessage)
+}
+
 export async function apiGet(path: string) {
     const res = await apiFetch(path, { method: 'GET' })
-    if (!res.ok) throw new Error(`Erro ${res.status}`)
+    if (!res.ok) await handleError(res)
     return res.json()
 }
 
@@ -72,7 +85,7 @@ export async function apiPost(path: string, body: unknown) {
         method: 'POST',
         body: JSON.stringify(body)
     })
-    if (!res.ok) throw new Error(`Erro ${res.status}`)
+    if (!res.ok) await handleError(res)
     if (res.status === 204) return null
     return res.json()
 }
@@ -82,13 +95,14 @@ export async function apiPatch(path: string, body: unknown) {
         method: 'PATCH',
         body: JSON.stringify(body)
     })
-    if (!res.ok) throw new Error(`Erro ${res.status}`)
+    if (!res.ok) await handleError(res)
+    if (res.status === 204) return null
     return res.json()
 }
 
 export async function apiDelete(path: string) {
     const res = await apiFetch(path, { method: 'DELETE' })
-    if (!res.ok) throw new Error(`Erro ${res.status}`)
+    if (!res.ok) await handleError(res)
     if (res.status === 204) return null
     return res.json()
 }

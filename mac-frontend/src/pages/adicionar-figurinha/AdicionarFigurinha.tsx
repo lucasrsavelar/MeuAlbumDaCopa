@@ -115,8 +115,8 @@ function AdicionarFigurinha() {
       setSelecionadas({})
       setSucesso(true)
       setTimeout(() => setSucesso(false), 3000)
-    } catch {
-      setErro('Erro ao adicionar figurinhas. Tente novamente.')
+    } catch (err: any) {
+      setErro(err?.message || 'Erro ao adicionar figurinhas. Tente novamente.')
     } finally {
       setSubmitting(false)
     }

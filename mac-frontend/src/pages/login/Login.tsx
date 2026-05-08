@@ -28,7 +28,7 @@ function Login() {
       if (msg.includes('Credenciais inválidas')) {
         setErro('Usuário ou senha incorretos.')
       } else {
-        setErro('Erro ao entrar. Tente novamente.')
+        setErro(msg || 'Erro ao entrar. Tente novamente.')
       }
     } finally {
       setCarregando(false)

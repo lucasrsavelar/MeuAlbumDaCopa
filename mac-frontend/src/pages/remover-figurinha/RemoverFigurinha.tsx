@@ -114,8 +114,8 @@ function RemoverFigurinha() {
       setAlteracoes({})
       setSucesso(true)
       setTimeout(() => setSucesso(false), 3000)
-    } catch {
-      setErro('Erro ao corrigir figurinhas. Tente novamente.')
+    } catch (err: any) {
+      setErro(err?.message || 'Erro ao corrigir figurinhas. Tente novamente.')
     } finally {
       setSubmitting(false)
     }
