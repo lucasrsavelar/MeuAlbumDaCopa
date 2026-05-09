@@ -44,7 +44,7 @@ async function apiFetch(path: string, options: RequestInit = {}, retry = true): 
         }
     })
 
-    if (res.status === 401 && retry) {
+    if ((res.status === 401 || res.status === 403) && retry) {
         const ok = await trySession()
 
         if (ok) {

@@ -14,7 +14,7 @@ import {
 } from '../../hooks/useSolicitacaoAmizade'
 import { useAuth } from '../../context/AuthContext'
 import './Dashboard.css'
-import logoSvg from '../../assets/logo.svg'
+import logoImg from '../../assets/logo2.png'
 
 function Dashboard() {
   const navigate = useNavigate()
@@ -110,7 +110,7 @@ function Dashboard() {
             <span className="material-symbols-outlined">arrow_back</span>
           </button>
           <div className="dash-sidebar-logo">
-            <img src={logoSvg} alt="Meu Álbum da Copa" className="dash-logo-img" />
+            <img src={logoImg} alt="Meu Álbum da Copa" className="dash-logo-img" />
           </div>
           <span className="dash-sidebar-title">Meu Álbum da Copa</span>
         </div>
@@ -282,7 +282,7 @@ function Dashboard() {
           <div className="dash-header-top">
             <div className="dash-header-brand">
               <div className="dash-header-logo">
-                <img src={logoSvg} alt="Meu Álbum da Copa" className="dash-logo-img" />
+                <img src={logoImg} alt="Meu Álbum da Copa" className="dash-logo-img" />
               </div>
               <span className="dash-header-title">Meu Álbum da Copa</span>
             </div>

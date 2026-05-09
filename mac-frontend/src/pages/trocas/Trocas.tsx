@@ -134,42 +134,46 @@ function Trocas() {
                   {/* Card details — expandido */}
                   {isExpanded && (
                     <div className="tr-card-details">
-                      {/* Figurinhas que o amigo oferece (eu recebo) */}
-                      <div className="tr-section">
-                        <div className="tr-section-header">
-                          <span className="material-symbols-outlined tr-section-icon is-receive">arrow_downward</span>
-                          <span className="tr-section-title">Você recebe</span>
-                          <span className="tr-section-count">{troca.amigoOferece.length}</span>
+                      <div className="tr-card-sections">
+                        {/* Figurinhas que o amigo oferece (eu recebo) */}
+                        <div className="tr-section">
+                          <div className="tr-section-header">
+                            <span className="material-symbols-outlined tr-section-icon is-receive">arrow_downward</span>
+                            <span className="tr-section-title">Você recebe</span>
+                            <span className="tr-section-count">{troca.amigoOferece.length}</span>
+                          </div>
+                          <div className="tr-chips">
+                            {troca.amigoOferece.map(id => (
+                              <span key={id} className="tr-chip is-receive">{codigoPorId(id)}</span>
+                            ))}
+                          </div>
                         </div>
-                        <div className="tr-chips">
-                          {troca.amigoOferece.map(id => (
-                            <span key={id} className="tr-chip is-receive">{codigoPorId(id)}</span>
-                          ))}
-                        </div>
-                      </div>
 
-                      {/* Figurinhas que eu ofereço (eu dou) */}
-                      <div className="tr-section">
-                        <div className="tr-section-header">
-                          <span className="material-symbols-outlined tr-section-icon is-give">arrow_upward</span>
-                          <span className="tr-section-title">Você dá</span>
-                          <span className="tr-section-count">{troca.euOfereço.length}</span>
-                        </div>
-                        <div className="tr-chips">
-                          {troca.euOfereço.map(id => (
-                            <span key={id} className="tr-chip is-give">{codigoPorId(id)}</span>
-                          ))}
+                        {/* Figurinhas que eu ofereço (eu dou) */}
+                        <div className="tr-section">
+                          <div className="tr-section-header">
+                            <span className="material-symbols-outlined tr-section-icon is-give">arrow_upward</span>
+                            <span className="tr-section-title">Você dá</span>
+                            <span className="tr-section-count">{troca.euOfereço.length}</span>
+                          </div>
+                          <div className="tr-chips">
+                            {troca.euOfereço.map(id => (
+                              <span key={id} className="tr-chip is-give">{codigoPorId(id)}</span>
+                            ))}
+                          </div>
                         </div>
                       </div>
 
                       {/* Botão Propor Troca */}
-                      <button
-                        className="tr-propose-btn"
-                        onClick={(e) => { e.stopPropagation(); handleProporTroca(troca) }}
-                      >
+                      <div className="tr-card-actions">
+                        <button
+                          className="tr-propose-btn"
+                          onClick={(e) => { e.stopPropagation(); handleProporTroca(troca) }}
+                        >
                         <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>handshake</span>
                         Propor Troca
-                      </button>
+                        </button>
+                      </div>
                     </div>
                   )}
                 </div>
