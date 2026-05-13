@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lrsa.mac_backend.domain.amizade.AmizadeService;
 import lrsa.mac_backend.domain.macUsuario.MACUsuarioService;
 import lrsa.mac_backend.exceptionHandler.exceptions.ConflictException;
+import lrsa.mac_backend.exceptionHandler.exceptions.ForbiddenException;
 import lrsa.mac_backend.exceptionHandler.exceptions.UnprocessableException;
 import lrsa.mac_backend.utils.Messages;
 
@@ -25,6 +26,8 @@ public class SolicitacaoAmizadeService {
     	this.usuarioService = usuarioService;
     }
     
+    private static final String PROBIDO_ALTERAR_SOLICITACAO = "Você não tem autorização para aceitar/recusar esta solicitação de amizade";
+    
     @Transactional
     public void enviarSolicitacao(UUID idEnviou, String usernameDestino) {
         UUID idRecebeu = usuarioService.findIdByUsername(usernameDestino)
@@ -35,7 +38,7 @@ public class SolicitacaoAmizadeService {
 
         solicitacaoAmizadeRepository.findByIdEnviouAndIdRecebeu(idRecebeu, idEnviou)
             .ifPresentOrElse(
-                request -> aceitarSolicitacao(request.getIdSolicitacao()),
+                request -> aceitarSolicitacao(idRecebeu, request.getIdSolicitacao()),
                 () -> {
                     SolicitacaoAmizade solicitacao = new SolicitacaoAmizade();
                     solicitacao.setIdEnviou(idEnviou);
@@ -46,9 +49,12 @@ public class SolicitacaoAmizadeService {
     }
     
     @Transactional
-    public void aceitarSolicitacao(UUID idSolicitacao) {
+    public void aceitarSolicitacao(UUID idUsuario, UUID idSolicitacao) {
     	SolicitacaoAmizade solicitacao = solicitacaoAmizadeRepository.findById(idSolicitacao)
             .orElseThrow(() -> new UnprocessableException(Messages.REQUEST_NOT_FOUND));
+    	
+    	if(solicitacao.getIdRecebeu() != idUsuario)
+    		throw new ForbiddenException(PROBIDO_ALTERAR_SOLICITACAO);
 
     	amizadeService.salvar(solicitacao.getIdEnviou(), solicitacao.getIdRecebeu());
     	amizadeService.salvar(solicitacao.getIdRecebeu(), solicitacao.getIdEnviou());
@@ -56,9 +62,12 @@ public class SolicitacaoAmizadeService {
     }
     
     @Transactional
-    public void recusarSolicitacao(UUID idSolicitacao) {
+    public void recusarSolicitacao(UUID idUsuario, UUID idSolicitacao) {
     	SolicitacaoAmizade solicitacao = solicitacaoAmizadeRepository.findById(idSolicitacao)
             .orElseThrow(() -> new UnprocessableException(Messages.REQUEST_NOT_FOUND));
+    	
+    	if(solicitacao.getIdRecebeu() != idUsuario)
+    		throw new ForbiddenException(PROBIDO_ALTERAR_SOLICITACAO);
 
     	solicitacaoAmizadeRepository.delete(solicitacao);
     }

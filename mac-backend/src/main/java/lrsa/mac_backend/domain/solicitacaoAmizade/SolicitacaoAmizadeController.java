@@ -35,14 +35,14 @@ public class SolicitacaoAmizadeController {
     }
 	
 	@PostMapping("/aceitar")
-    public ResponseEntity<?> aceitar(@RequestBody UUID idSolicitacao) {
-		solicitacaoAmizadeService.aceitarSolicitacao(idSolicitacao);
+    public ResponseEntity<?> aceitar(@CurrentUser UUID idUsuario, @RequestBody UUID idSolicitacao) {
+		solicitacaoAmizadeService.aceitarSolicitacao(idUsuario, idSolicitacao);
         return ResponseEntity.noContent().build();
     }
 	
 	@PostMapping("/recusar")
-    public ResponseEntity<?> recusar(@RequestBody UUID idSolicitacao) {
-		solicitacaoAmizadeService.recusarSolicitacao(idSolicitacao);
+    public ResponseEntity<?> recusar(@CurrentUser UUID idUsuario, @RequestBody UUID idSolicitacao) {
+		solicitacaoAmizadeService.recusarSolicitacao(idUsuario, idSolicitacao);
         return ResponseEntity.noContent().build();
     }
 	

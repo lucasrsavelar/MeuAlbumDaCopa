@@ -61,7 +61,7 @@ public class AuthService {
 	
 	public MACUsuario cadastro(AuthDTO cadastro) {
 		
-		String erro = this.erroCadastro(cadastro);
+		String erro = this.getErroCadastro(cadastro);
 		if(erro != null)
 			throw new UnprocessableException(erro);
 		
@@ -127,7 +127,7 @@ public class AuthService {
         }
     }
 	
-	private String erroCadastro(AuthDTO cadastro) {
+	private String getErroCadastro(AuthDTO cadastro) {
 
 		String username = cadastro.getUsername();
 		String senha = cadastro.getSenha();
