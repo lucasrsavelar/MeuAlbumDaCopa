@@ -122,15 +122,19 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  font-size: 18px;
 }
 
 body {
   min-height: 100dvh;
   overflow-x: hidden;
   background-color: var(--bg-primary);
+  background-image: url('/pattern.svg');
+  background-size: 200px 200px;
+  background-repeat: repeat;
   color: var(--text-primary);
   font-family: var(--font-body);
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.5;
 }
 
@@ -196,11 +200,6 @@ ol {
   background: var(--color-outline);
 }
 
-/* --- Utility: Soccer Pattern --- */
-.soccer-pattern {
-  background-image: radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.03) 1px, transparent 0);
-  background-size: 32px 32px;
-}
 
 /* --- Global Animations --- */
 @keyframes fadeInUp {
