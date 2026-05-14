@@ -53,7 +53,7 @@ public class SolicitacaoAmizadeService {
     	SolicitacaoAmizade solicitacao = solicitacaoAmizadeRepository.findById(idSolicitacao)
             .orElseThrow(() -> new UnprocessableException(Messages.REQUEST_NOT_FOUND));
     	
-    	if(solicitacao.getIdRecebeu() != idUsuario)
+    	if(!solicitacao.getIdRecebeu().equals(idUsuario))
     		throw new ForbiddenException(PROBIDO_ALTERAR_SOLICITACAO);
 
     	amizadeService.salvar(solicitacao.getIdEnviou(), solicitacao.getIdRecebeu());
@@ -66,7 +66,7 @@ public class SolicitacaoAmizadeService {
     	SolicitacaoAmizade solicitacao = solicitacaoAmizadeRepository.findById(idSolicitacao)
             .orElseThrow(() -> new UnprocessableException(Messages.REQUEST_NOT_FOUND));
     	
-    	if(solicitacao.getIdRecebeu() != idUsuario)
+    	if(!solicitacao.getIdRecebeu().equals(idUsuario))
     		throw new ForbiddenException(PROBIDO_ALTERAR_SOLICITACAO);
 
     	solicitacaoAmizadeRepository.delete(solicitacao);

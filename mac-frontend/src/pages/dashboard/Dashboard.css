@@ -4,7 +4,7 @@
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  background: var(--bg-primary);
+  background-color: transparent;
   position: relative;
   overflow-x: hidden;
 }
@@ -73,18 +73,22 @@
 
 .dash-header-brand {
   display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-xs);
 }
 
 .dash-header-logo {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 110px;
+  height: 80px;
   border-radius: var(--radius-md);
   overflow: hidden;
+  margin-top: -2.5rem;
+  margin-left: 1.2rem;
+  margin-bottom: -0.8rem;
 }
 
 .dash-logo-img {
@@ -99,6 +103,7 @@
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.01em;
+  margin-left: 0.10rem;
 }
 
 .dash-header-user {
@@ -111,6 +116,7 @@
   border-radius: var(--radius-full);
   transition: all var(--transition-fast);
   cursor: default;
+  margin-top: -3.5rem;
 }
 
 .dash-header-user-avatar {
@@ -178,6 +184,7 @@
   transition: all var(--transition-fast);
   cursor: pointer;
   flex-shrink: 0;
+  margin-top: -3.5rem;
 }
 
 .dash-header-menu:hover {

@@ -4,7 +4,7 @@
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  background: var(--bg-primary);
+  background-color: transparent;
 }
 
 /* --- Header --- */
@@ -16,7 +16,7 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  background: var(--bg-primary);
+  background-color: transparent;
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -481,7 +481,7 @@
   left: 0;
   right: 0;
   padding: var(--spacing-md) var(--spacing-margin);
-  background: var(--bg-primary);
+  background-color: transparent;
   border-top: 1px solid var(--border-color);
   z-index: 20;
   animation: fadeInUp 0.3s ease-out;

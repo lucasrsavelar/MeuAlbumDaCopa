@@ -74,7 +74,7 @@ public class GrupoService {
 		GrupoConvite convite = grupoConviteService.buscarConviteById(idConvite)
 				.orElseThrow(() -> new UnprocessableException(Messages.REQUEST_NOT_FOUND));
 		
-		if(convite.getIdConvidado() != idUsuario)
+		if(!convite.getIdConvidado().equals(idUsuario))
 			throw new ForbiddenException(PROIBIDO_MODIFICAR_CONVITE);
 		
 		grupoMembroService.salvarMembro(convite.getIdGrupo(), idUsuario);
