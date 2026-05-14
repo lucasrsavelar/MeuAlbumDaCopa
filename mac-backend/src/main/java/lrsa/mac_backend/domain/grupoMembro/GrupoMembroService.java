@@ -13,14 +13,26 @@ public class GrupoMembroService {
 		this.grupoMembroRepository = grupoMembroRepository;
 	}
 	
-	public void salvarMembro(UUID idGrupo, UUID idMembro) {
-		GrupoMembroPK pk = new GrupoMembroPK(idGrupo, idMembro);
+	public void salvarMembro(UUID idGrupo, UUID idUsuario) {
+		GrupoMembroPK pk = new GrupoMembroPK(idGrupo, idUsuario);
 		GrupoMembro gm = new GrupoMembro(pk);
 		grupoMembroRepository.save(gm);
 	}
 	
 	public boolean isUsuarioMembroDoGrupo(UUID idGrupo, UUID idUsuario) {
 		return grupoMembroRepository.existsByPkIdGrupoAndPkIdUsuario(idGrupo, idUsuario);
+	}
+	
+	public long getNumeroMembrosGrupo(UUID idGrupo) {
+		return grupoMembroRepository.countByPkIdGrupo(idGrupo);
+	}
+	
+	public long getNumeroGruposUsuario(UUID idUsuario) {
+		return grupoMembroRepository.countByPkIdUsuario(idUsuario);
+	}
+	
+	public void removerMembroDoGrupo(UUID idGrupo, UUID idUsuario) {
+		grupoMembroRepository.deleteByPkIdGrupoAndPkIdUsuario(idGrupo, idUsuario);
 	}
 	
 }

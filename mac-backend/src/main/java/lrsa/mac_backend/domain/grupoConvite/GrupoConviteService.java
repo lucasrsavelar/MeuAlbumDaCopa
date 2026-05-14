@@ -1,5 +1,6 @@
 package lrsa.mac_backend.domain.grupoConvite;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,4 +28,23 @@ public class GrupoConviteService {
 	public Optional<GrupoConvite> buscarConviteById(UUID idConvite) {
 		return grupoConviteRepository.findById(idConvite);
 	}
+	
+	public boolean isUsuarioConvidadoAoGrupo(UUID idGrupo, UUID idConvidado) {
+		return grupoConviteRepository.existsByIdGrupoAndIdConvidado(idGrupo, idConvidado);
+	}
+	
+	public void deletarConvite(GrupoConvite convite) {
+		grupoConviteRepository.delete(convite);
+	}
+	
+	public List<GrupoConviteDTO> findConvitesRecebidos(UUID idUsuario) {
+        return grupoConviteRepository.findConvitesRecebidos(idUsuario)
+            .stream()
+            .map(row -> new GrupoConviteDTO(
+                UUID.fromString(row[0].toString()),
+                row[1].toString(),
+                row[2].toString()
+            ))
+            .toList();
+    }
 }

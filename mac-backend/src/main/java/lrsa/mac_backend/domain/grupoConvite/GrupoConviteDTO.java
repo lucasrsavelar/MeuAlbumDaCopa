@@ -15,5 +15,6 @@ public class GrupoConviteDTO {
 	
 	private UUID idConvite;
     private String usernameEnviou;
+    private String nomeGrupo;
 
 }
