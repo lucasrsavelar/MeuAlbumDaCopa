@@ -16,8 +16,15 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  background-color: transparent;
+  background-color: rgba(11, 19, 38, 0.96);
+
   border-bottom: 1px solid var(--border-color);
+
+  transform: translateZ(0);
+
+  /* blur mais leve */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .af-back {
@@ -102,8 +109,15 @@
 }
 
 @keyframes slideDown {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* --- Main --- */
@@ -113,7 +127,8 @@
   flex-direction: column;
   gap: var(--spacing-md);
   padding: var(--spacing-md) var(--spacing-margin);
-  padding-bottom: 100px; /* space for bottom bar */
+  padding-bottom: 100px;
+  /* space for bottom bar */
 }
 
 /* --- Filters --- */
@@ -364,8 +379,13 @@
 }
 
 @keyframes popIn {
-  from { transform: scale(0); }
-  to { transform: scale(1); }
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
 }
 
 /* --- Summary --- */
@@ -604,5 +624,51 @@
     max-width: 960px;
     left: 50%;
     transform: translateX(-50%);
+  }
+}
+
+/* ===== Collapsible Header ===== */
+.af-header-toggle {
+  display: none;
+  /* Only visible on mobile */
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.af-header-toggle:hover {
+  color: var(--text-primary);
+  background: var(--color-surface-container-high);
+}
+
+@media (max-width: 767px) {
+  .af-header-toggle {
+    display: flex;
+  }
+
+  .af-header.is-collapsed {
+    padding: var(--spacing-sm) var(--spacing-margin);
+  }
+
+  .af-header.is-collapsed .af-header-icon,
+  .af-header.is-collapsed .af-subtitle {
+    display: none;
+  }
+
+  .af-header.is-collapsed .af-title {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+
+  .af-header.is-collapsed .af-header-info {
+    flex: 1;
   }
 }

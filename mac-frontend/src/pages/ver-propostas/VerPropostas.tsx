@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useHeaderCollapse } from '../../hooks/useHeaderCollapse'
 import { useQueryClient } from '@tanstack/react-query'
 import { useAllFigurinhas } from '../../hooks/useStaticData'
 import {
@@ -22,6 +23,7 @@ interface ConfirmAction {
 function VerPropostas() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+  const { isHeaderCollapsed, setIsHeaderCollapsed, isAtTop } = useHeaderCollapse()
 
   const [tab, setTab] = useState<Tab>('recebidas')
   const [expandedId, setExpandedId] = useState<string | null>(null)
@@ -123,16 +125,29 @@ function VerPropostas() {
   return (
     <div className="vp-container soccer-pattern">
       {/* Header */}
-      <header className="vp-header">
+      <header className={`vp-header ${isHeaderCollapsed ? 'is-collapsed' : ''}`}>
         <button className="vp-back" onClick={() => navigate('/dashboard')} aria-label="Voltar">
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
-        <div className="vp-header-info">
+        <div className="vp-header-info" style={{ flex: 1 }}>
           <div className="vp-header-icon">
             <span className="material-symbols-outlined">handshake</span>
           </div>
-          <div>
-            <h1 className="vp-title">Propostas de Troca</h1>
+          <div style={{ flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <h1 className="vp-title">Propostas de Troca</h1>
+              {!isAtTop && (
+                <button 
+                  className="vp-header-toggle" 
+                  onClick={() => setIsHeaderCollapsed(!isHeaderCollapsed)}
+                  aria-label={isHeaderCollapsed ? 'Expandir cabeçalho' : 'Reduzir cabeçalho'}
+                >
+                  <span className="material-symbols-outlined">
+                    {isHeaderCollapsed ? 'expand_more' : 'expand_less'}
+                  </span>
+                </button>
+              )}
+            </div>
             <p className="vp-subtitle">
               {isLoading ? 'Carregando...' : `${propostas?.length ?? 0} proposta${(propostas?.length ?? 0) !== 1 ? 's' : ''}`}
             </p>

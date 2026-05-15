@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useHeaderCollapse } from '../../hooks/useHeaderCollapse'
 import { useQueryClient } from '@tanstack/react-query'
 import { useTrocas } from '../../hooks/useTrocas'
 import { useAllFigurinhas } from '../../hooks/useStaticData'
@@ -10,6 +11,7 @@ import './Trocas.css'
 function Trocas() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+  const { isHeaderCollapsed, setIsHeaderCollapsed, isAtTop } = useHeaderCollapse()
 
   useEffect(() => {
     queryClient.invalidateQueries({ queryKey: ['trocas'] })
@@ -63,7 +65,7 @@ function Trocas() {
   return (
     <div className="tr-container soccer-pattern">
       {/* Header */}
-      <header className="tr-header">
+      <header className={`tr-header ${isHeaderCollapsed ? 'is-collapsed' : ''}`}>
         <button className="tr-back" onClick={() => navigate('/dashboard')} aria-label="Voltar">
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
@@ -78,17 +80,30 @@ function Trocas() {
             </p>
           </div>
         </div>
-        <button
-          className="tr-proposals-btn"
-          onClick={() => navigate('/ver-propostas')}
-          title="Ver Propostas"
-          aria-label="Ver Propostas"
-        >
-          <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>handshake</span>
-          {recebidas && recebidas.length > 0 && (
-            <span className="tr-proposals-badge">{recebidas.length}</span>
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginLeft: 'auto' }}>
+          <button
+            className="tr-proposals-btn"
+            onClick={() => navigate('/ver-propostas')}
+            title="Ver Propostas"
+            aria-label="Ver Propostas"
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>handshake</span>
+            {recebidas && recebidas.length > 0 && (
+              <span className="tr-proposals-badge">{recebidas.length}</span>
+            )}
+          </button>
+          {!isAtTop && (
+            <button 
+              className="tr-header-toggle" 
+              onClick={() => setIsHeaderCollapsed(!isHeaderCollapsed)}
+              aria-label={isHeaderCollapsed ? 'Expandir cabeçalho' : 'Reduzir cabeçalho'}
+            >
+              <span className="material-symbols-outlined">
+                {isHeaderCollapsed ? 'expand_more' : 'expand_less'}
+              </span>
+            </button>
           )}
-        </button>
+        </div>
       </header>
 
       <main className="tr-content">
