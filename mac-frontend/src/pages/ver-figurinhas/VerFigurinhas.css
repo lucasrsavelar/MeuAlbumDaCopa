@@ -592,12 +592,12 @@
   color: var(--text-primary);
 }
 
-.is-check {
+.vf-country-table .is-check {
   color: var(--color-primary);
   font-size: 1.2rem !important;
 }
 
-.is-missing {
+.vf-country-table .is-missing {
   color: var(--text-muted);
   opacity: 0.3;
   font-size: 1.2rem !important;
