@@ -13,13 +13,20 @@
   align-items: center;
   gap: var(--spacing-md);
   padding: var(--spacing-lg) var(--spacing-margin);
+
   position: sticky;
   top: 0;
   z-index: 10;
-  background-color: rgba(11, 19, 38, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+
+  background-color: rgba(11, 19, 38, 0.96);
+
   border-bottom: 1px solid var(--border-color);
+
+  transform: translateZ(0);
+
+  /* blur mais leve */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .vf-back {
