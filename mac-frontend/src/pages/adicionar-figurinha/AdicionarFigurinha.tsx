@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useHeaderCollapse } from '../../hooks/useHeaderCollapse'
 import { useQueryClient } from '@tanstack/react-query'
 import { useAllFigurinhas } from '../../hooks/useStaticData'
 import { useFigurinhasUsuario } from '../../hooks/useFigurinhasUsuario'
@@ -12,6 +13,7 @@ const MAX_QTD = 99
 function AdicionarFigurinha() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+  const { isHeaderCollapsed, setIsHeaderCollapsed, isAtTop } = useHeaderCollapse()
 
   const { data: figurinhas, isLoading } = useAllFigurinhas()
   const { data: figurinhasUsuario } = useFigurinhasUsuario()
@@ -135,16 +137,29 @@ function AdicionarFigurinha() {
   return (
     <div className="af-container soccer-pattern">
       {/* Header */}
-      <header className="af-header">
+      <header className={`af-header ${isHeaderCollapsed ? 'is-collapsed' : ''}`}>
         <button className="af-back" onClick={() => navigate('/dashboard')} aria-label="Voltar">
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
-        <div className="af-header-info">
+        <div className="af-header-info" style={{ flex: 1 }}>
           <div className="af-header-icon">
             <span className="material-symbols-outlined">add_photo_alternate</span>
           </div>
-          <div>
-            <h1 className="af-title">Adicionar Figurinhas</h1>
+          <div style={{ flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <h1 className="af-title">Adicionar Figurinhas</h1>
+              {!isAtTop && (
+                <button 
+                  className="af-header-toggle" 
+                  onClick={() => setIsHeaderCollapsed(!isHeaderCollapsed)}
+                  aria-label={isHeaderCollapsed ? 'Expandir cabeçalho' : 'Reduzir cabeçalho'}
+                >
+                  <span className="material-symbols-outlined">
+                    {isHeaderCollapsed ? 'expand_more' : 'expand_less'}
+                  </span>
+                </button>
+              )}
+            </div>
             <p className="af-subtitle">Pesquise e selecione</p>
           </div>
         </div>

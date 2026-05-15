@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useHeaderCollapse } from '../../hooks/useHeaderCollapse'
 import { useQueryClient } from '@tanstack/react-query'
 import { useAllFigurinhas } from '../../hooks/useStaticData'
 import { useFigurinhasUsuario } from '../../hooks/useFigurinhasUsuario'
@@ -10,6 +11,7 @@ import './RemoverFigurinha.css'
 function RemoverFigurinha() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+  const { isHeaderCollapsed, setIsHeaderCollapsed, isAtTop } = useHeaderCollapse()
 
   const { data: figurinhas, isLoading: loadingFigurinhas } = useAllFigurinhas()
   const { data: figurinhasUsuario, isLoading: loadingUsuario } = useFigurinhasUsuario()
@@ -132,16 +134,29 @@ function RemoverFigurinha() {
   return (
     <div className="rf-container soccer-pattern">
       {/* Header */}
-      <header className="rf-header">
+      <header className={`rf-header ${isHeaderCollapsed ? 'is-collapsed' : ''}`}>
         <button className="rf-back" onClick={() => navigate('/dashboard')} aria-label="Voltar">
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
-        <div className="rf-header-info">
+        <div className="rf-header-info" style={{ flex: 1 }}>
           <div className="rf-header-icon">
             <span className="material-symbols-outlined">delete</span>
           </div>
-          <div>
-            <h1 className="rf-title">Remover Figurinhas</h1>
+          <div style={{ flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <h1 className="rf-title">Remover Figurinhas</h1>
+              {!isAtTop && (
+                <button 
+                  className="rf-header-toggle" 
+                  onClick={() => setIsHeaderCollapsed(!isHeaderCollapsed)}
+                  aria-label={isHeaderCollapsed ? 'Expandir cabeçalho' : 'Reduzir cabeçalho'}
+                >
+                  <span className="material-symbols-outlined">
+                    {isHeaderCollapsed ? 'expand_more' : 'expand_less'}
+                  </span>
+                </button>
+              )}
+            </div>
             <p className="rf-subtitle">Corrija seu álbum</p>
           </div>
         </div>

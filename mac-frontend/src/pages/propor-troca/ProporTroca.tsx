@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { useAllFigurinhas } from '../../hooks/useStaticData'
+import { useHeaderCollapse } from '../../hooks/useHeaderCollapse'
 import { apiPost } from '../../lib/api'
 import type { Figurinha, TrocasDTO, PropostaTrocaEnviadaDTO } from '../../types'
 import './ProporTroca.css'
@@ -9,6 +10,7 @@ function ProporTroca() {
   const navigate = useNavigate()
   const { username } = useParams<{ username: string }>()
   const location = useLocation()
+  const { isHeaderCollapsed, setIsHeaderCollapsed, isAtTop } = useHeaderCollapse()
 
   // Trade data passed via router state
   const troca = (location.state as { troca?: TrocasDTO })?.troca
@@ -141,16 +143,29 @@ function ProporTroca() {
   return (
     <div className="pt-container soccer-pattern">
       {/* Header */}
-      <header className="pt-header">
+      <header className={`pt-header ${isHeaderCollapsed ? 'is-collapsed' : ''}`}>
         <button className="pt-back" onClick={() => navigate('/trocas')} aria-label="Voltar">
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
-        <div className="pt-header-info">
+        <div className="pt-header-info" style={{ flex: 1 }}>
           <div className="pt-header-icon">
             <span className="material-symbols-outlined">handshake</span>
           </div>
-          <div>
-            <h1 className="pt-title">Propor Troca</h1>
+          <div style={{ flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <h1 className="pt-title">Propor Troca</h1>
+              {!isAtTop && (
+                <button 
+                  className="pt-header-toggle" 
+                  onClick={() => setIsHeaderCollapsed(!isHeaderCollapsed)}
+                  aria-label={isHeaderCollapsed ? 'Expandir cabeçalho' : 'Reduzir cabeçalho'}
+                >
+                  <span className="material-symbols-outlined">
+                    {isHeaderCollapsed ? 'expand_more' : 'expand_less'}
+                  </span>
+                </button>
+              )}
+            </div>
             <p className="pt-subtitle">com {username}</p>
           </div>
         </div>
