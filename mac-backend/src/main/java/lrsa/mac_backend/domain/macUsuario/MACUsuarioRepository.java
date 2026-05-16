@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MACUsuarioRepository extends JpaRepository<MACUsuario, UUID> {
-	
+		
 	@Query(value = "SELECT USERNAME FROM MAC_USUARIO WHERE ID_USUARIO = :idUsuario", nativeQuery = true)
 	String findUsernameByIdUsuario(@Param("idUsuario") UUID idUsuario);
 	

@@ -1,8 +1,14 @@
 package lrsa.mac_backend.domain.grupo;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import io.micrometer.common.util.StringUtils;
 import lrsa.mac_backend.domain.grupoConvite.GrupoConvite;
@@ -43,13 +49,16 @@ public class GrupoService {
 	private static final String USER_JA_NO_GRUPO = "O usuário já está no grupo";
 	private static final String USER_JA_CONVIDADO = "O usuário já foi convidado para este grupo";
 	
-	private static final String GRUPO_NOT_FOUND_OU_PROIBIDO = "O grupo informado não existe ou você não tem autorização para alterar seus membros";
+	private static final String GRUPO_NOT_FOUND_OU_PROIBIDO = "O grupo informado não existe ou você não tem autorização para modificá-lo";
 	private static final String PROIBIDO_MODIFICAR_CONVITE = "Você não tem autorização para aceitar/recusar este convite";
 	private static final String ALCANCOU_LIMITE_GRUPOS_MEMBRO = "Você já atingiu o limite de participação em 5 grupos";
+	
+	private static final String NOT_REMOVER_SELF = "Você não pode remover a si mesmo do grupo";
 	
 	private static final String NOT_MEMBRO_GRUPO_SAIR = "Você não é um membro do grupo informado";
 	private static final String NOT_MEMBRO_GRUPO_REMOVER = "O usuário informado não é membro do grupo";
 	
+	@Transactional
 	public void criarGrupo(UUID idCriador, String nome) {
 		
 		if(grupoRepository.countByIdCriador(idCriador) >= MAX_GRUPOS_CRIADOS)
@@ -68,6 +77,7 @@ public class GrupoService {
 		
 	}
 	
+	@Transactional
 	public void convidarParaGrupo(UUID idUsuario, String nomeGrupo, String usernameConvidado) {
 		
 		Grupo grupo = grupoRepository.findByNomeAndIdCriador(nomeGrupo, idUsuario)
@@ -91,6 +101,7 @@ public class GrupoService {
 		
 	}
 	
+	@Transactional
 	public void aceitarConvite(UUID idUsuario, UUID idConvite) {
 		
 		GrupoConvite convite = grupoConviteService.buscarConviteById(idConvite)
@@ -106,6 +117,7 @@ public class GrupoService {
 		
 	}
 	
+	@Transactional
 	public void recusarConvite(UUID idUsuario, UUID idConvite) {
 		
 		GrupoConvite convite = grupoConviteService.buscarConviteById(idConvite)
@@ -118,6 +130,7 @@ public class GrupoService {
 		
 	}
 	
+	@Transactional
 	public void removerMembroDoGrupo(UUID idUsuario, String nomeGrupo, String usernameRemovido) {
 		
 		Grupo grupo = grupoRepository.findByNomeAndIdCriador(nomeGrupo, idUsuario)
@@ -125,6 +138,9 @@ public class GrupoService {
 		
 		UUID idRemovido = usuarioService.findIdByUsername(usernameRemovido)
 	            .orElseThrow(() -> new ConflictException(Messages.USER_NOT_FOUND));
+		
+		if(idUsuario.equals(idRemovido))
+			throw new ConflictException(NOT_REMOVER_SELF);
 		
 		UUID idGrupo = grupo.getIdGrupo();
 		
@@ -135,6 +151,7 @@ public class GrupoService {
 		
 	}
 	
+	@Transactional
 	public void sairDoGrupo(UUID idUsuario, String nomeGrupo) {
 		
 		Grupo grupo = grupoRepository.findByNome(nomeGrupo)
@@ -145,8 +162,55 @@ public class GrupoService {
 		if(!grupoMembroService.isUsuarioMembroDoGrupo(idGrupo, idUsuario))
 			throw new ForbiddenException(NOT_MEMBRO_GRUPO_SAIR);
 		
+		if(idUsuario.equals(grupo.getIdCriador())) {
+			this.deletarGrupo(idUsuario, nomeGrupo);
+			return;
+		}
+		
 		grupoMembroService.removerMembroDoGrupo(idGrupo, idUsuario);
 		
+	}
+	
+	@Transactional
+	public void deletarGrupo(UUID idUsuario, String nomeGrupo) {
+		
+		Grupo grupo = grupoRepository.findByNomeAndIdCriador(nomeGrupo, idUsuario)
+				.orElseThrow(() -> new ConflictException(GRUPO_NOT_FOUND_OU_PROIBIDO));
+		
+		UUID idGrupo = grupo.getIdGrupo();
+		
+		grupoConviteService.deletarTodosConvitesGrupo(idGrupo);
+		grupoMembroService.removerTodosMembrosGrupo(idGrupo);
+		grupoRepository.delete(grupo);
+		
+	}
+	
+	public List<GrupoDTO> buscarGruposByUsuario(UUID idUsuario) {
+	    List<Object[]> rows = grupoRepository.findGruposComMembrosByUsuario(idUsuario);
+
+	    if (rows.isEmpty()) return Collections.emptyList();
+
+	    Map<UUID, GrupoDTO> agrupado = new LinkedHashMap<>();
+
+	    for (Object[] row : rows) {
+	        UUID idGrupo   = UUID.fromString(row[0].toString());
+	        String nome    = row[1].toString();
+	        UUID idCriador = UUID.fromString(row[2].toString());
+	        UUID idMembro  = UUID.fromString(row[3].toString());
+	        String username = row[4].toString();
+
+	        GrupoDTO dto = agrupado.computeIfAbsent(idGrupo, id ->
+	            new GrupoDTO(nome, new LinkedHashMap<>())
+	        );
+
+	        GrupoRole role = idMembro.equals(idCriador)
+	            ? GrupoRole.CRIADOR
+	            : GrupoRole.MEMBRO;
+
+	        dto.getMembros().put(username, role);
+	    }
+
+	    return new ArrayList<>(agrupado.values());
 	}
 	
 	private String getErroGrupo(String nome, UUID idCriador) {

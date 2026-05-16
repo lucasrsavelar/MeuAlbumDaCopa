@@ -18,7 +18,7 @@ public class GrupoMembroService {
 		GrupoMembro gm = new GrupoMembro(pk);
 		grupoMembroRepository.save(gm);
 	}
-	
+		
 	public boolean isUsuarioMembroDoGrupo(UUID idGrupo, UUID idUsuario) {
 		return grupoMembroRepository.existsByPkIdGrupoAndPkIdUsuario(idGrupo, idUsuario);
 	}
@@ -33,6 +33,10 @@ public class GrupoMembroService {
 	
 	public void removerMembroDoGrupo(UUID idGrupo, UUID idUsuario) {
 		grupoMembroRepository.deleteByPkIdGrupoAndPkIdUsuario(idGrupo, idUsuario);
+	}
+	
+	public void removerTodosMembrosGrupo(UUID idGrupo) {
+		grupoMembroRepository.deleteByPkIdGrupo(idGrupo);
 	}
 	
 }

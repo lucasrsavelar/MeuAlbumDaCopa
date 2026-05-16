@@ -1,8 +1,10 @@
 package lrsa.mac_backend.domain.macUsuario;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -39,6 +41,16 @@ public class MACUsuarioService {
 				.stream()
 				.map(u -> u.getUsername())
 				.toList();
+	}
+	
+	public Map<UUID, String> findIdsAndUsernamesByIds(List<UUID> idsUsuarios) {
+		return usuarioRepository
+				.findByIdUsuarioIn(idsUsuarios)
+				.stream()
+				.collect(Collectors.toMap(
+                        MACUsuario::getIdUsuario,
+                        MACUsuario::getUsername
+                ));
 	}
 	
 	public List<String> buscarPorUsername(String termo, UUID idUsuarioLogado) {

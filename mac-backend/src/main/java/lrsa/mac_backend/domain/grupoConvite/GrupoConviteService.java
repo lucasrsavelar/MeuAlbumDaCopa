@@ -47,4 +47,8 @@ public class GrupoConviteService {
             ))
             .toList();
     }
+	
+	public void deletarTodosConvitesGrupo(UUID idGrupo) {
+		grupoConviteRepository.deleteByIdGrupo(idGrupo);
+	}
 }

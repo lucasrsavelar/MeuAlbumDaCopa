@@ -24,5 +24,7 @@ public interface GrupoConviteRepository extends JpaRepository<GrupoConvite, UUID
 				gc.ID_CONVIDADO = :idUsuario
 			""", nativeQuery = true)
 	List<Object[]> findConvitesRecebidos(@Param("idUsuario") UUID idUsuario);
+	
+	void deleteByIdGrupo(UUID idGrupo);
 		
 }

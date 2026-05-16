@@ -3,13 +3,19 @@ package lrsa.mac_backend.domain.grupo;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lrsa.mac_backend.auth.currentUser.CurrentUser;
+import lrsa.mac_backend.domain.grupoConvite.GrupoConviteDTO;
 import lrsa.mac_backend.domain.grupoConvite.GrupoConviteService;
 
 @RestController
@@ -60,9 +66,28 @@ public class GrupoController {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@DeleteMapping("/deletar")
+	public ResponseEntity<?> deletarGrupo(@CurrentUser UUID idUsuario, @RequestParam String nomeGrupo) {
+		grupoService.deletarGrupo(idUsuario, nomeGrupo);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@ApiResponse(
+		    responseCode = "200",
+		    content = @Content(array = @ArraySchema(schema = @Schema(implementation = GrupoConviteDTO.class)))
+		)
 	@GetMapping("/convites")
 	public ResponseEntity<?> convites(@CurrentUser UUID idUsuario) {
 		return ResponseEntity.ok(grupoConviteService.findConvitesRecebidos(idUsuario));
+	}
+	
+	@ApiResponse(
+		    responseCode = "200",
+		    content = @Content(array = @ArraySchema(schema = @Schema(implementation = GrupoDTO.class)))
+		)
+	@GetMapping("/byUsuario")
+	public ResponseEntity<?> byUsuario(@CurrentUser UUID idUsuario) {
+		return ResponseEntity.ok(grupoService.buscarGruposByUsuario(idUsuario));
 	}
 	
 }

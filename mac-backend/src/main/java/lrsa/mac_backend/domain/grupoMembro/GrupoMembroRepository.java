@@ -12,6 +12,8 @@ public interface GrupoMembroRepository extends JpaRepository<GrupoMembro, GrupoM
 	
 	long countByPkIdUsuario(UUID idUsuario);
 	
+	void deleteByPkIdGrupo(UUID idGrupo);
+	
 	void deleteByPkIdGrupoAndPkIdUsuario(UUID idGrupo, UUID idUsuario);
 	
 }
