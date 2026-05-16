@@ -4,6 +4,7 @@ import { useAllFigurinhas } from '../../hooks/useStaticData'
 import { useUsuarioLogado } from '../../hooks/useStaticData'
 import { useFigurinhasUsuario } from '../../hooks/useFigurinhasUsuario'
 import { useAmizades } from '../../hooks/useAmizades'
+import { useGrupos, useCriarGrupo } from '../../hooks/useGrupos'
 import { useBuscarUsuarios } from '../../hooks/useBuscarUsuarios'
 import { useDebounce } from '../../hooks/useDebounce'
 import {
@@ -32,6 +33,54 @@ function Dashboard() {
 
   // Lista de amigos
   const { data: amigos, isLoading: loadingAmigos } = useAmizades()
+
+  // Grupos do usuário
+  const { data: grupos, isLoading: loadingGrupos } = useGrupos()
+  const criarGrupo = useCriarGrupo()
+
+  // Modal de criar grupo
+  const [showCriarGrupo, setShowCriarGrupo] = useState(false)
+  const [nomeGrupo, setNomeGrupo] = useState('')
+  const [erroGrupo, setErroGrupo] = useState('')
+
+  const GRUPO_REGEX = /^[a-zA-Z0-9 _-]+$/
+
+  const validateNomeGrupo = (value: string): string | undefined => {
+    if (!value.trim()) return 'Nome do grupo é obrigatório.'
+    if (value.length < 2) return 'Nome deve ter pelo menos 2 caracteres.'
+    if (value.length > 50) return 'Nome deve ter no máximo 50 caracteres.'
+    if (!GRUPO_REGEX.test(value)) return 'Apenas letras, números, espaços, _ e - são permitidos.'
+    return undefined
+  }
+
+  const erroValidacao = nomeGrupo.length > 0 ? validateNomeGrupo(nomeGrupo) : undefined
+  const nomeGrupoValido = nomeGrupo.length > 0 && !erroValidacao
+
+  const handleCriarGrupo = () => {
+    const erro = validateNomeGrupo(nomeGrupo)
+    if (erro) {
+      setErroGrupo(erro)
+      return
+    }
+    setErroGrupo('')
+    criarGrupo.mutate(nomeGrupo.trim(), {
+      onSuccess: () => {
+        setShowCriarGrupo(false)
+        setNomeGrupo('')
+        setErroGrupo('')
+      },
+      onError: (err: any) => {
+        setErroGrupo(err?.message || 'Erro ao criar grupo. Tente novamente.')
+      },
+    })
+  }
+
+  const handleCloseCriarGrupo = () => {
+    if (criarGrupo.isPending) return
+    setShowCriarGrupo(false)
+    setNomeGrupo('')
+    setErroGrupo('')
+  }
 
   // Solicitações de amizade recebidas
   const { data: solicitacoes, isLoading: loadingSolicitacoes } = useSolicitacoesRecebidas()
@@ -255,6 +304,53 @@ function Dashboard() {
               ))}
             </div>
           )}
+
+          {/* Separador */}
+          <div className="dash-sidebar-divider" />
+
+          {/* Grupos */}
+          <div className="dash-sidebar-section-header">
+            <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>groups</span>
+            <span className="dash-sidebar-section-title">Grupos</span>
+            {grupos && <span className="dash-sidebar-section-count">{grupos.length}</span>}
+          </div>
+
+          <button className="dash-create-group-btn" onClick={() => setShowCriarGrupo(true)}>
+            <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>add</span>
+            Criar Grupo
+          </button>
+
+          {loadingGrupos ? (
+            <div className="dash-friends-loading">
+              <span className="material-symbols-outlined dash-friends-spin">sports_soccer</span>
+            </div>
+          ) : !grupos || grupos.length === 0 ? (
+            <div className="dash-friends-empty">
+              <span className="material-symbols-outlined" style={{ fontSize: '20px', opacity: 0.4 }}>group_off</span>
+              <span>Nenhum grupo ainda</span>
+            </div>
+          ) : (
+            <div className="dash-groups-list">
+              {grupos.map(grupo => (
+                <button
+                  key={grupo.nomeGrupo}
+                  className="dash-group-item"
+                  onClick={() => navigate(`/ver-grupo/${encodeURIComponent(grupo.nomeGrupo)}`)}
+                >
+                  <div className="dash-group-avatar">
+                    <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>groups</span>
+                  </div>
+                  <div className="dash-group-info">
+                    <span className="dash-group-name">{grupo.nomeGrupo}</span>
+                    <span className="dash-group-members">
+                      {Object.keys(grupo.membros).length} membro{Object.keys(grupo.membros).length !== 1 ? 's' : ''}
+                    </span>
+                  </div>
+                  <span className="material-symbols-outlined dash-group-chevron">chevron_right</span>
+                </button>
+              ))}
+            </div>
+          )}
         </nav>
 
         <div className="dash-sidebar-footer">
@@ -429,6 +525,77 @@ function Dashboard() {
           )}
         </main>
       </div>
+      {/* Modal Criar Grupo */}
+      {showCriarGrupo && (
+        <div className="dash-modal-overlay" onClick={handleCloseCriarGrupo}>
+          <div className="dash-modal" onClick={e => e.stopPropagation()}>
+            <div className="dash-modal-icon">
+              <span className="material-symbols-outlined">group_add</span>
+            </div>
+            <h2 className="dash-modal-title">Criar Grupo</h2>
+            <p className="dash-modal-message">Escolha um nome para o seu novo grupo.</p>
+
+            <div className="dash-modal-input-group">
+              <div className={`dash-modal-input-wrapper ${erroGrupo || erroValidacao ? 'is-error' : ''} ${nomeGrupoValido ? 'is-valid' : ''}`}>
+                <span className="material-symbols-outlined dash-modal-input-icon">edit</span>
+                <input
+                  className="dash-modal-input"
+                  type="text"
+                  placeholder="Nome do grupo"
+                  value={nomeGrupo}
+                  onChange={e => { setNomeGrupo(e.target.value); setErroGrupo('') }}
+                  onKeyDown={e => { if (e.key === 'Enter' && nomeGrupoValido) handleCriarGrupo() }}
+                  maxLength={50}
+                  autoFocus
+                />
+              </div>
+              {erroGrupo && (
+                <span className="dash-modal-hint is-error">
+                  <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>error</span>
+                  {erroGrupo}
+                </span>
+              )}
+              {!erroGrupo && erroValidacao && (
+                <span className="dash-modal-hint is-error">
+                  {erroValidacao}
+                </span>
+              )}
+              {nomeGrupoValido && (
+                <span className="dash-modal-hint is-valid">
+                  ✓ Nome válido
+                </span>
+              )}
+            </div>
+
+            <div className="dash-modal-actions">
+              <button
+                className="dash-modal-btn is-cancel"
+                onClick={handleCloseCriarGrupo}
+                disabled={criarGrupo.isPending}
+              >
+                Cancelar
+              </button>
+              <button
+                className="dash-modal-btn is-confirm"
+                onClick={handleCriarGrupo}
+                disabled={!nomeGrupoValido || criarGrupo.isPending}
+              >
+                {criarGrupo.isPending ? (
+                  <>
+                    <span className="material-symbols-outlined dash-spin" style={{ fontSize: '18px' }}>sports_soccer</span>
+                    Criando...
+                  </>
+                ) : (
+                  <>
+                    <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>check</span>
+                    Criar
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -1175,3 +1175,302 @@
   background: rgba(255, 180, 171, 0.12);
   border-color: rgba(255, 180, 171, 0.25);
 }
+
+/* --- Groups section in sidebar --- */
+.dash-create-group-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  width: 100%;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-primary);
+  background: rgba(0, 207, 93, 0.06);
+  border: 1px dashed rgba(65, 236, 118, 0.25);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  margin-bottom: var(--spacing-sm);
+}
+
+.dash-create-group-btn:hover {
+  background: rgba(0, 207, 93, 0.12);
+  border-color: rgba(65, 236, 118, 0.4);
+}
+
+.dash-groups-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+  max-height: calc(100dvh - 280px);
+  padding-right: 2px;
+}
+
+.dash-groups-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.dash-groups-list::-webkit-scrollbar-thumb {
+  background: var(--color-outline-variant);
+  border-radius: var(--radius-full);
+}
+
+.dash-group-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-md);
+  transition: background var(--transition-fast);
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+  width: 100%;
+  text-align: left;
+}
+
+.dash-group-item:hover {
+  background: var(--color-surface-container);
+}
+
+.dash-group-chevron {
+  font-size: 16px !important;
+  color: var(--text-muted);
+  opacity: 0.4;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.dash-group-item:hover .dash-group-chevron {
+  opacity: 0.8;
+  color: var(--color-primary);
+}
+
+.dash-group-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: rgba(183, 196, 255, 0.1);
+  border-radius: var(--radius-md);
+  color: var(--color-secondary);
+  flex-shrink: 0;
+}
+
+.dash-group-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.dash-group-name {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dash-group-members {
+  font-family: var(--font-label);
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+/* --- Create Group Modal --- */
+.dash-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-margin);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.dash-modal {
+  background: var(--color-surface-container);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-lg);
+  width: 100%;
+  max-width: 400px;
+  animation: slideUp 0.3s ease-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.dash-modal-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  background: rgba(0, 207, 93, 0.1);
+  color: var(--color-primary);
+}
+
+.dash-modal-icon .material-symbols-outlined {
+  font-size: 28px;
+}
+
+.dash-modal-title {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.dash-modal-message {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.4;
+  margin-top: -4px;
+}
+
+.dash-modal-input-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.dash-modal-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: var(--color-surface-container-lowest);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition-fast);
+}
+
+.dash-modal-input-wrapper:focus-within {
+  border-color: var(--color-primary);
+}
+
+.dash-modal-input-wrapper.is-error {
+  border-color: var(--color-error);
+}
+
+.dash-modal-input-wrapper.is-valid {
+  border-color: var(--color-primary);
+}
+
+.dash-modal-input-icon {
+  position: absolute;
+  left: 10px;
+  font-size: 18px !important;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.dash-modal-input {
+  width: 100%;
+  height: 40px;
+  padding: 0 var(--spacing-md) 0 36px;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--text-primary);
+}
+
+.dash-modal-input::placeholder {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.dash-modal-hint {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding-left: 2px;
+}
+
+.dash-modal-hint.is-error {
+  color: var(--color-error);
+}
+
+.dash-modal-hint.is-valid {
+  color: var(--color-primary);
+}
+
+.dash-modal-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  width: 100%;
+  margin-top: var(--spacing-xs);
+}
+
+.dash-modal-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: none;
+}
+
+.dash-modal-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dash-modal-btn.is-cancel {
+  background: var(--color-surface-container-high);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.dash-modal-btn.is-cancel:hover:not(:disabled) {
+  background: var(--color-surface-container-highest);
+}
+
+.dash-modal-btn.is-confirm {
+  background: var(--gradient-primary);
+  color: white;
+  box-shadow: 0 2px 12px rgba(0, 207, 93, 0.25);
+}
+
+.dash-modal-btn.is-confirm:hover:not(:disabled) {
+  box-shadow: 0 4px 20px rgba(0, 207, 93, 0.35);
+  transform: translateY(-1px);
+}
+
+.dash-modal-btn.is-confirm:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+
+.dash-spin {
+  animation: spin 1.2s linear infinite;
+}

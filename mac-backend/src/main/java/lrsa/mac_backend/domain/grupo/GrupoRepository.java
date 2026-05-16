@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface GrupoRepository extends JpaRepository<Grupo, UUID> {
 		
-	boolean existsByNomeAndIdCriador(String nome, UUID idCriador);
+	boolean existsByNome(String nome);
 	
 	Optional<Grupo> findByNome(String nome);
 	

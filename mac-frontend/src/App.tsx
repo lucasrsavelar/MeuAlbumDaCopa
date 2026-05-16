@@ -8,6 +8,7 @@ import RemoverFigurinha from "./pages/remover-figurinha/RemoverFigurinha";
 import Trocas from "./pages/trocas/Trocas";
 import ProporTroca from "./pages/propor-troca/ProporTroca";
 import VerPropostas from "./pages/ver-propostas/VerPropostas";
+import VerGrupo from "./pages/ver-grupo/VerGrupo";
 import "./index.css";
 import { useEffect } from "react";
 import { onAuthStateChange } from "./services/authService";
@@ -57,6 +58,7 @@ function App() {
           <Route path="/trocas" element={<Trocas />} />
           <Route path="/propor-troca/:username" element={<ProporTroca />} />
           <Route path="/ver-propostas" element={<VerPropostas />} />
+          <Route path="/ver-grupo/:nomeGrupo" element={<VerGrupo />} />
         </Routes>
       </AuthProvider>
     </Router>

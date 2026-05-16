@@ -43,7 +43,7 @@ public class GrupoService {
 	private static final String NOME_GRUPO_OBRIGATORIO = "O nome do grupo é obrigatório";
 	private static final String CARACTERES_NOME_GRUPO = "Nome do grupo pode conter apenas letras, números, espaços, underscore (_) e hífen (-)";
 	private static final String TAMANHO_NOME_GRUPO = "O nome do grupo deve ter no mínimo 2 e no máximo 50 caracteres";
-	private static final String NOME_GRUPO_EXISTE_USUARIO = "Você já tem um grupo com este nome";
+	private static final String NOME_GRUPO_EXISTE = "Já existe um grupo com este nome";
 	
 	private static final String ALCANCOU_LIMITE_MEMBROS = "Este grupo já atingiu o limite de 5 membros";
 	private static final String USER_JA_NO_GRUPO = "O usuário já está no grupo";
@@ -64,7 +64,7 @@ public class GrupoService {
 		if(grupoRepository.countByIdCriador(idCriador) >= MAX_GRUPOS_CRIADOS)
 			throw new ConflictException(ALCANCOU_LIMITE_GRUPOS);
 		
-		String erro = this.getErroGrupo(nome, idCriador);
+		String erro = this.getErroGrupo(nome);
 		if(erro != null)
 			throw new UnprocessableException(erro);
 		
@@ -91,7 +91,7 @@ public class GrupoService {
 		
 		UUID idGrupo = grupo.getIdGrupo();
 		
-		if(grupoConviteService.isUsuarioConvidadoAoGrupo(idGrupo, idUsuario))
+		if(grupoConviteService.isUsuarioConvidadoAoGrupo(idGrupo, idConvidado))
 			throw new ConflictException(USER_JA_CONVIDADO);
 		
 		if(grupoMembroService.isUsuarioMembroDoGrupo(idGrupo, idConvidado))
@@ -213,7 +213,7 @@ public class GrupoService {
 	    return new ArrayList<>(agrupado.values());
 	}
 	
-	private String getErroGrupo(String nome, UUID idCriador) {
+	private String getErroGrupo(String nome) {
 		
 		if(nome == null || StringUtils.isBlank(nome))
 			return NOME_GRUPO_OBRIGATORIO;
@@ -224,8 +224,8 @@ public class GrupoService {
 		if(!nome.matches("^[a-zA-Z0-9 _-]+$"))
 			return CARACTERES_NOME_GRUPO;
 		
-		if(grupoRepository.existsByNomeAndIdCriador(nome, idCriador))
-			return NOME_GRUPO_EXISTE_USUARIO;
+		if(grupoRepository.existsByNome(nome))
+			return NOME_GRUPO_EXISTE;
 		
 		return null;
 		

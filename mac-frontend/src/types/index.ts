@@ -66,3 +66,21 @@ export interface PropostaTrocaRecebidaDTO {
   figurinhasOferecidas: number[]
   figurinhasDesejadas: number[]
 }
+
+/**
+ * DTO retornado por GET /grupo/byUsuario
+ * membros: mapa { username → role }
+ */
+export interface GrupoDTO {
+  nomeGrupo: string
+  membros: Record<string, string>
+}
+
+/**
+ * DTO retornado por GET /grupo/convites
+ */
+export interface GrupoConviteDTO {
+  idConvite: string
+  usernameEnviou: string
+  nomeGrupo: string
+}
